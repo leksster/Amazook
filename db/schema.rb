@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160111131521) do
+ActiveRecord::Schema.define(version: 20160118123031) do
 
   create_table "addresses", force: :cascade do |t|
     t.string   "address"
@@ -69,19 +69,10 @@ ActiveRecord::Schema.define(version: 20160111131521) do
     t.string   "lastname"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
-    t.integer  "customer_id"
+    t.integer  "user_id"
   end
 
-  add_index "credit_cards", ["customer_id"], name: "index_credit_cards_on_customer_id"
-
-  create_table "customers", force: :cascade do |t|
-    t.string   "email"
-    t.string   "password"
-    t.string   "firstname"
-    t.string   "lastname"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
+  add_index "credit_cards", ["user_id"], name: "index_credit_cards_on_user_id"
 
   create_table "order_items", force: :cascade do |t|
     t.decimal  "price"
@@ -99,12 +90,12 @@ ActiveRecord::Schema.define(version: 20160111131521) do
     t.string   "state",                                   default: "In progress"
     t.datetime "created_at",                                                      null: false
     t.datetime "updated_at",                                                      null: false
-    t.integer  "customer_id"
+    t.integer  "user_id"
     t.integer  "credit_card_id"
   end
 
   add_index "orders", ["credit_card_id"], name: "index_orders_on_credit_card_id"
-  add_index "orders", ["customer_id"], name: "index_orders_on_customer_id"
+  add_index "orders", ["user_id"], name: "index_orders_on_user_id"
 
   create_table "ratings", force: :cascade do |t|
     t.text     "review_text"
@@ -112,10 +103,19 @@ ActiveRecord::Schema.define(version: 20160111131521) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.integer  "book_id"
-    t.integer  "customer_id"
+    t.integer  "user_id"
   end
 
   add_index "ratings", ["book_id"], name: "index_ratings_on_book_id"
-  add_index "ratings", ["customer_id"], name: "index_ratings_on_customer_id"
+  add_index "ratings", ["user_id"], name: "index_ratings_on_user_id"
+
+  create_table "users", force: :cascade do |t|
+    t.string   "email"
+    t.string   "password"
+    t.string   "firstname"
+    t.string   "lastname"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
 end
