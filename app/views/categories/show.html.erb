@@ -1,3 +1,52 @@
-<% @category.books.each do |book| %>
-  <%= book.title %> <br>
-<% end %>
+<!-- Page Content -->
+<div class="container">
+
+    <div class="row">
+
+        <%= render 'categories' %>
+
+        <div class="col-md-9">
+
+            <div class="row">
+              <% @category.books.each do |book| %>
+                <div class="col-sm-4 col-lg-4 col-md-4">
+                    <div class="thumbnail">
+                        <img src="<%= book.img %>" alt="">
+                        <div class="caption">
+
+                            <h4 class="pull-right">
+                              $<%= book.price %>
+                            </h4>
+
+                            <h4 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                              <%= link_to book.title, book %>
+                            </h4>
+                            <p>
+                              <%= book.description %>
+                            </p>
+                        </div>
+                        <div class="ratings">
+                            <p class="pull-right"><%= book.ratings.count %></p>
+                            <p>
+                                <span class="glyphicon glyphicon-star"></span>
+                                <span class="glyphicon glyphicon-star"></span>
+                                <span class="glyphicon glyphicon-star"></span>
+                                <span class="glyphicon glyphicon-star"></span>
+                                <span class="glyphicon glyphicon-star"></span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+              <% end %>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- /.container -->
+
+
+
