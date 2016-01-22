@@ -1,8 +1,8 @@
 <div class="col-md-3">
-    <p class="lead">Shop Name </p>
+    <p class="lead"><%= t('categories') %></p>
     <div class="list-group">
     <% @categories.each do |category| %>
-      <a href="#" class="list-group-item"><%= category.title %></a>
+      <%= link_to category.title, category, class: "list-group-item" %></a>
     <% end %>
     </div>
 </div>

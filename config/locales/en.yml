@@ -21,6 +21,7 @@
 
 en:
   title: "The Bookstore"
+  categories: "Categories"
   home: "Home"
   shop: "Shop"
   cart: "Cart"

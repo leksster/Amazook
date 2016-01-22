@@ -1,7 +1,14 @@
 Rails.application.routes.draw do
+  get 'categories/show'
+
+  get 'categories/index'
+
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   resources :books, only: :show
   resources :home, only: :index
+  resources :categories, only: [:index, :show]
+
+  root to: 'home#index'
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
