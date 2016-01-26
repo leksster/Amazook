@@ -14,7 +14,7 @@ class RatingsController < ApplicationController
     if @rating.save
       redirect_to @book, notice: 'Todo item was successfully created.'
     else
-      redirect_to @book, alert: 'Not saved'
+      redirect_to new_book_rating_url, alert: 'Not saved'
     end
   end
 
