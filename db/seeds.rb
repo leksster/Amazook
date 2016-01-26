@@ -10,7 +10,16 @@ require 'faker'
 Book.delete_all
 Author.delete_all
 Category.delete_all
+Rating.delete_all
+User.delete_all
 
+
+def generate_users(n)
+  n.times do
+    user = User.new(email: Faker::Internet.email, password: Faker::Internet.password(8), firstname: Faker::Name.first_name, lastname: Faker::Name.last_name)
+    user.save!
+  end
+end
 
 # 10.times { Author.create(firstname: Faker::Name.first_name, lastname: Faker::Name.last_name, biography: Faker::Hipster.paragraph(2))} 
 def generate_books(n)
@@ -40,8 +49,20 @@ def generate_categories(n)
   end
 end
 
+def generate_ratings(n)
+  n.times do
+    rating = Rating.new(review_text: Faker::Hipster.paragraph(2), rating: rand(1..10))
+    rand(1..5).times do
+      User.find(rand(User.ids.sort.first..User.ids.sort.last)).ratings << rating
+      Book.find(rand(Book.ids.sort.first..Book.ids.sort.last)).ratings << rating
+    end
+    rating.save!
+  end
+end
 
 
+generate_users(10)
 generate_books(30)
 generate_authors(10)
-generate_categories(7)
+generate_categories(4)
+generate_ratings(20)

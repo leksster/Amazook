@@ -1,11 +1,14 @@
 Rails.application.routes.draw do
-  get 'categories/show'
+  
 
-  get 'categories/index'
+  devise_for :users
+  resources :home, only: :index
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
-  resources :books, only: :show
-  resources :home, only: :index
+  resources :books, only: :show do 
+    resources :ratings, only: [:show, :new, :create, :edit]
+  end
+  
   resources :categories, only: [:index, :show]
 
   root to: 'home#index'

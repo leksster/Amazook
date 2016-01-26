@@ -11,7 +11,7 @@
               <% @category.books.each do |book| %>
                 <div class="col-sm-4 col-lg-4 col-md-4">
                     <div class="thumbnail">
-                        <img src="<%= book.img %>" alt="">
+                        <img src="<%= asset_path(book.img) %>" alt="">
                         <div class="caption">
 
                             <h4 class="pull-right">
