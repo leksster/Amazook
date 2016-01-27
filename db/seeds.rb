@@ -16,7 +16,7 @@ User.delete_all
 
 def generate_users(n)
   n.times do
-    user = User.new(email: Faker::Internet.email, password: Faker::Internet.password(8), firstname: Faker::Name.first_name, lastname: Faker::Name.last_name)
+    user = User.new(email: Faker::Internet.email, password: '12345678', firstname: Faker::Name.first_name, lastname: Faker::Name.last_name)
     user.save!
   end
 end

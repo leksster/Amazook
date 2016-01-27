@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
-  
 
-  devise_for :users
+  devise_for :users, :controllers => { registrations: 'registrations' }
   resources :home, only: :index
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'

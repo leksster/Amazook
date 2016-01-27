@@ -46,7 +46,7 @@
                             <span class="glyphicon glyphicon-star"></span>
                             <span class="glyphicon glyphicon-star-empty"></span> -->
                             <strong><%= rating.rating %>/10</strong>
-                            <i>username</i>
+                            <i><%= rating.user.firstname %></i>
                             <span class="pull-right">
                                 <%= time_ago_in_words(rating.created_at) %> ago
                             </span>

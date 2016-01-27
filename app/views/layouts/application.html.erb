@@ -2,8 +2,10 @@
 <html>
 <head>
   <title>Bookstore</title>
+  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= stylesheet_link_tag    'bootstrap', 'shop-homepage', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'jquery', 'bootstrap', 'data-turbolinks-track' => true %>
+
   <%= csrf_meta_tags %>
 </head>
 <body>
@@ -33,14 +35,26 @@
                         <a href="#">Contact</a>
                     </li>
                 </ul>
+                <ul class="nav navbar-nav navbar-right">
+                  <% if signed_in? %>
+                    <li><p class="navbar-text">Signed in as <%= link_to current_user.firstname, '#' %></p></li>
+                    <li><%= link_to 'Log out', destroy_user_session_path, :method => :delete %></li>
+                  <% else %>
+                    <li><%= link_to 'Sign up', new_user_registration_path %></li>
+                    <li><%= link_to 'Sign in', user_session_path %></li>
+                  <% end %>
+                </ul>
             </div>
             <!-- /.navbar-collapse -->
         </div>
         <!-- /.container -->
     </nav>
-    <% flash.each do |key, value| %>
-      <p id="<%= key %>"><%= value %></p>
-    <% end %>
+
+<div class="container">
+  <% flash.each do |key, value| %>
+    <div class="alert alert-success"><%= value %></div>
+  <% end %>
+</div>
 
 
 <%= yield %>
@@ -50,10 +64,10 @@
   <hr>
 
   <!-- Footer -->
-  <footer>
+  <footer class="footer">
       <div class="row">
-          <div class="col-lg-12">
-              <p>Copyright &copy; Website &copy; Website &copy; Copyright <%= Time.now.year %></p>
+          <div class="col-lg-12 text-center">
+              <p>Copyright &copy; <%= Time.now.year %></p>
           </div>
       </div>
   </footer>

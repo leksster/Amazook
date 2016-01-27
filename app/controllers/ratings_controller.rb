@@ -5,14 +5,19 @@ class RatingsController < ApplicationController
   end
 
   def new
-    @rating = @book.ratings.new
+    if user_signed_in?
+      @rating = @book.ratings.new
+    else
+      redirect_to new_user_registration_path, alert: 'You must sign up.'
+    end
   end
 
   def create
     @rating = @book.ratings.new(rating_params)
+    @rating.user = current_user
 
     if @rating.save
-      redirect_to @book, notice: 'Todo item was successfully created.'
+      redirect_to @book, notice: 'Created.'
     else
       redirect_to new_book_rating_url, alert: 'Not saved'
     end
