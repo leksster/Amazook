@@ -21,6 +21,11 @@
                             <h4 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                               <%= link_to book.title, book %>
                             </h4>
+                            <% if !book.author.nil? %>
+                                <span class="label label-primary">
+                                  <%= link_to %Q(#{book.author.firstname} #{book.author.lastname}), author_path(book.author), class: 'author' %>
+                                </span>
+                            <% end %>                            
                             <p>
                               <%= book.description %>
                             </p>
