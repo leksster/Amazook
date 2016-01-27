@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-
   devise_for :users, :controllers => { registrations: 'registrations' }
   resources :home, only: :index
 
@@ -9,6 +8,7 @@ Rails.application.routes.draw do
   end
   
   resources :categories, only: [:index, :show]
+  resources :authors, only: [:index, :show]
 
   root to: 'home#index'
   

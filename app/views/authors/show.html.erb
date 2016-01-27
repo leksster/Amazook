@@ -1,0 +1,28 @@
+<!-- Page Content -->
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="thumbnail">
+                <div class="caption-full">
+                  <h4><%= %Q(#{@author.lastname} #{@author.firstname}) %>
+                  </h4>
+                  <p>
+                    <%= @author.biography %>
+                  </p>                
+                <h5>Books:</h5>
+                  <% @author.books.each do |book| %>
+                    <ul>
+                      <li><%= link_to book.title, book %> <%= book.ratings.average(:rating) %></li>
+                    </ul>
+                  <% end %>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- /.container -->

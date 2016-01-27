@@ -1,0 +1,11 @@
+.author {
+  color: #fff;
+}
+
+.author:hover {
+  color: #fff;
+}
+
+.author:visited {
+  color: #ddd;
+}

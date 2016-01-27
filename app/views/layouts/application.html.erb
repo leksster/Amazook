@@ -3,7 +3,7 @@
 <head>
   <title>Bookstore</title>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
-  <%= stylesheet_link_tag    'bootstrap', 'shop-homepage', media: 'all', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag    'custom', 'bootstrap', 'shop-homepage', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'jquery', 'bootstrap', 'data-turbolinks-track' => true %>
 
   <%= csrf_meta_tags %>
@@ -26,7 +26,7 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="#">About</a>
+                        <%= link_to 'Authors', authors_path %></a>
                     </li>
                     <li>
                         <a href="#">Services</a>
