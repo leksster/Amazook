@@ -4,7 +4,7 @@
     <div class="row">
 
         <div class="col-md-12">
-        <% @authors.order(:lastname).each do |author| %>
+          <% @authors.each do |author| %>
             <div class="thumbnail">
                 <div class="caption-full">
                   <h4><%= link_to %Q(#{author.lastname} #{author.firstname}), author %>
@@ -20,8 +20,11 @@
                   <% end %>
                 </div>
             </div>
-        <% end %>
-
+          <% end %>
+        
+          <p class="text-center">
+            <%= paginate @authors %>
+          </p>
         </div>
 
     </div>

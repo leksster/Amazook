@@ -15,6 +15,8 @@ gem 'devise', '~> 3.5.5'
 
 gem 'pg'
 
+gem 'kaminari'
+
 gem 'rails_12factor', group: :production
 
 gem 'rails_admin'
