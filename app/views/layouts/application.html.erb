@@ -29,13 +29,17 @@
                         <%= link_to 'Authors', authors_path %></a>
                     </li>
                     <li>
-                        <a href="#">Services</a>
+                        <%= link_to 'Books', books_path %>
                     </li>
                     <li>
                         <a href="#">Contact</a>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
+                  <li>
+                    <%= link_to "Cart", cart_path %>
+                  </li>
+
                   <% if signed_in? %>
                     <li><p class="navbar-text">Signed in as <%= link_to current_user.firstname, '#' %></p></li>
                     <li><%= link_to 'Log out', destroy_user_session_path, :method => :delete %></li>

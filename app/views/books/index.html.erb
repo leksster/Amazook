@@ -7,18 +7,18 @@
           <table class="table">
             <thead>
               <tr>
-                <th>Name</th>
-                <th>Books count</th>
+                <th>Title</th>
+                <th>Price</th>
               </tr>
             </thead>
             <tbody>
-              <% @authors.each do |author| %>
+              <% @books.each do |book| %>
                 <tr>
                   <td>
-                    <h4><%= link_to %Q(#{author.lastname} #{author.firstname}), author %></h4>
+                    <h4><%= link_to book.title, book %></h4>
                   </td>
                   <td>
-                    <h4><%= author.books.count %></h4>
+                    <h4>$<%= book.price %></h4>
                   </td>
                 </tr>
               <% end %>
@@ -27,7 +27,7 @@
           </table>
           
             <p class="text-center">
-              <%= paginate @authors %>
+              <%= paginate @books %>
             </p>
         </div>
 

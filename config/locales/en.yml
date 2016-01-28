@@ -20,6 +20,7 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  empty_cart: "Your cart is emprty."
   title: "The Bookstore"
   categories: "Categories"
   home: "Home"

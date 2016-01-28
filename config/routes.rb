@@ -1,9 +1,13 @@
 Rails.application.routes.draw do
+  get 'cart' => 'cart#index'
+
+
   devise_for :users, :controllers => { registrations: 'registrations' }
   resources :home, only: :index
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
-  resources :books, only: :show do 
+  resources :books, only: [:index, :show] do 
+    get 'cart/add' => 'cart#add'
     resources :ratings, only: [:show, :new, :create, :edit]
   end
   
