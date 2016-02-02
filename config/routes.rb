@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   get 'cart' => 'cart#index'
+  post 'cart/clear' => 'cart#clear'
 
-  
 
   devise_for :users, :controllers => { registrations: 'registrations' }
   resources :home, only: :index
