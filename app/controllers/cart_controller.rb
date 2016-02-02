@@ -3,8 +3,8 @@ class CartController < ApplicationController
   def index
     @subtotal = 0
     @empty = t('empty_cart')
-    if session?
-      @books = Book.find(session[:cart].keys) if session?
+    if !session[:cart].nil?
+      @books = Book.find(session[:cart].keys)
       session[:cart].each do |k, v|
         @subtotal += Book.find(k).price * v
       end
@@ -24,11 +24,6 @@ class CartController < ApplicationController
       session.destroy
     end
     redirect_to cart_url
-  end
-
-  private
-  def session?
-    !session[:cart].nil?
   end
 
 end

@@ -66,11 +66,13 @@
                         <div class="ratings">
                             <p class="pull-right"><%= book.ratings.count %> reviews</p>
                             <p>
-                                <span class="glyphicon glyphicon-star"></span>
-                                <span class="glyphicon glyphicon-star"></span>
-                                <span class="glyphicon glyphicon-star"></span>
-                                <span class="glyphicon glyphicon-star"></span>
-                                <span class="glyphicon glyphicon-star"></span>
+                                <% 5.times do |n| %>
+                                    <% if !book.ratings.average(:rating).nil? && book.ratings.average(:rating).ceil > n %>
+                                        <span class="glyphicon glyphicon-star"></span>
+                                    <% else %>
+                                        <span class="glyphicon glyphicon-star-empty"></span>
+                                    <% end %>
+                                <% end %>
                             </p>
                         </div>
                     </div>

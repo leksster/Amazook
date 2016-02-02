@@ -20,11 +20,13 @@
                     <div class="ratings">
                         <p class="pull-right"><%= @book.ratings.count %> reviews</p>
                         <p>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star-empty"></span>
+                            <% 5.times do |n| %>
+                                <% if !@book.ratings.average(:rating).nil? && @book.ratings.average(:rating).ceil > n %>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                <% else %>
+                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                <% end %>
+                            <% end %>
                             <%= @book.ratings.average(:rating) %>
                             <%= link_to 'Add', book_cart_add_path(@book) %> 
                         </p>
@@ -41,12 +43,16 @@
                     <hr>
                     <div class="row">
                         <div class="col-md-12">
-<!--                             <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star-empty"></span> -->
-                            <strong><%= rating.rating %>/10</strong>
+                            <p>
+                                <% 5.times do |n| %>
+                                    <% if rating.rating > n %>
+                                        <span class="glyphicon glyphicon-star"></span>
+                                    <% else %>
+                                        <span class="glyphicon glyphicon-star-empty"></span>
+                                    <% end %>
+                                <% end %>
+                            </p>
+                            <strong><%= rating.rating %>/5</strong>
                             <i><%= rating.user.firstname %></i>
                             <span class="pull-right">
                                 <%= time_ago_in_words(rating.created_at) %> ago
