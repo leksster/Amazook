@@ -7,4 +7,9 @@ class BooksController < ApplicationController
     @categories = Category.all
     @book = Book.find(params[:id])
   end
+
+  def buy
+    @book = Book.find(params[:id])
+    session[:cart] = @book.id
+  end
 end

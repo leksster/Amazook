@@ -7,10 +7,37 @@
 
             <div class="thumbnail">
                 <div class="caption-full">
-                    <h4 class="pull-right"></h4>
-                    <h4>
-                      <%= @cart %>
-                    </h4>
+                  <% if @books.nil? %>
+                    <%= @empty %>
+                  <% else %>
+                    <table class="table table-hover">
+                        <tbody>
+                            <thead>
+                                <th>Book</th>
+                                <th>Price</th>
+                                <th>Qty</th>
+                                <th>Total</th>
+                            </thead>
+                          <% @books.each do |book| %>
+                              <tr>
+                                  <td>
+                                      <%= book.title %>
+                                  </td>
+                                  <td>
+                                      $<%= book.price %>
+                                  </td>
+                                  <td>
+                                      <%= session[:cart][book.id.to_s] %>
+                                  </td>
+                                  <td>
+                                      price
+                                  </td>
+                              </tr>
+                          <% end %>
+
+                          <% end %>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 

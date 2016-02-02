@@ -9,3 +9,9 @@
 .author:visited {
   color: #ddd;
 }
+
+.short {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

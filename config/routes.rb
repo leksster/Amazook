@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   get 'cart' => 'cart#index'
 
+  
 
   devise_for :users, :controllers => { registrations: 'registrations' }
   resources :home, only: :index

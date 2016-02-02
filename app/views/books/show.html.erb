@@ -26,6 +26,7 @@
                             <span class="glyphicon glyphicon-star"></span>
                             <span class="glyphicon glyphicon-star-empty"></span>
                             <%= @book.ratings.average(:rating) %>
+                            <%= link_to 'Add', book_cart_add_path(@book) %> 
                         </p>
                     </div>
                 </div>
