@@ -37,8 +37,11 @@
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                  <li>
-                    <%= link_to "Cart", cart_path %>
+                  <li>                  
+                    <%= link_to(cart_path) do %>
+                      <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
+                      <%= "Cart (#{ session[:cart].nil? ? "EMPTY" : session[:cart].values.inject(0){|sum, x| sum + x} })" %>
+                    <% end %>
                   </li>
 
                   <% if signed_in? %>
@@ -68,7 +71,6 @@
                   type: type,
                   content: content %>
       <% end %>
-
   <% end %>
 </div>
 

@@ -18,11 +18,16 @@ class CartController < ApplicationController
     redirect_to cart_url
   end
 
-  def clear
+  def del
     session[:cart].delete(params[:id])
     if session[:cart].empty?
       session.destroy
     end
+    redirect_to cart_url
+  end
+
+  def clear
+    session.destroy
     redirect_to cart_url
   end
 

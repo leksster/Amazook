@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   get 'cart' => 'cart#index'
+  post 'cart/del' => 'cart#del'
   post 'cart/clear' => 'cart#clear'
 
 

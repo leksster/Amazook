@@ -4,6 +4,8 @@ class AuthorsController < ApplicationController
   end
 
   def show
+    @categories = Category.all
     @author = Author.find(params[:id])
   end
 end
+  

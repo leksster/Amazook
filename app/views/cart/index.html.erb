@@ -20,7 +20,7 @@
                             <% @books.each do |book| %>
                               <tr>
                                   <td>
-                                    <img src="/assets/<%= book.img %>">
+                                    <img src="<%= asset_path(book.img) %>">
                                   </td>
                                   <td>
                                     <%= book.title %>
@@ -35,7 +35,7 @@
                                     $<%= book.price * session[:cart][book.id.to_s] %>
                                   </td>
                                   <td>
-                                    <%= link_to 'X', {:controller => 'cart', :action => 'clear', :id => book.id.to_s}, class: "btn btn-danger btn-xs", method: :post %>
+                                    <%= link_to 'X', {:controller => 'cart', :action => 'del', :id => book.id.to_s}, class: "btn btn-danger btn-xs", method: :post %>
                                   </td>
                               </tr>
                             <% end %>
@@ -46,9 +46,21 @@
                               <td></td>
                             </tr>
 
-                          <% end %>
+                          
                         </tbody>
                     </table>
+                    <div class="row">
+                      <div class="col-xs-6">
+                        <%= link_to 'Empty cart', {:controller => 'cart', :action => 'clear'}, class: "btn btn-primary", method: :post %>
+                        <%= link_to 'Continue shopping', home_index_path, class: "btn btn-primary" %>
+                      </div>
+
+                      <div class="col-xs-6 text-right">
+                        <%= link_to 'Update', '#', class: "btn btn-primary" %>
+                        <%= link_to 'Checkout', '#', class: "btn btn-primary" %>
+                      </div>
+                    </div>
+                  <% end %>
                 </div>
             </div>
         </div>
