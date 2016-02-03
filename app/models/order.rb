@@ -1,7 +1,7 @@
 class Order < ActiveRecord::Base
   belongs_to :user
   belongs_to :credit_card
-  has_many :order_items
+  has_many :order_items, dependent: :destroy
   has_one :address
 
   validates :total_price, :completed_date, :state, presence: true

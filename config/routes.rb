@@ -1,8 +1,11 @@
 Rails.application.routes.draw do
   get 'cart' => 'cart#index'
-  post 'cart/del' => 'cart#del'
+  post 'cart/destroy' => 'cart#destroy'
   post 'cart/clear' => 'cart#clear'
 
+  resources :orders
+
+  resources :user
 
   devise_for :users, :controllers => { registrations: 'registrations' }
   resources :home, only: :index

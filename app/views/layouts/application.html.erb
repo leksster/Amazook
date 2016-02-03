@@ -32,9 +32,6 @@
                     <li>
                         <%= link_to 'Books', books_path %>
                     </li>
-                    <li>
-                        <a href="#">Contact</a>
-                    </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                   <li>                  
@@ -45,7 +42,8 @@
                   </li>
 
                   <% if signed_in? %>
-                    <li><p class="navbar-text">Signed in as <%= link_to current_user.firstname, '#' %></p></li>
+                    <li><p class="navbar-text">Signed in as <%= link_to current_user.firstname, edit_user_path(current_user) %></p></li>
+                    <li><%= link_to 'Orders', orders_path %></li>
                     <li><%= link_to 'Log out', destroy_user_session_path, :method => :delete %></li>
                   <% else %>
                     <li><%= link_to 'Sign up', new_user_registration_path %></li>

@@ -11,6 +11,10 @@ class CartController < ApplicationController
     end
   end
 
+  def checkout
+    
+  end
+
   def add
     @book = Book.find(params[:book_id])
     session[:cart] ||= {}
@@ -18,7 +22,7 @@ class CartController < ApplicationController
     redirect_to cart_url
   end
 
-  def del
+  def destroy
     session[:cart].delete(params[:id])
     if session[:cart].empty?
       session.destroy
