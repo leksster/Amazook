@@ -37,7 +37,7 @@
                   <li>                  
                     <%= link_to(cart_path) do %>
                       <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
-                      <%= "Cart (#{ session[:cart].nil? ? "EMPTY" : session[:cart].values.inject(0){|sum, x| sum + x} })" %>
+                      <%= "Cart: (#{ session[:cart].nil? ? "EMPTY" : session[:cart].values.inject(0){|sum, x| sum + x} })" %>
                     <% end %>
                   </li>
 

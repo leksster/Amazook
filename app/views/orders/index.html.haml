@@ -8,10 +8,11 @@
               You have no orders yet.
           - else
             - @orders.each do |order|
-              %h1
-                Order#
-                = order.id
-                = order.state
+              %h2
+                = link_to "Order##{order.id}", edit_order_path(order)
+                %small
+                  %i
+                    = order.state
               - if order.order_items.empty?
                 %h2
                   No items.
@@ -28,7 +29,6 @@
                       Qty
                     %th.col-md-2
                       Total
-                    %th.col-md-1
                   %tbody
                     - order.order_items.each do |item|
                       %tr
@@ -41,55 +41,11 @@
                         %td
                           = item.qty
                         %td
-                          = item.price
-
-/                             <% @books.each do |book| %>
-/                               <tr>
-/                                   <td>
-/                                     <img src="<%= asset_path(book.img) %>">
-/                                   </td>
-/                                   <td>
-/                                     <%= book.title %>
-/                                   </td>
-/                                   <td>
-/                                     $<%= book.price %>
-/                                   </td>
-/                                   <td>
-/                                     <%= session[:cart][book.id.to_s] %>
-/                                   </td>
-/                                   <td>
-/                                     $<%= book.price * session[:cart][book.id.to_s] %>
-/                                   </td>
-/                                   <td>
-/                                     <%= link_to 'X', {:controller => 'cart', :action => 'destroy', :id => book.id.to_s}, class: "btn btn-danger btn-xs", method: :post %>
-/                                   </td>
-/                               </tr>
-/                             <% end %>
-/                             <tr>
-/                               <td colspan=3></td>
-/                               <td><p class="text-right"><strong>Subtotal</strong></p></td>
-/                               <td>$<%= @subtotal %></td>
-/                               <td></td>
-/                             </tr>
-
-                          
-/                         </tbody>
-/                     </table>
-/                     <div class="row">
-/                       <div class="col-xs-6">
-/                         <%= link_to 'Empty cart', {:controller => 'cart', :action => 'clear'}, class: "btn btn-primary", method: :post %>
-/                         <%= link_to 'Continue shopping', home_index_path, class: "btn btn-primary" %>
-/                       </div>
-
-/                       <div class="col-xs-6 text-right">
-/                         <%= link_to 'Update', '#', class: "btn btn-primary" %>
-/                         <%= link_to 'Checkout', '#', class: "btn btn-primary" %>
-/                       </div>
-/                     </div>
-/                   <% end %>
-/                 </div>
-/             </div>
-/         </div>
-/     </div>
-/ </div>
-/ <!-- /.container -->
+                          = item.price * item.qty
+                    %tr
+                      %td{colspan: 3}
+                      %td.text-right
+                        %strong
+                          Subtotal
+                      %td
+                        = order.total_price

@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   get 'cart' => 'cart#index'
   post 'cart/destroy' => 'cart#destroy'
   post 'cart/clear' => 'cart#clear'
+  post 'cart/checkout' => 'cart#checkout'
 
   resources :orders
 

@@ -59,7 +59,7 @@
 
                       <div class="col-xs-6 text-right">
                         <%= link_to 'Update', '#', class: "btn btn-primary" %>
-                        <%= link_to 'Checkout', '#', class: "btn btn-primary" %>
+                        <%= link_to 'Checkout', cart_checkout_path, class: "btn btn-primary", method: :post %>
                       </div>
                     </div>
                   <% end %>
