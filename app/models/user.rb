@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   has_many :ratings
   has_many :orders, dependent: :destroy
   has_many :credit_cards
+  has_one :user_info
 
   validates :firstname, :password, :lastname, :email, presence: true
   validates :email, uniqueness: true

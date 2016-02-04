@@ -1,5 +1,5 @@
 class OrdersController < ApplicationController
-  before_action :set_order, only: [:show, :edit, :update, :destroy]
+  before_action :set_order, only: [:show, :edit, :update, :destroy, :delivery, :address]
 
   # GET /orders
   # GET /orders.json
@@ -23,7 +23,13 @@ class OrdersController < ApplicationController
 
   # GET /orders/1/edit
   def edit
-    
+  end
+
+  def address
+  end
+
+  # GET /orders/1/delivery
+  def delivery
   end
 
   # POST /orders
@@ -47,11 +53,17 @@ class OrdersController < ApplicationController
   def update
     respond_to do |format|
       if @order.update(order_params)
-        format.html { redirect_to @order, notice: 'Order was successfully updated.' }
-        format.json { render :show, status: :ok, location: @order }
+        format.html do 
+          if request.referer.include?('address') || params[:action] == 'update'
+            redirect_to delivery_order_path(@order), notice: 'Order was successfully updated.'
+          elsif request.referer.include?('delivery') || params[:action] == 'update'
+            redirect_to @order, notice: 'Order was successfully updated.'
+          end
+        end
+        #format.json { render :show, status: :ok, location: @order }
       else
-        format.html { render :edit }
-        format.json { render json: @order.errors, status: :unprocessable_entity }
+        format.html { render :address }
+        #format.json { render json: @order.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -74,6 +86,6 @@ class OrdersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def order_params
-      params[:order]
+      params.require(:order).permit(:total_price, :completed_date, :shipping_attributes => [:company], :address_attributes => [:address, :zipcode, :city, :phone, :country])
     end
 end

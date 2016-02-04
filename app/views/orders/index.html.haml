@@ -37,15 +37,15 @@
                         %td
                           = item.book.title
                         %td
-                          = item.book.price
+                          $#{item.book.price}
                         %td
                           = item.qty
                         %td
-                          = item.price * item.qty
+                          $#{item.price * item.qty}
                     %tr
                       %td{colspan: 3}
                       %td.text-right
                         %strong
                           Subtotal
                       %td
-                        = order.total_price
+                        $#{order.total_price}

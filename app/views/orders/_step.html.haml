@@ -1,0 +1,7 @@
+%h2.text-center
+  Checkout
+.btn-group.btn-group-lg{role: "group"}
+  = link_to 'Address', '#', :class => "btn btn-#{current_page?(action: 'address') ? 'primary' : 'default'}"
+  = link_to 'Delivery', '#', :class => "btn btn-#{current_page?(action: 'delivery') ? 'primary' : 'default'}"
+  = link_to 'Confirm', '#', :class => "btn btn-#{current_page?(action: 'show') ? 'primary' : 'default'}"
+  = link_to 'Complete', '#', :class => "btn btn-#{current_page?(action: 'destroy') ? 'primary' : 'default'}"

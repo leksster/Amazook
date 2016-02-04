@@ -7,16 +7,15 @@ class CartController < ApplicationController
 
   def checkout
     if user_signed_in?
-      @order = current_user.orders.new(total_price: @subtotal, completed_date: Time.now)
+      @order = current_user.orders.new(total_price: @subtotal, completed_date: Time.now) #???
       @books.each do |book|
         item = OrderItem.new(price: book.price, qty: session[:cart][book.id.to_s])
         item.book = book
         @order.order_items << item
       end
-
       respond_to do |format|
         if @order.save
-          format.html { redirect_to edit_order_path(@order), notice: 'Your order in progress.' }
+          format.html { redirect_to address_order_path(@order), notice: 'Your order in progress.' }
           session.delete(:cart)
           session[:order] = @order.id
         else

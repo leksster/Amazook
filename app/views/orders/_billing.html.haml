@@ -1,0 +1,27 @@
+= form_for(setup_order(@order)) do |f|
+  - if @order.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@order.errors.count, "error")} prohibited this order from being saved:"
+      %ul
+        - @order.errors.full_messages.each do |msg|
+          %li= msg
+  .form-group
+    = f.fields_for :address do |address|
+      .form-group
+        = address.label :address
+        = address.text_field :address, class: 'form-control'
+      .form-group
+        = address.label :zipcode
+        = address.text_field :zipcode, class: 'form-control'
+      .form-group
+        = address.label :city
+        = address.text_field :city, class: 'form-control'
+      .form-group
+        = address.label :phone
+        = address.text_field :phone, class: 'form-control'
+      .form-group
+        = address.label :country
+        = address.collection_select :country, Country.order(:name), :id, :name, {}, {class: 'form-control'}
+
+  .actions
+    = f.submit 'Save and continue', class: 'btn btn-success'

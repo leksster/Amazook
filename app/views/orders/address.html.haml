@@ -1,0 +1,21 @@
+.container
+  .row.text-center
+    = params
+    = render 'step'
+  .row
+    .col-md-4.col-sm-4
+      %h2
+        Billing Address  
+      = render 'billing'
+    .col-md-4.col-sm-4.text-center
+      %h2
+        Shipping Address 
+      .checkbox
+        %label
+          %input{type: "checkbox", value: "", checked: "checked"}
+            Use billing address
+    .col-md-4.col-sm-4.text-center
+      %h2
+        Order Summary
+      = render 'summary'
+

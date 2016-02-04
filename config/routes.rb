@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   post 'cart/checkout' => 'cart#checkout'
 
   resources :orders
+  get 'orders/:id/delivery' => 'orders#delivery', as: :delivery_order
+  get 'orders/:id/address' => 'orders#address', as: :address_order
 
   resources :user
 

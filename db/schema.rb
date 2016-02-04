@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160203124638) do
+ActiveRecord::Schema.define(version: 20160204195100) do
 
   create_table "addresses", force: :cascade do |t|
     t.string   "address"
@@ -19,12 +19,14 @@ ActiveRecord::Schema.define(version: 20160203124638) do
     t.string   "city"
     t.string   "phone"
     t.string   "country"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
     t.integer  "order_id"
+    t.integer  "shipping_id"
   end
 
   add_index "addresses", ["order_id"], name: "index_addresses_on_order_id"
+  add_index "addresses", ["shipping_id"], name: "index_addresses_on_shipping_id"
 
   create_table "authors", force: :cascade do |t|
     t.string   "firstname"
@@ -95,9 +97,11 @@ ActiveRecord::Schema.define(version: 20160203124638) do
     t.datetime "updated_at",                                                      null: false
     t.integer  "user_id"
     t.integer  "credit_card_id"
+    t.integer  "shipping_id"
   end
 
   add_index "orders", ["credit_card_id"], name: "index_orders_on_credit_card_id"
+  add_index "orders", ["shipping_id"], name: "index_orders_on_shipping_id"
   add_index "orders", ["user_id"], name: "index_orders_on_user_id"
 
   create_table "ratings", force: :cascade do |t|
@@ -112,23 +116,12 @@ ActiveRecord::Schema.define(version: 20160203124638) do
   add_index "ratings", ["book_id"], name: "index_ratings_on_book_id"
   add_index "ratings", ["user_id"], name: "index_ratings_on_user_id"
 
-  create_table "test_users", force: :cascade do |t|
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
-    t.string   "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+  create_table "shippings", force: :cascade do |t|
+    t.string   "company"
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.decimal  "costs",      default: 0.0
   end
-
-  add_index "test_users", ["email"], name: "index_test_users_on_email", unique: true
-  add_index "test_users", ["reset_password_token"], name: "index_test_users_on_reset_password_token", unique: true
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",    null: false

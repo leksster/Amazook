@@ -1,0 +1,15 @@
+= form_for @order do |f|
+  - if @order.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@order.errors.count, "error")} prohibited this order from being saved:"
+      %ul
+        - @order.errors.full_messages.each do |msg|
+          %li= msg
+  .form-group
+    = f.fields_for :shipping do |address|
+      .form-group
+        = address.label :company
+        = address.collection_select :company, Shipping.order(:company), :id, :company, {}, {class: 'form-control'}
+
+  .actions
+    = f.submit 'Save and continue', class: 'btn btn-success'
