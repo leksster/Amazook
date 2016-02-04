@@ -4,9 +4,9 @@
         <div class="col-md-12">
             <div class="thumbnail">
                 <div class="caption-full">
-                  <% if @books.nil? %>
-                    <%= @empty %>
-                  <% else %>
+                    <% if @books.nil? %>
+                      <%= @empty %>
+                    <% else %>
                     <table class="table table-hover">
                         
                             <thead>
@@ -62,7 +62,7 @@
                         <%= link_to 'Checkout', cart_checkout_path, class: "btn btn-primary", method: :post %>
                       </div>
                     </div>
-                  <% end %>
+                    <% end %>
                 </div>
             </div>
         </div>

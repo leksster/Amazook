@@ -1,5 +1,5 @@
 class OrdersController < ApplicationController
-  before_action :set_order, only: [:show, :edit, :update, :destroy, :delivery, :address]
+  before_action :set_params, only: [:show, :edit, :update, :destroy, :delivery, :address]
 
   # GET /orders
   # GET /orders.json
@@ -54,10 +54,10 @@ class OrdersController < ApplicationController
     respond_to do |format|
       if @order.update(order_params)
         format.html do 
-          if request.referer.include?('address') || params[:action] == 'update'
-            redirect_to delivery_order_path(@order), notice: 'Order was successfully updated.'
-          elsif request.referer.include?('delivery') || params[:action] == 'update'
-            redirect_to @order, notice: 'Order was successfully updated.'
+          if request.referer.include?('address')
+            redirect_to delivery_order_path(@order), notice: "Order was successfully updated"
+          elsif request.referer.include?('delivery')
+            redirect_to @order, notice: 'Order was successfully updated2.'
           end
         end
         #format.json { render :show, status: :ok, location: @order }
@@ -80,12 +80,15 @@ class OrdersController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_order
+    def set_params
       @order = Order.find(params[:id])
+      @shippings = Shipping.all
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def order_params
-      params.require(:order).permit(:total_price, :completed_date, :shipping_attributes => [:company], :address_attributes => [:address, :zipcode, :city, :phone, :country])
+      params.require(:order).permit(:total_price, :completed_date, 
+                                    :shipping_id, 
+                                    :address_attributes => [:address, :zipcode, :city, :phone, :country])
     end
 end
