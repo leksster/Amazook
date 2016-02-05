@@ -1,0 +1,101 @@
+.container
+  .row.text-center
+    %h2.text-center
+      Checkout
+    .btn-group.btn-group-lg{role: "group"}
+      = link_to 'Address', edit_user_address_path(current_user), :class => "btn btn-#{current_page?(edit_user_address_path(current_user)) ? 'primary' : 'default'}"
+      = link_to 'Delivery', shippings_path, :class => "btn btn-#{current_page?(shippings_path) ? 'primary' : 'default'}"
+      = link_to 'Payment', edit_user_credit_card_path(current_user), :class => "btn btn-#{current_page?(edit_user_credit_card_path(current_user)) ? 'primary' : 'default'}"
+      = link_to 'Confirm', '#', :class => "btn btn-#{current_page?(edit_user_order_path(current_user, Order.last)) ? 'primary' : 'default'}"
+      = link_to 'Complete', '#', :class => "btn btn-default"
+  .row
+    %br
+    .col-md-3.col-sm-3
+      %h4
+        Billing Address 
+        = link_to '(edit)', edit_user_address_path(current_user)
+      %p
+        = current_user.address.address
+        %br
+        = current_user.address.zipcode
+        %br
+        = current_user.address.zipcode
+        %br
+        = current_user.address.city
+        %br
+        = current_user.address.phone
+        %br
+        = current_user.address.country
+    .col-md-3.col-sm-3
+      %h4
+        Shipping Address 
+        = link_to '(edit)', '#'
+    .col-md-3.col-sm-3
+      %h4
+        Shipments
+        = link_to '(edit)', shippings_path
+      %p
+        = @order.shipping.company
+        %br
+        = @order.shipping.costs
+    .col-md-3.col-sm-3
+      %h4
+        Payment Information
+        = link_to '(edit)', edit_user_credit_card_path(current_user)
+      %p
+        = @order.credit_card.number
+        %br
+        = @order.credit_card.expiration_month
+        #{"/"}
+        = @order.credit_card.expiration_year
+
+  .row
+    .col-md-12
+      .thumbnail
+        .caption-full
+          %h2
+            = "Order##{@order.id}"
+            %small
+              %i
+                = @order.state
+          - if @order.order_items.empty?
+            %h2
+              No items.
+          - else
+            %table.table.table-hover                  
+              %thead        
+                %th.col-md-1
+                  Cover
+                %th.col-md-4
+                  Book
+                %th.col-md-4
+                  Price
+                %th.col-md-1
+                  Qty
+                %th.col-md-2
+                  Total
+              %tbody
+                - @order.order_items.each do |item|
+                  %tr
+                    %td
+                      cover
+                    %td
+                      = item.book.title
+                    %td
+                      $#{item.book.price}
+                    %td
+                      = item.qty
+                    %td
+                      $#{item.price * item.qty}
+                %tr
+                  %td{colspan: 3}
+                  %td.text-right
+                    %strong
+                      Subtotal
+                  %td
+                    $#{@order.total_price}
+  .row
+    .col-md-4
+    .col-md-4
+      = link_to 'Place order', completed_user_order_path, :class => "btn btn-success btn-lg btn-block"
+    .col-md-4

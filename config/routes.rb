@@ -4,11 +4,20 @@ Rails.application.routes.draw do
   post 'cart/clear' => 'cart#clear'
   post 'cart/checkout' => 'cart#checkout'
 
-  resources :orders
-  get 'orders/:id/delivery' => 'orders#delivery', as: :delivery_order
-  get 'orders/:id/address' => 'orders#address', as: :address_order
+  
 
-  resources :user
+  resources :user do
+    resource :address, only: [:edit, :update]
+    resources :orders do
+      get 'completed', on: :member
+    end
+    resource :credit_card, only: [:edit, :update]
+  end
+
+  
+  
+  
+  resources :shippings, only: [:index]
 
   devise_for :users, :controllers => { registrations: 'registrations' }
   resources :home, only: :index

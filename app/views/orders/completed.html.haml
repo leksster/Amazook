@@ -1,0 +1,20 @@
+.container
+  .row.text-center
+    %h2.text-center
+      Checkout
+    .btn-group.btn-group-lg{role: "group"}
+      = link_to 'Address', edit_user_address_path(current_user), :class => "btn btn-#{current_page?(edit_user_address_path(current_user)) ? 'primary' : 'default'}"
+      = link_to 'Delivery', shippings_path, :class => "btn btn-#{current_page?(shippings_path) ? 'primary' : 'default'}"
+      = link_to 'Payment', edit_user_credit_card_path(current_user), :class => "btn btn-#{current_page?(edit_user_credit_card_path(current_user)) ? 'primary' : 'default'}"
+      = link_to 'Confirm', edit_user_order_path(current_user, @order), :class => "btn btn-#{current_page?(edit_user_order_path(current_user, Order.last)) ? 'primary' : 'default'}"
+      = link_to 'Complete', '#', :class => "btn btn-#{current_page?(completed_user_order_path) ? 'primary' : 'default'}"
+
+
+  %br
+  .row
+    .col-md-12
+      .thumbnail
+        .caption-full.text-center
+          %h2.alert.alert-success
+            Thank you. We will contact you in 1 sec
+          = link_to 'View orders', user_orders_path, :class => 'btn btn-info btn-lg'

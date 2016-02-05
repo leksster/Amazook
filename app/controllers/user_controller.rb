@@ -41,8 +41,8 @@ class UserController < ApplicationController
   # PATCH/PUT /orders/1.json
   def update
     respond_to do |format|
-      if @order.update(order_params)
-        format.html { redirect_to @order, notice: 'Order was successfully updated.' }
+      if @user.address.update(order_params)
+        format.html { redirect_to edit_user_address_url, notice: 'Order was successfully updated.' }
         format.json { render :show, status: :ok, location: @order }
       else
         format.html { render :edit }
@@ -69,6 +69,6 @@ class UserController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def order_params
-      params[:order]
+      params.require(:user).require(:address).permit(:address, :zipcode, :city, :phone, :country)
     end
 end

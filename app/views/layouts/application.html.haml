@@ -1,0 +1,62 @@
+!!!
+%html
+  %head
+    %title Bookstore
+    = javascript_include_tag "application", "data-turbolinks-track" => true
+    = stylesheet_link_tag    'custom', 'bootstrap', 'shop-homepage', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'jquery', 'bootstrap', 'data-turbolinks-track' => true
+    %meta{name: "viewport", content: "width=device-width, initial-scale=1"}
+
+    = csrf_meta_tags
+  %body
+    %nav.navbar.navbar-inverse.navbar-fixed-top{role:"navigation"}
+      .container
+        .navbar-header
+          %button.navbar-toggle{type:"button", 'data-toggle'=>"collapse", 'data-target'=>"#bs-example-navbar-collapse-1"}
+            %span.sr-only Toggle navigation
+            %span.icon-bar
+            %span.icon-bar
+            %span.icon-bar
+          = link_to t('title'), '/', class: "navbar-brand"
+        .collapse.navbar-collapse{id:"bs-example-navbar-collapse-1"}
+          %ul.nav.navbar-nav
+            %li
+              = link_to 'Authors', authors_path
+            %li
+              = link_to 'Books', books_path
+          %ul.nav.navbar-nav.navbar-right
+            %li
+              = link_to "Cart: (#{ session[:cart].nil? ? "EMPTY" : session[:cart].values.inject(0){|sum, x| sum + x} })", cart_path
+            - if signed_in?
+              %li
+                %p.navbar-text 
+                  Signed in as
+                  = link_to current_user.firstname, edit_user_path(current_user)
+              %li
+                = link_to 'Orders', user_orders_path(current_user)
+              %li
+                = link_to 'Log out', destroy_user_session_path, :method => :delete
+            - else
+              %li
+                = link_to 'Sign up', new_user_registration_path
+              %li
+                = link_to 'Sign in', user_session_path
+
+    .container
+      - flash.each do |type, content|
+        - if content.respond_to?('each')
+          - content.each do |item|
+            = render 'layouts/alert', type: type, content: item
+        - else
+          = render 'layouts/alert', type: type, content: content
+
+    = yield
+
+    .container
+      %hr
+      %footer.footer
+        .row
+          .col-lg-12.text-center
+            %p 
+              Copyright &copy; 
+              = Time.now.year

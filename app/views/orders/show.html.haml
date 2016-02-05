@@ -1,0 +1,46 @@
+.container
+  .row
+    .col-md-12
+      .thumbnail
+        .caption-full
+          %h2
+            = "Order##{@order.id}"
+            %small
+              %i
+                = @order.state
+          - if @order.order_items.empty?
+            %h2
+              No items.
+          - else
+            %table.table.table-hover                  
+              %thead        
+                %th.col-md-1
+                  Cover
+                %th.col-md-4
+                  Book
+                %th.col-md-4
+                  Price
+                %th.col-md-1
+                  Qty
+                %th.col-md-2
+                  Total
+              %tbody
+                - @order.order_items.each do |item|
+                  %tr
+                    %td
+                      cover
+                    %td
+                      = item.book.title
+                    %td
+                      $#{item.book.price}
+                    %td
+                      = item.qty
+                    %td
+                      $#{item.price * item.qty}
+                %tr
+                  %td{colspan: 3}
+                  %td.text-right
+                    %strong
+                      Subtotal
+                  %td
+                    $#{@order.total_price}

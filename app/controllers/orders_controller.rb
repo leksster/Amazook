@@ -1,5 +1,5 @@
 class OrdersController < ApplicationController
-  before_action :set_params, only: [:show, :edit, :update, :destroy, :delivery, :address]
+  before_action :set_order, only: [:show, :edit, :update, :destroy, :delivery, :address, :completed]
 
   # GET /orders
   # GET /orders.json
@@ -25,11 +25,7 @@ class OrdersController < ApplicationController
   def edit
   end
 
-  def address
-  end
-
-  # GET /orders/1/delivery
-  def delivery
+  def completed
   end
 
   # POST /orders
@@ -53,13 +49,7 @@ class OrdersController < ApplicationController
   def update
     respond_to do |format|
       if @order.update(order_params)
-        format.html do 
-          if request.referer.include?('address')
-            redirect_to delivery_order_path(@order), notice: "Order was successfully updated"
-          elsif request.referer.include?('delivery')
-            redirect_to @order, notice: 'Order was successfully updated2.'
-          end
-        end
+        format.html { redirect_to edit_user_credit_card_path(current_user), notice: "Order was successfully updated" }
         #format.json { render :show, status: :ok, location: @order }
       else
         format.html { render :address }
@@ -80,15 +70,16 @@ class OrdersController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_params
-      @order = Order.find(params[:id])
-      @shippings = Shipping.all
+    def set_order
+      @order = current_user.orders.find(params[:id])
     end
-
+    
     # Never trust parameters from the scary internet, only allow the white list through.
     def order_params
-      params.require(:order).permit(:total_price, :completed_date, 
+      params.require(:order).permit(:total_price, 
+                                    :completed_date, 
                                     :shipping_id, 
-                                    :address_attributes => [:address, :zipcode, :city, :phone, :country])
+                                    :address_attributes => [:address, :zipcode, :city, 
+                                                            :phone, :country])
     end
 end

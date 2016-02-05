@@ -15,7 +15,7 @@ class CartController < ApplicationController
       end
       respond_to do |format|
         if @order.save
-          format.html { redirect_to address_order_path(@order), notice: 'Your order in progress.' }
+          format.html { redirect_to edit_user_address_path(current_user), notice: 'Your order in progress.' }
           session.delete(:cart)
           session[:order] = @order.id
         else

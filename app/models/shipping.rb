@@ -4,4 +4,8 @@ class Shipping < ActiveRecord::Base
   has_one :address
 
   validates :company, presence: true
+
+  def name
+    company
+  end
 end
