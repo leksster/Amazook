@@ -1,9 +1,9 @@
 = form_for @address, url: {controller: "addresses", action: "update"}, method: :patch  do |f|
-  - if current_user.errors.any?
+  - if @address.errors.any?
     #error_explanation
-      %h2= "#{pluralize(@card.errors.count, "error")} prohibited this order from being saved:"
+      %h2= "#{pluralize(@address.errors.count, "error")} prohibited this order from being saved:"
       %ul
-        - current_user.errors.full_messages.each do |msg|
+        - @address.errors.full_messages.each do |msg|
           %li= msg
   .form-group
     = f.label :address
