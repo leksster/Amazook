@@ -3,10 +3,10 @@
     %h2.text-center
       Checkout
     .btn-group.btn-group-lg{role: "group"}
-      = link_to 'Address', edit_user_address_path(current_user), :class => "btn btn-#{current_page?(edit_user_address_path(current_user)) ? 'primary' : 'default'}"
-      = link_to 'Delivery', shippings_path, :class => "btn btn-#{current_page?(shippings_path) ? 'primary' : 'default'}"
-      = link_to 'Payment', edit_user_credit_card_path(current_user), :class => "btn btn-#{current_page?(edit_user_credit_card_path(current_user)) ? 'primary' : 'default'}"
-      = link_to 'Confirm', '#', :class => "btn btn-#{current_page?(edit_user_order_path(current_user, Order.last)) ? 'primary' : 'default'}"
+      = link_to 'Address', edit_user_address_path(current_user), :class => "btn btn-primary"
+      = link_to 'Delivery', shippings_path, :class => "btn btn-primary"
+      = link_to 'Payment', edit_user_credit_card_path(current_user), :class => "btn btn-primary"
+      = link_to 'Confirm', '#', :class => "btn btn-primary"
       = link_to 'Complete', '#', :class => "btn btn-default"
   .row
     %br
