@@ -22,7 +22,7 @@ class CreditCardsController < ApplicationController
     params.require(:credit_card).permit(:number, :cvv, :expiration_year, :expiration_month, :firstname, :lastname)
   end
   def set_card
-    @card = CreditCard.find_or_initialize_by(:user => current_user)
+    @card = CreditCard.find_or_initialize_by(:user_id => current_user)
     @card.orders << Order.find(session[:order])
   end
 end
