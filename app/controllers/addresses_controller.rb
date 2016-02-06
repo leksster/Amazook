@@ -22,7 +22,7 @@ class AddressesController < ApplicationController
     params.require(:address).permit(:address, :zipcode, :city, :phone, :country)
   end
   def set_address
-    @address = Address.find_or_initialize_by(:user_id => current_user)
+    @address = Address.where(:user => current_user).first_or_initialize
   end
 
 end
