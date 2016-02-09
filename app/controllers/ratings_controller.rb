@@ -1,9 +1,6 @@
 class RatingsController < ApplicationController
   before_action :set_book
 
-  def show
-  end
-
   def new
     if user_signed_in?
       @rating = @book.ratings.new
@@ -21,9 +18,6 @@ class RatingsController < ApplicationController
     else
       redirect_to new_book_rating_url, alert: 'Not saved'
     end
-  end
-
-  def edit
   end
 
   private

@@ -2,9 +2,10 @@
   .row.text-center
     %h2.text-center
       Checkout
+      = console
     .btn-group.btn-group-lg{role: "group"}
-      = link_to 'Address', edit_user_address_path(current_user), :class => "btn btn-primary"
-      = link_to 'Delivery', shippings_path, :class => "btn btn-primary"
+      = link_to 'Address', '#', :class => "btn btn-primary"
+      = link_to 'Delivery', '#', :class => "btn btn-primary"
       = link_to 'Payment', '#', :class => "btn btn-primary"
       = link_to 'Confirm', '#', :class => "btn btn-default"
       = link_to 'Complete', '#', :class => "btn btn-default"

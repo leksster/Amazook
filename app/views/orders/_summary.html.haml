@@ -1,0 +1,8 @@
+%p
+  Item Total:
+  %strong
+    $#{Order.find(session[:order]).order_items.sum(:price)}
+%p
+  Order Total:
+  %strong
+    $#{Order.find(session[:order]).total_price}

@@ -3,21 +3,22 @@ Rails.application.routes.draw do
   post 'cart/destroy' => 'cart#destroy'
   post 'cart/clear' => 'cart#clear'
   post 'cart/checkout' => 'cart#checkout'
+  post 'cart/update' => 'cart#update'  
 
-  
-
-  resources :user do
-    resource :address, only: [:edit, :update]
+  resources :user do    
     resources :orders do
+      resource :credit_card, only: [:edit, :update]
+      resources :shippings, only: [:index, :update]
+      resource :address, only: [:shipping, :update, :edit] do
+        post 'addshipping', on: :member
+        get 'editshipping' => 'addresses#editshipping'
+      end
+
       get 'completed', on: :member
     end
-    resource :credit_card, only: [:edit, :update]
-  end
-
+  end  
   
   
-  
-  resources :shippings, only: [:index]
 
   devise_for :users, :controllers => { registrations: 'registrations' }
   resources :home, only: :index

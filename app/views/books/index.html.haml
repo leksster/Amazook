@@ -1,0 +1,20 @@
+.container
+  .row
+    .col-md-12
+      %table.table
+        %thead
+          %tr
+            %th Title
+            %th Price
+        %tbody
+          - @books.each do |book|
+            %tr
+              %td
+                %h4
+                  = link_to book.title, book
+              %td
+                %h4
+                  = book.price
+  .row
+    .text-center
+      = paginate @books

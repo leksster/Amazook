@@ -1,0 +1,34 @@
+%nav.navbar.navbar-inverse.navbar-fixed-top{role:"navigation"}
+  .container
+    .navbar-header
+      %button.navbar-toggle{type:"button", 'data-toggle'=>"collapse", 'data-target'=>"#bs-example-navbar-collapse-1"}
+        %span.sr-only Toggle navigation
+        %span.icon-bar
+        %span.icon-bar
+        %span.icon-bar
+      = link_to t('title'), '/', class: "navbar-brand"
+    .collapse.navbar-collapse{id:"bs-example-navbar-collapse-1"}
+      %ul.nav.navbar-nav
+        %li
+          = link_to 'Authors', authors_path
+        %li
+          = link_to 'Books', books_path
+      %ul.nav.navbar-nav.navbar-right
+        %li              
+          = link_to(cart_path) do
+            %span.glyphicon.glyphicon-shopping-cart
+            = "Cart: (#{ session[:cart].nil? ? "EMPTY" : session[:cart].values.inject(0){|sum, x| sum + x} })"
+        - if signed_in?
+          %li
+            %p.navbar-text 
+              Signed in as
+              = link_to current_user.firstname, edit_user_path(current_user)
+          %li
+            = link_to 'Orders', user_orders_path(current_user)
+          %li
+            = link_to 'Log out', destroy_user_session_path, :method => :delete
+        - else
+          %li
+            = link_to 'Sign up', new_user_registration_path
+          %li
+            = link_to 'Sign in', user_session_path

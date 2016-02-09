@@ -1,0 +1,21 @@
+<!-- Page Content -->
+
+.container
+  .row
+    .col-md-12
+      %table.table
+        %thead
+          %tr
+            %th Name
+            %th Books count
+        %tbody
+          - @authors.each do |author|
+            %tr
+              %td
+                %h4
+                  = link_to %Q(#{author.lastname} #{author.firstname}), author
+              %td
+                %h4
+                  = author.books.count
+      .text-center
+        = paginate @authors

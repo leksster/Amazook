@@ -2,10 +2,11 @@
   .row.text-center
     %h2.text-center
       Checkout
+      = console
     .btn-group.btn-group-lg{role: "group"}
-      = link_to 'Address', edit_user_address_path(current_user), :class => "btn btn-primary"
-      = link_to 'Delivery', shippings_path, :class => "btn btn-primary"
-      = link_to 'Payment', edit_user_credit_card_path(current_user), :class => "btn btn-primary"
+      = link_to 'Address', '#', :class => "btn btn-primary"
+      = link_to 'Delivery', '#', :class => "btn btn-primary"
+      = link_to 'Payment', '#', :class => "btn btn-primary"
       = link_to 'Confirm', '#', :class => "btn btn-primary"
       = link_to 'Complete', '#', :class => "btn btn-default"
   .row
@@ -13,7 +14,7 @@
     .col-md-3.col-sm-3
       %h4
         Billing Address 
-        = link_to '(edit)', edit_user_address_path(current_user)
+        = link_to '(edit)', edit_user_order_address_path(current_user, @order)
       %p
         = current_user.address.address
         %br
@@ -29,11 +30,23 @@
     .col-md-3.col-sm-3
       %h4
         Shipping Address 
-        = link_to '(edit)', '#'
+        = link_to '(edit)', editshipping_user_order_address_path(current_user, @order)
+      %p
+        = @order.address.address
+        %br
+        = @order.address.zipcode
+        %br
+        = @order.address.zipcode
+        %br
+        = @order.address.city
+        %br
+        = @order.address.phone
+        %br
+        = @order.address.country
     .col-md-3.col-sm-3
       %h4
         Shipments
-        = link_to '(edit)', shippings_path
+        = link_to '(edit)', user_order_shippings_path(current_user, @order)
       %p
         = @order.shipping.company
         %br
@@ -41,7 +54,7 @@
     .col-md-3.col-sm-3
       %h4
         Payment Information
-        = link_to '(edit)', edit_user_credit_card_path(current_user)
+        = link_to '(edit)', edit_user_order_credit_card_path(current_user, @order)
       %p
         = @order.credit_card.number
         %br

@@ -1,7 +1,7 @@
 = form_for @address, url: {controller: "addresses", action: "update"}, method: :patch  do |f|
   - if @address.errors.any?
     #error_explanation
-      %h2= "#{pluralize(@address.errors.count, "error")} prohibited this order from being saved:"
+      %h2= "#{pluralize(@address.errors.count, "error")} proshibited this order from being saved:"
       %ul
         - @address.errors.full_messages.each do |msg|
           %li= msg
@@ -20,6 +20,7 @@
   .form-group
     = f.label :country
     = f.collection_select :country, Country.order(:name), :id, :name, {}, {class: 'form-control'}
+    = hidden_field_tag :order, params[:order]
 
   .actions
     = f.submit 'Save and continue', class: 'btn btn-success'

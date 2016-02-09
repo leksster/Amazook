@@ -57,7 +57,7 @@ end
 
 def generate_ratings(n)
   n.times do
-    rating = Rating.new(review_text: Faker::Hipster.paragraph(2), rating: rand(1..10))
+    rating = Rating.new(review_text: Faker::Hipster.paragraph(2), rating: rand(1..5))
     rand(1..5).times do
       User.find(rand(User.ids.sort.first..User.ids.sort.last)).ratings << rating
       Book.find(rand(Book.ids.sort.first..Book.ids.sort.last)).ratings << rating

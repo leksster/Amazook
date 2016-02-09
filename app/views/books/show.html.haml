@@ -1,0 +1,50 @@
+.container
+  .row
+    = render 'layouts/sidebar'
+    .col-md-9
+      .thumbnail
+        %img.img-responsive{src:"#{asset_path(@book.img)}", alt:"Book's cover"}
+        .caption-full    
+          %div
+            = render 'buy'
+          %h4
+            = @book.title
+          %p
+            = @book.description
+        .ratings
+          %p.pull-right
+            = @book.ratings.count
+            reviews
+          %p
+            - 5.times do |n|
+              - if @book.ratings.average(:rating).nil?
+                Not rated yet
+                - break
+              - elsif @book.ratings.average(:rating).ceil > n
+                %span.glyphicon.glyphicon-star
+              - else
+                %span.glyphicon.glyphicon-star-empty
+            = @book.ratings.average(:rating)
+      .well
+        .text-right
+          = link_to 'Leave a review', new_book_rating_path(@book), class: 'btn btn-success'
+        - @book.ratings.order(created_at: :desc).each do |rating|
+          %hr
+          .row
+            .col-md-12
+              %p
+                - 5.times do |n|
+                  - if rating.rating > n
+                    %span.glyphicon.glyphicon-star
+                  - else
+                    %span.glyphicon.glyphicon-star-empty
+              %strong
+                = rating.rating
+                \/5
+              %i
+                = rating.user.firstname
+              %span.pull-right
+                = time_ago_in_words(rating.created_at)
+                ago
+              %p
+                = rating.review_text

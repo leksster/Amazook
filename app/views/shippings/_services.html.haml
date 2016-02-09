@@ -1,5 +1,5 @@
 = form_for [current_user, @order], method: :patch do |f|
-  - if current_user.errors.any?
+  - if @order.errors.any?
     #error_explanation
       %h2= "#{pluralize(@order.errors.count, "error")} prohibited this order from being saved:"
       %ul
@@ -14,4 +14,7 @@
           = "#{shipping.company}, $#{shipping.costs}"
 
   .actions
-    = f.submit 'Save', class: 'btn btn-success'
+    %br
+    %br
+    %br
+    = f.submit 'Save', class: 'btn btn-success btn-block'

@@ -1,36 +1,32 @@
 class CartController < ApplicationController
   before_action :cart_data, only: [:index, :checkout]
+  before_action :create_order, only: :checkout
 
   def index
     # cart_data
   end
 
   def checkout
-    if user_signed_in?
-      @order = current_user.orders.new(total_price: @subtotal, completed_date: Time.now) #???
-      @books.each do |book|
-        item = OrderItem.new(price: book.price, qty: session[:cart][book.id.to_s])
-        item.book = book
-        @order.order_items << item
+    respond_to do |format|
+      if @order.save
+        format.html { redirect_to edit_user_order_address_path(current_user, @order), notice: 'Your order in progress.' }
+        session.delete(:cart)
+        session[:order] = @order.id
+      else
+        format.html { render :index }
       end
-      respond_to do |format|
-        if @order.save
-          format.html { redirect_to edit_user_address_path(current_user), notice: 'Your order in progress.' }
-          session.delete(:cart)
-          session[:order] = @order.id
-        else
-          format.html { render :new }
-        end
-      end
-    else
-      redirect_to new_user_session_path, alert: 'You must sign in.'
     end
   end
 
   def add
     @book = Book.find(params[:book_id])
     session[:cart] ||= {}
-    session[:cart][@book.id.to_s].nil? ? session[:cart][@book.id.to_s] = 1 : session[:cart][@book.id.to_s] += 1
+    session[:cart][@book.id.to_s].nil? ? session[:cart][@book.id.to_s] = params[:qty].to_i : session[:cart][@book.id.to_s] += params[:qty].to_i
+    redirect_to cart_url
+  end
+
+  def update
+    session[:cart][params[:book_id]] = params[:qty].to_i
     redirect_to cart_url
   end
 
@@ -48,7 +44,6 @@ class CartController < ApplicationController
   end
 
   private 
-
   def cart_data
     @subtotal = 0
     @empty = t('empty_cart')
@@ -57,6 +52,19 @@ class CartController < ApplicationController
       session[:cart].each do |k, v|
         @subtotal += Book.find(k).price * v
       end
+    end
+  end
+
+  def create_order
+    if user_signed_in?
+      @order = current_user.orders.new(total_price: @subtotal, completed_date: Time.now) #???
+      @books.each do |book|
+        item = OrderItem.new(price: book.price, qty: session[:cart][book.id.to_s])
+        item.book = book
+        @order.order_items << item
+      end
+    else
+      redirect_to new_user_session_path, alert: 'You must sign in.'
     end
   end
 
