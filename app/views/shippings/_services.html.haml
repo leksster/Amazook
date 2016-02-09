@@ -10,7 +10,7 @@
     - @services.each do |shipping|
       .radio
         %label 
-          = f.radio_button :shipping_id, shipping.id
+          = f.radio_button :shipping_id, shipping.id, :checked => true
           = "#{shipping.company}, $#{shipping.costs}"
 
   .actions

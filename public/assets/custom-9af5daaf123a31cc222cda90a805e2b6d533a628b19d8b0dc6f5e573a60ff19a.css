@@ -1,0 +1,38 @@
+.author {
+  color: #fff;
+}
+
+.author:hover {
+  color: #fff;
+}
+
+.author:visited {
+  color: #ddd;
+}
+
+.short {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.carousel-control.left.no-shadow  {
+  background-image: none;
+  background-repeat: repeat-x;
+}
+
+.carousel-control.right.no-shadow  {
+  background-image: none;
+  background-repeat: repeat-x;
+}
+
+.short {
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis;
+}
+
+.form-inline .form-control.one-line {
+  width: 55px;
+  display: inline;
+}
