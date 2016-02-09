@@ -47,7 +47,7 @@ end
 
 def generate_categories(n)
   n.times do
-    category = Category.new(title: Faker::Book.genre)
+    category = Category.new(title: Faker::Hipster.word)
     rand(1..10).times do
       category.books << Book.find(rand(Book.ids.sort.first..Book.ids.sort.last))
     end
