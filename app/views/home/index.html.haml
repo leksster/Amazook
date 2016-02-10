@@ -2,41 +2,7 @@
   .row
     = render 'layouts/sidebar'
     .col-md-9
-      .row.carousel-holder
-        .col-md-12
-          #carousel-example-generic.carousel.slide{"data-ride" => "carousel"}
-            %ol.carousel-indicators
-              %li.active{"data-target" => "#carousel-example-generic", "data-slide-to" => "0"}
-              %li{"data-target" => "#carousel-example-generic", "data-slide-to" => "1"}
-              %li{"data-target" => "#carousel-example-generic", "data-slide-to" => "2"}
-            .carousel-inner
-              .item.active
-                .row
-                  %img.img-responsive.center-block{:src => "#{asset_path("cover.jpg")}", :width => 300}
-                  .carousel-caption
-                    = link_to 'Buy', '#', class: 'btn btn-success btn-lg'
-                    %h3
-                      Book
-              .item
-                .row
-                  %img.img-responsive.center-block{:src => "#{asset_path("cover.jpg")}", :width => 300}
-                  .carousel-caption
-                    = link_to 'Buy', '#', class: 'btn btn-success btn-lg'
-                    %h3
-                      Book
-              .item
-                .row
-                  %img.img-responsive.center-block{:src => "#{asset_path("cover.jpg")}", :width => 300}
-                  .carousel-caption
-                    = link_to 'Buy', '#', class: 'btn btn-success btn-lg'
-                    %h3
-                      Book
-
-
-            %a.left.carousel-control.no-shadow{ :href => "#carousel-example-generic", "data-slide" => "prev" }
-              %span.glyphicon.glyphicon-chevron-left
-            %a.right.carousel-control.no-shadow{ :href => "#carousel-example-generic", "data-slide" => "next" }
-              %span.glyphicon.glyphicon-chevron-right
+      = render 'carousel'
       .row
         - @books.each do |book|
           .col-sm-4.col-lg-4.col-md-4
