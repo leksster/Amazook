@@ -12,7 +12,7 @@
                 = link_to "Order##{order.id}", user_order_path(current_user, order)
                 %small
                   %i
-                    = order.state
+                    = order.aasm.human_state
               - if order.order_items.empty?
                 %h2
                   No items.

@@ -69,7 +69,7 @@
             = "Order##{@order.id}"
             %small
               %i
-                = @order.state
+                = @order.aasm.human_state
           - if @order.order_items.empty?
             %h2
               No items.

@@ -1,5 +1,32 @@
 RailsAdmin.config do |config|
 
+  config.model Order do
+    edit do
+      field :aasm_state do
+        label 'State'
+      end
+      field :total_price
+      field :completed_date
+      field :credit_card
+      field :shipping
+      field :user
+      field :created_at
+      field :updated_at
+    end
+    list do
+      field :aasm_state do
+        label 'State'
+      end
+      field :total_price
+      field :completed_date
+      field :credit_card
+      field :shipping
+      field :user
+      field :created_at
+      field :updated_at
+    end
+  end
+
   ### Popular gems integration
 
   ## == Devise ==

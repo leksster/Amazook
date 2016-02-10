@@ -21,6 +21,8 @@ class OrdersController < ApplicationController
   end
 
   def completed
+    @order.complete
+    @order.save
   end
 
   # PATCH/PUT /orders/1

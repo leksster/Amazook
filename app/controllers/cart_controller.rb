@@ -14,6 +14,7 @@ class CartController < ApplicationController
         session[:order] = @order.id
       else
         format.html { render :index }
+        @errors = @order.errors
       end
     end
   end

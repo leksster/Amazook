@@ -3,7 +3,7 @@
     .col-md-12
       .thumbnail
         .caption-full
-          = form_tag("cart/update", method: 'post') do
+          = form_tag url_for(:controller => 'cart', :action => 'update'), method: 'post' do
             - if @books.nil?
               = @empty          
             - else
