@@ -6,7 +6,7 @@
         - @book.errors.full_messages.each do |msg|
           %li= msg
   %h2
-    $#{@book.price}
+    = number_to_currency(@book.price)
   .form-group.integer.required.one-line
     = number_field_tag :qty, '1', class: 'form-control one-line', min: '1', max: '99'
     = f.submit 'Add to cart', class: 'btn btn-default btn btn-primary'

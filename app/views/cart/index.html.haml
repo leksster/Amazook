@@ -28,12 +28,12 @@
                       %td
                         = book.title
                       %td
-                        = book.price
+                        = number_to_currency(book.price)
                       %td
                         = hidden_field_tag :book_id, book.id
                         = number_field_tag :qty, "#{session[:cart][book.id.to_s]}", class: 'form-control', min: '1', max: '99', :id => book.id.to_s
                       %td
-                        $#{book.price * session[:cart][book.id.to_s]}
+                        = number_to_currency(book.price * session[:cart][book.id.to_s])
                       %td
                         = link_to 'X', {:controller => 'cart', :action => 'destroy', :id => book.id.to_s}, class: 'btn btn-danger btn-xs', method: :post
                   %tr
@@ -43,7 +43,7 @@
                         %strong
                           Subtotal
                     %td
-                      $#{@subtotal}
+                      = number_to_currency(@subtotal)
                     %td
               .row
                 .col-xs-6
