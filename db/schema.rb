@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160210191259) do
+ActiveRecord::Schema.define(version: 20160211185953) do
 
   create_table "addresses", force: :cascade do |t|
     t.string   "address"
@@ -66,8 +66,8 @@ ActiveRecord::Schema.define(version: 20160210191259) do
   create_table "credit_cards", force: :cascade do |t|
     t.string   "number"
     t.string   "cvv"
-    t.integer  "expiration_year"
-    t.integer  "expiration_month"
+    t.string   "expiration_year"
+    t.string   "expiration_month"
     t.string   "firstname"
     t.string   "lastname"
     t.datetime "created_at",       null: false

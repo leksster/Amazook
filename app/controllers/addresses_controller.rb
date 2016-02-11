@@ -13,7 +13,8 @@ class AddressesController < ApplicationController
         format.html { render :editshipping }
       elsif @address.update(address_params)
         @order.address = @address
-        format.html { redirect_to user_order_shippings_path, notice: "Order was successfully updated" }
+        @order.save
+        format.html { redirect_to user_order_shippings_path(current_user, @order), notice: "Order was successfully updated" }
         #format.json { render :show, status: :ok, location: @order }
       else
         format.html { render :edit }

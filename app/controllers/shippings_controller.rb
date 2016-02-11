@@ -4,9 +4,6 @@ class ShippingsController < ApplicationController
   def index
   end
 
-  def update
-  end
-
   private
   def set_services
     @order = Order.find(params[:order_id])

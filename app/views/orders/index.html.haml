@@ -9,7 +9,7 @@
           - else
             - @orders.each do |order|
               %h2
-                = link_to "Order##{order.id}", user_order_path(current_user, order)
+                = link_to "Order ##{order.id}", user_order_path(current_user, order)
                 %small
                   %i
                     = order.aasm.human_state
@@ -51,3 +51,5 @@
                         $#{order.total_price}
         .text-center
           = paginate @orders
+
+          

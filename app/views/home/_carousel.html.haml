@@ -13,14 +13,14 @@
               .row
                 %img.img-responsive.center-block{:src => "#{asset_path("cover.jpg")}", :width => 300}
                 .carousel-caption
-                  = link_to 'Buy', '#', class: 'btn btn-success btn-lg'
+                  = link_to 'Show', book_path(book), class: 'btn btn-success btn-lg'
                   %h3
                     = book.title
           .item
             .row
               %img.img-responsive.center-block{:src => "#{asset_path("cover.jpg")}", :width => 300}
               .carousel-caption
-                = link_to 'Buy', '#', class: 'btn btn-success btn-lg'
+                = link_to 'Show', book_path(book), class: 'btn btn-success btn-lg'
                 %h3
                   = book.title
 

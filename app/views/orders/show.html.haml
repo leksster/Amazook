@@ -1,5 +1,59 @@
 .container
   .row
+    %br
+    .col-md-3.col-sm-3
+      %h4
+        Billing Address
+      - unless current_user.address.nil?
+
+        %p
+          = current_user.address.address
+          %br
+          = current_user.address.zipcode
+          %br
+          = current_user.address.zipcode
+          %br
+          = current_user.address.city
+          %br
+          = current_user.address.phone
+          %br
+          = current_user.address.country
+    .col-md-3.col-sm-3
+      %h4
+        Shipping Address 
+      - unless @order.address.nil?
+        %p
+          = @order.address.address
+          %br
+          = @order.address.zipcode
+          %br
+          = @order.address.zipcode
+          %br
+          = @order.address.city
+          %br
+          = @order.address.phone
+          %br
+          = @order.address.country
+    .col-md-3.col-sm-3
+      %h4
+        Shipments
+      - unless @order.shipping.nil?
+        %p
+          = @order.shipping.company
+          %br
+          = @order.shipping.costs
+    .col-md-3.col-sm-3
+      %h4
+        Payment Information
+      - unless @order.credit_card.nil?
+        %p
+          = @order.credit_card.number
+          %br
+          = @order.credit_card.expiration_month
+          #{"/"}
+          = @order.credit_card.expiration_year
+
+  .row
     .col-md-12
       .thumbnail
         .caption-full
@@ -28,7 +82,7 @@
                 - @order.order_items.each do |item|
                   %tr
                     %td
-                      cover
+                      = image_tag(item.book.img)
                     %td
                       = item.book.title
                     %td
@@ -37,10 +91,29 @@
                       = item.qty
                     %td
                       $#{item.price * item.qty}
+                %tr.line
+                  %td{colspan: 3}
+                  %td.text-right
+                    %strong
+                      Subtotal:
+                      %br
+                      Shipping:
+                  %td
+                    = number_to_currency(@order.subtotal)
+                    %br
+                    = number_to_currency(@order.shipping.costs) unless @order.shipping.nil?
                 %tr
                   %td{colspan: 3}
                   %td.text-right
                     %strong
-                      Subtotal
+                      Order total:
                   %td
-                    $#{@order.total_price}
+                    = number_to_currency(@order.total_price)
+  .row
+    .col-md-4
+      = link_to 'Back to orders', user_orders_path, :class => "btn btn-default btn-block"
+    .col-md-4
+
+    .col-md-4
+      - if @order.in_progress?
+        = link_to 'Continue checkout', edit_user_order_address_path(current_user, @order), :class => "btn btn-success btn-block"

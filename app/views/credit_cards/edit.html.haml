@@ -9,7 +9,21 @@
       = link_to 'Confirm', '#', :class => "btn btn-default"
       = link_to 'Complete', '#', :class => "btn btn-default"
   .row
-    .col-md-4.col-sm-4 
+    .col-md-4.col-sm-4
+      %h2
+        Shipping Address 
+      %p
+        = @order.address.address
+        %br
+        = @order.address.zipcode
+        %br
+        = @order.address.zipcode
+        %br
+        = @order.address.city
+        %br
+        = @order.address.phone
+        %br
+        = @order.address.country   
 
     .col-md-4.col-sm-4.text-center
       %h2
@@ -18,5 +32,6 @@
     .col-md-4.col-sm-4.text-center
       %h2
         Order Summary
+      = render 'orders/summary'
 
 

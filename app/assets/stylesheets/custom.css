@@ -36,3 +36,8 @@
   width: 55px;
   display: inline;
 }
+
+.table > tbody > tr.line > td {
+    border-top: 3px solid #ccc; /* Линия сверху текста */
+    border-bottom: 3px solid #ccc; /* Линия снизу текста */
+}

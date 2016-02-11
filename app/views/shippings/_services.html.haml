@@ -14,7 +14,7 @@
           = "#{shipping.company}, $#{shipping.costs}"
 
   .actions
-    %br
-    %br
-    %br
-    = f.submit 'Save', class: 'btn btn-success btn-block'
+    .col-md-6
+      = link_to 'Back', edit_user_order_address_path, class: 'btn btn-default btn-block'
+    .col-md-6
+      = f.submit 'Continue', class: 'btn btn-success btn-block'

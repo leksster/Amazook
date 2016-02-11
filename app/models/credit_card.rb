@@ -7,4 +7,12 @@ class CreditCard < ActiveRecord::Base
   def name
     number
   end
+
+  def self.months
+    ('01'..'12').to_a
+  end
+
+  def self.years
+    (Time.now.year..Time.now.year+20).to_a
+  end
 end

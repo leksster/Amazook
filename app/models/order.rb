@@ -21,6 +21,10 @@ class Order < ActiveRecord::Base
     end
   end
 
+  def subtotal
+    order_items.inject(0) { |n, order_item| n += order_item.price * order_item.qty }
+  end
+
   def aasm_state_enum
     ['in_progress', 'completed', 'shipped']
   end

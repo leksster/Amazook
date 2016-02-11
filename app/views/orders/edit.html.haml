@@ -90,7 +90,7 @@
                 - @order.order_items.each do |item|
                   %tr
                     %td
-                      cover
+                      = image_tag(item.book.img)
                     %td
                       = item.book.title
                     %td
@@ -99,13 +99,24 @@
                       = item.qty
                     %td
                       $#{item.price * item.qty}
+                %tr.line
+                  %td{colspan: 3}
+                  %td.text-right
+                    %strong
+                      Subtotal:
+                      %br
+                      Shipping:
+                  %td
+                    = number_to_currency(@order.subtotal)
+                    %br
+                    = number_to_currency(@order.shipping.costs)
                 %tr
                   %td{colspan: 3}
                   %td.text-right
                     %strong
-                      Subtotal
+                      Order total:
                   %td
-                    $#{@order.total_price}
+                    = number_to_currency(@order.total_price)
   .row
     .col-md-4
     .col-md-4

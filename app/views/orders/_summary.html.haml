@@ -1,8 +1,14 @@
 %p
   Item Total:
   %strong
-    $#{Order.find(session[:order]).order_items.sum(:price)}
+    = number_to_currency(Order.find(params[:order_id]).order_items.sum(:price))
+
+- unless Order.find(params[:order_id]).shipping.nil?
+  %p
+    Shipping:
+    %strong
+      = number_to_currency(Order.find(params[:order_id]).shipping.costs)
 %p
   Order Total:
   %strong
-    $#{Order.find(session[:order]).total_price}
+    = number_to_currency(Order.find(params[:order_id]).total_price)
