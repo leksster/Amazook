@@ -34,7 +34,7 @@ class CartController < ApplicationController
   def destroy
     session[:cart].delete(params[:id])
     if session[:cart].empty?
-      session.destroy
+      session.delete(:cart)
     end
     redirect_to cart_url
   end

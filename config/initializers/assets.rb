@@ -8,4 +8,4 @@ Rails.application.config.assets.version = '1.0'
 
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
-Rails.application.config.assets.precompile += %w( bootstrap.css shop-homepage.css bootstrap.js jquery.js custom.css )
+Rails.application.config.assets.precompile += %w( bootstrap.scss shop-homepage.css bootstrap.js jquery.js custom.css font-awesome.scss )
