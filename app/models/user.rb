@@ -1,19 +1,40 @@
 class User < ActiveRecord::Base
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
+
   has_many :ratings
   has_many :orders, dependent: :destroy
   has_many :credit_cards
   has_one :address
 
-  validates :firstname, :password, :lastname, :email, presence: true
+  # validates :firstname, :lastname, :email, presence: true
+  # validates :password, presence: true, on: :create
   validates :email, uniqueness: true
   validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
 
+
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, 
          :validatable, :omniauthable,
          :omniauth_providers => [:facebook]
+
+  rails_admin do
+    configure :new_password
+
+    edit do
+      exclude_fields :password, :password_confirmation, :confirmation_token
+      include_fields :new_password
+    end
+  end
+
+  # Provided for Rails Admin to allow the password to be reset
+  def new_password; nil; end
+
+  def new_password=(value)
+    return nil if value.blank?
+    self.password = value
+    self.password_confirmation = value
+  end
 
   def name
     email
