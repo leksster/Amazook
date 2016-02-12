@@ -4,6 +4,9 @@ class OrdersController < ApplicationController
   def index
     if user_signed_in?
       @orders = current_user.orders.order(id: :desc).page(params[:page]).per(5)
+      @in_progress = current_user.orders.where(aasm_state: 'in_progress').order(id: :desc)
+      @completed = current_user.orders.where(aasm_state: 'completed').order(id: :desc)
+      @shipped = current_user.orders.where(aasm_state: 'shipped').order(id: :desc)
     else
       redirect_to new_user_session_path, alert: 'You must sign in.'
     end

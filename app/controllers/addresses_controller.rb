@@ -25,6 +25,7 @@ class AddressesController < ApplicationController
   def addshipping
     respond_to do |format|
       if @shipping_address.update(address_params)
+        @order.address = @shipping_address
         format.html { redirect_to user_order_shippings_path, notice: "Order was successfully updated" }
         #format.json { render :show, status: :ok, location: @order }
       else
@@ -47,7 +48,7 @@ class AddressesController < ApplicationController
   end
 
   def set_shipping_address
-    @shipping_address = Address.where(:order => set_order, :user_shipping_id => nil).first_or_initialize
+    @shipping_address = Address.where(:user_shipping_id => current_user).first_or_initialize
   end
 
   def set_order

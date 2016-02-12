@@ -7,12 +7,9 @@
             %h2
               You have no orders yet.
           - else
-            - @orders.each do |order|
-              %h2
-                = link_to "Order ##{order.id}", user_order_path(current_user, order)
-                %small
-                  %i
-                    = order.aasm.human_state
+            %h2 In progress
+            %hr
+            - @in_progress.each do |order|
               - if order.order_items.empty?
                 %h2
                   No items.
@@ -33,7 +30,7 @@
                     - order.order_items.each do |item|
                       %tr
                         %td
-                          cover
+                          = image_tag(item.book.img)
                         %td
                           = item.book.title
                         %td
@@ -42,14 +39,64 @@
                           = item.qty
                         %td
                           $#{item.price * item.qty}
-                    %tr
+                    %tr.line
                       %td{colspan: 3}
+                        = link_to 'Continue checkout', edit_user_order_address_path(current_user, order), :class => "btn btn-success"
                       %td.text-right
                         %strong
                           Subtotal
                       %td
                         $#{order.total_price}
-        .text-center
-          = paginate @orders
-
-          
+            %br
+            %br
+            %br
+            %h3 Wating for process
+            %hr
+              - if @completed.empty?
+                %p No procceeded orders
+              - else
+                %table.table.table-hover                  
+                  %thead        
+                    %th.col-md-1
+                      Number
+                    %th.col-md-4
+                      Completed at
+                    %th.col-md-4
+                      Total
+                    %th.col-md-1                    
+                  %tbody
+                    - @completed.each do |order|
+                      %tr
+                        %td
+                          = link_to order.id, user_order_path(current_user, order)
+                        %td
+                          = order.completed_date
+                        %td
+                          = number_to_currency(order.total_price)
+                        %td
+                          = link_to 'view', user_order_path(current_user, order)        
+            %h3 Delivered
+            %hr
+              - if @shipped.empty?
+                %p No delivered orders
+              - else      
+                %table.table.table-hover                  
+                  %thead        
+                    %th.col-md-1
+                      Number
+                    %th.col-md-4
+                      Completed at
+                    %th.col-md-4
+                      Total
+                    %th.col-md-1                    
+                  %tbody
+                    - @shipped.each do |order|
+                      %tr
+                        %td
+                          = link_to order.id, user_order_path(current_user, order)
+                        %td
+                          = order.completed_date
+                        %td
+                          = number_to_currency(order.total_price)
+                        %td
+                          = link_to 'view', user_order_path(current_user, order)

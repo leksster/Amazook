@@ -103,8 +103,8 @@
                     %br
                     = number_to_currency(@order.shipping.costs) unless @order.shipping.nil?
                 %tr
-                  %td{colspan: 3}
-                  %td.text-right
+                  %td{colspan: 2}
+                  %td.text-right{colspan: 2}
                     %strong
                       Order total:
                   %td

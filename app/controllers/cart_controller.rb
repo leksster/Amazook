@@ -11,7 +11,6 @@ class CartController < ApplicationController
       if @order.save
         format.html { redirect_to edit_user_order_address_path(current_user, @order), notice: 'In order to proceed, please provide additional details.' }
         session.delete(:cart)
-        session[:order] = @order.id
       else
         format.html { render :index }
         @errors = @order.errors

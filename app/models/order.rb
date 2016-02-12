@@ -4,7 +4,7 @@ class Order < ActiveRecord::Base
   belongs_to :user
   belongs_to :credit_card
   belongs_to :shipping
-  has_one :address, dependent: :destroy
+  has_one :address
   belongs_to :shipping
   has_many :order_items, dependent: :destroy
 
