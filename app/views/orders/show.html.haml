@@ -4,20 +4,20 @@
     .col-md-3.col-sm-3
       %h4
         Billing Address
-      - unless current_user.address.nil?
+      - unless current_user.billing.nil?
 
         %p
-          = current_user.address.address
+          = current_user.billing.address
           %br
-          = current_user.address.zipcode
+          = current_user.billing.zipcode
           %br
-          = current_user.address.zipcode
+          = current_user.billing.zipcode
           %br
-          = current_user.address.city
+          = current_user.billing.city
           %br
-          = current_user.address.phone
+          = current_user.billing.phone
           %br
-          = current_user.address.country
+          = current_user.billing.country
     .col-md-3.col-sm-3
       %h4
         Shipping Address 

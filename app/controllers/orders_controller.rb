@@ -17,6 +17,8 @@ class OrdersController < ApplicationController
 
   def completed
     if @order.complete!
+      @order.total_price += @order.shipping.costs
+      @order.save
       redirect_to user_order_path, notice: "Your order is completed."
     end
   end
@@ -24,8 +26,6 @@ class OrdersController < ApplicationController
   def update
     respond_to do |format|
       if @order.update(order_params)
-        @order.total_price += @order.shipping.costs
-        @order.save
         format.html { redirect_to edit_user_order_credit_card_path(current_user, @order), notice: "Order was successfully updated" }
         #format.json { render :show, status: :ok, location: @order }
       else

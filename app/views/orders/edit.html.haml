@@ -15,17 +15,17 @@
         Billing Address 
         = link_to '(edit)', edit_user_order_address_path(current_user, @order)
       %p
-        = current_user.address.address
+        = current_user.billing.address
         %br
-        = current_user.address.zipcode
+        = current_user.billing.zipcode
         %br
-        = current_user.address.zipcode
+        = current_user.billing.zipcode
         %br
-        = current_user.address.city
+        = current_user.billing.city
         %br
-        = current_user.address.phone
+        = current_user.billing.phone
         %br
-        = current_user.address.country
+        = current_user.billing.country
     .col-md-3.col-sm-3
       %h4
         Shipping Address 
@@ -116,7 +116,7 @@
                     %strong
                       Order total:
                   %td
-                    = number_to_currency(@order.total_price)
+                    = number_to_currency(@order.total_price + @order.shipping.costs)
   .row
     .col-md-4
     .col-md-4

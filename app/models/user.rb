@@ -3,10 +3,9 @@ class User < ActiveRecord::Base
   has_many :ratings
   has_many :orders, dependent: :destroy
   has_many :credit_cards
-  has_one :address
+  has_one :billing, :class_name => 'Address', :foreign_key => 'user_billing_id'
+  has_one :shipping, :class_name => 'Address', :foreign_key => 'user_shipping_id'
 
-  # validates :firstname, :lastname, :email, presence: true
-  # validates :password, presence: true, on: :create
   validates :email, uniqueness: true
   validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
 

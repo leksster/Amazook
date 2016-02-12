@@ -13,7 +13,6 @@ class AddressesController < ApplicationController
         format.html { render :editshipping }
       elsif @address.update(address_params)
         @order.address = @address
-        @order.save
         format.html { redirect_to user_order_shippings_path(current_user, @order), notice: "Order was successfully updated" }
         #format.json { render :show, status: :ok, location: @order }
       else
@@ -44,11 +43,11 @@ class AddressesController < ApplicationController
   end
 
   def set_address
-    @address = Address.where(:user => current_user).first_or_initialize
+    @address = Address.where(:user_billing_id => current_user).first_or_initialize
   end
 
   def set_shipping_address
-    @shipping_address = Address.where(:order => set_order, :user => nil).first_or_initialize
+    @shipping_address = Address.where(:order => set_order, :user_shipping_id => nil).first_or_initialize
   end
 
   def set_order
