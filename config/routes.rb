@@ -5,7 +5,16 @@ Rails.application.routes.draw do
   post 'cart/checkout' => 'cart#checkout'
   post 'cart/update' => 'cart#update'  
 
-  resources :user do    
+
+  resource :address, only: [:edit, :update]
+
+
+  devise_for :users, :controllers => { registrations: 'registrations', omniauth_callbacks: 'omniauth_callbacks' }
+
+  resources :users do   
+    patch 'update_billing', on: :member
+    patch 'update_shipping', on: :member
+    patch 'update_password', on: :member
     resources :orders do
       resource :credit_card, only: [:edit, :update]
       resources :shippings, only: [:index, :update]
@@ -17,10 +26,8 @@ Rails.application.routes.draw do
       get 'completed', on: :member
     end
   end  
-  
-  
 
-  devise_for :users, :controllers => { registrations: 'registrations', omniauth_callbacks: 'omniauth_callbacks' }
+
   resources :home, only: :index
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'

@@ -1,0 +1,89 @@
+.container
+  .row
+    = form_for @billing, url: {controller: "users", action: "update_billing"}, method: :patch  do |f|
+      .col-md-6.col-sm-6
+        %h2
+          Billing Address  
+        - if @billing.errors.any?
+          #error_explanation.alert.alert-danger
+            %h4= "#{pluralize(@billing.errors.count, "error")} prohibited this order from being saved:"
+            %ul
+              - @billing.errors.full_messages.each do |msg|
+                %li= msg
+        .form-group
+          = f.label :address
+          = f.text_field :address, class: 'form-control'
+        .form-group
+          = f.label :zipcode
+          = f.text_field :zipcode, class: 'form-control'
+        .form-group
+          = f.label :city
+          = f.text_field :city, class: 'form-control'
+        .form-group
+          = f.label :phone
+          = f.text_field :phone, class: 'form-control'
+        .form-group
+          = f.label :country
+          = f.collection_select :country, Country.order(:name), :id, :name, {}, {class: 'form-control'}
+        .actions
+          = f.submit 'Save', class: 'btn btn-success btn-block'
+    .col-md-6.col-sm-6.text-center
+      %h2
+        Shipping Address 
+      = form_for @shipping, url: { controller: "users", action: "update_shipping" }, method: :patch do |f|
+        - if @shipping.errors.any?
+          #error_explanation.alert.alert-danger
+            %h4= "#{pluralize(@shipping.errors.count, "error")} prohibited this order from being saved:"
+            %ul
+              - @shipping.errors.full_messages.each do |msg|
+                %li= msg
+        .form-group
+          = f.label :address
+          = f.text_field :address, class: 'form-control'
+        .form-group
+          = f.label :zipcode
+          = f.text_field :zipcode, class: 'form-control'
+        .form-group
+          = f.label :city
+          = f.text_field :city, class: 'form-control'
+        .form-group
+          = f.label :phone
+          = f.text_field :phone, class: 'form-control'
+        .form-group
+          = f.label :country
+          = f.collection_select :country, Country.order(:name), :id, :name, {}, {class: 'form-control'}
+        .actions
+          = f.submit 'Save', class: 'btn btn-success btn-block'
+  .row
+    .col-md-12
+      %br
+      - if @user.errors.any?
+        #error_explanation.alert.alert-danger
+          %h4= "#{pluralize(@user.errors.count, "error")} prohibited this order from being saved:"
+          %ul
+            - @user.errors.full_messages.each do |msg|
+              %li= msg
+    = form_for @user, url: {controller: "users", action: "update"}, method: :patch  do |f|
+      .col-md-6.col-sm-6
+        %h2
+          Email
+        .form-group
+          = f.label :email
+          = f.text_field :email, class: 'form-control'
+        .actions
+          = f.submit 'Save', class: 'btn btn-success btn-block'
+    = form_for @user, url: {controller: "users", action: "update_password"}, method: :patch  do |f|
+      .col-md-6.col-sm-6
+        %h2
+          Password
+        .form-group
+          = f.label :current_password
+          = f.text_field :current_password, class: 'form-control'
+        .form-group
+          = f.label :password
+          = f.text_field :password, class: 'form-control'
+        .form-group
+          = f.label :password_confirmation
+          = f.text_field :password_confirmation, class: 'form-control'
+        .actions
+          = f.submit 'Save', class: 'btn btn-success btn-block'
