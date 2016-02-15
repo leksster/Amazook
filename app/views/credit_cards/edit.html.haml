@@ -13,6 +13,9 @@
       %h2
         Shipping Address 
       %p
+        = @order.address.firstname
+        = @order.address.lastname
+        %br
         = @order.address.address
         %br
         = @order.address.zipcode
@@ -23,7 +26,7 @@
         %br
         = @order.address.phone
         %br
-        = @order.address.country   
+        = @order.address.country
 
     .col-md-4.col-sm-4.text-center
       %h2

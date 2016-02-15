@@ -13,11 +13,13 @@ class Order < ActiveRecord::Base
 
   aasm do
     state :in_progress, :initial => true
-    state :completed
-    state :shipped
+    state :in_queue
+    state :in_delivery
+    state :delivered
+    state :canceled
 
-    event :complete do
-      transitions :from => :in_progress, :to => :completed
+    event :queued do
+      transitions :from => :in_progress, :to => :in_queue
     end
   end
 
@@ -26,7 +28,7 @@ class Order < ActiveRecord::Base
   end
 
   def aasm_state_enum
-    ['in_progress', 'completed', 'shipped']
+    self.class.aasm.states_for_select
   end
 
 end

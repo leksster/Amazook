@@ -13,6 +13,9 @@
       %h2
         Shipping Address 
       %p
+        = @order.address.firstname
+        = @order.address.lastname
+        %br
         = @order.address.address
         %br
         = @order.address.zipcode

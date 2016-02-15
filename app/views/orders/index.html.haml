@@ -9,50 +9,53 @@
           - else
             %h2 In progress
             %hr
-            - @in_progress.each do |order|
-              - if order.order_items.empty?
-                %h2
-                  No items.
-              - else
-                %table.table.table-hover                  
-                  %thead        
-                    %th.col-md-1
-                      Cover
-                    %th.col-md-4
-                      Book
-                    %th.col-md-4
-                      Price
-                    %th.col-md-1
-                      Qty
-                    %th.col-md-2
-                      Total
-                  %tbody
-                    - order.order_items.each do |item|
-                      %tr
+            - if @in_progress.empty?
+              %p No orders in progress
+            - else
+              - @in_progress.each do |order|
+                - if order.order_items.empty?
+                  %h2
+                    No items.
+                - else
+                  %table.table.table-hover                  
+                    %thead        
+                      %th.col-md-1
+                        Cover
+                      %th.col-md-4
+                        Book
+                      %th.col-md-4
+                        Price
+                      %th.col-md-1
+                        Qty
+                      %th.col-md-2
+                        Total
+                    %tbody
+                      - order.order_items.each do |item|
+                        %tr
+                          %td
+                            = image_tag(item.book.img)
+                          %td
+                            = item.book.title
+                          %td
+                            $#{item.book.price}
+                          %td
+                            = item.qty
+                          %td
+                            $#{item.price * item.qty}
+                      %tr.line
+                        %td{colspan: 3}
+                          = link_to 'Continue checkout', edit_user_order_address_path(current_user, order), :class => "btn btn-success"
+                        %td.text-right
+                          %strong
+                            Subtotal
                         %td
-                          = image_tag(item.book.img)
-                        %td
-                          = item.book.title
-                        %td
-                          $#{item.book.price}
-                        %td
-                          = item.qty
-                        %td
-                          $#{item.price * item.qty}
-                    %tr.line
-                      %td{colspan: 3}
-                        = link_to 'Continue checkout', edit_user_order_address_path(current_user, order), :class => "btn btn-success"
-                      %td.text-right
-                        %strong
-                          Subtotal
-                      %td
-                        $#{order.total_price}
+                          $#{order.total_price}
             %br
             %br
             %br
             %h3 Wating for process
             %hr
-              - if @completed.empty?
+              - if @in_queue.empty?
                 %p No procceeded orders
               - else
                 %table.table.table-hover                  
@@ -65,7 +68,7 @@
                       Total
                     %th.col-md-1                    
                   %tbody
-                    - @completed.each do |order|
+                    - @in_queue.each do |order|
                       %tr
                         %td
                           = link_to order.id, user_order_path(current_user, order)
@@ -77,7 +80,7 @@
                           = link_to 'view', user_order_path(current_user, order)        
             %h3 Delivered
             %hr
-              - if @shipped.empty?
+              - if @delivered.empty?
                 %p No delivered orders
               - else      
                 %table.table.table-hover                  
@@ -90,7 +93,7 @@
                       Total
                     %th.col-md-1                    
                   %tbody
-                    - @shipped.each do |order|
+                    - @delivered.each do |order|
                       %tr
                         %td
                           = link_to order.id, user_order_path(current_user, order)

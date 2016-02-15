@@ -8,17 +8,23 @@
       = link_to 'Payment', '#', :class => "btn btn-default"
       = link_to 'Confirm', '#', :class => "btn btn-default"
       = link_to 'Complete', '#', :class => "btn btn-default"
-  = form_for @address, url: {controller: "addresses", action: "update"}, method: :patch  do |f|
+  = form_for @billing, as: :billing_address, url: {controller: "addresses", action: "update"}, method: :patch  do |f|
     .row
       .col-md-4.col-sm-4
         %h2
           Billing Address  
-        - if @address.errors.any?
+        - if @billing.errors.any?
           #error_explanation.alert.alert-danger
-            %h4= "#{pluralize(@address.errors.count, "error")} prohibited this order from being saved:"
+            %h4= "#{pluralize(@billing.errors.count, "error")} prohibited this order from being saved:"
             %ul
-              - @address.errors.full_messages.each do |msg|
+              - @billing.errors.full_messages.each do |msg|
                 %li= msg
+        .form-group
+          = f.label :firstname
+          = f.text_field :firstname, class: 'form-control', :value => current_user.firstname
+        .form-group
+          = f.label :lastname
+          = f.text_field :lastname, class: 'form-control', :value => current_user.lastname
         .form-group
           = f.label :address
           = f.text_field :address, class: 'form-control'

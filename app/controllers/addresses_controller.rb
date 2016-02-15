@@ -1,36 +1,31 @@
 class AddressesController < ApplicationController
-  before_action :set_address, only: [:edit, :update, :editshipping, :addshipping]
+  before_action :set_billing_address, only: [:edit, :update, :editshipping, :addshipping]
   before_action :set_order, only: [:edit, :editshipping, :addshipping, :update]
   before_action :set_shipping_address, only: [:addshipping, :editshipping, :update]
 
   def edit
-    @order = Order.find(params[:order_id])
   end
 
   def update
     respond_to do |format|
       if params[:shipping].nil?
         format.html { render :editshipping }
-      elsif @address.update(address_params)
-        @order.address = @address
+      elsif @billing.update(billing_params)
+        @order.address = @billing
         format.html { redirect_to user_order_shippings_path(current_user, @order), notice: "Order was successfully updated" }
-        #format.json { render :show, status: :ok, location: @order }
       else
         format.html { render :edit }
-        #format.json { render json: @order.errors, status: :unprocessable_entity }
       end
     end
   end
 
   def addshipping
     respond_to do |format|
-      if @shipping_address.update(address_params)
-        @order.address = @shipping_address
+      if @shipping.update(shipping_params)
+        @order.address = @shipping
         format.html { redirect_to user_order_shippings_path, notice: "Order was successfully updated" }
-        #format.json { render :show, status: :ok, location: @order }
       else
         format.html { render :editshipping }
-        #format.json { render json: @order.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -39,16 +34,19 @@ class AddressesController < ApplicationController
   end
 
   private
-  def address_params
-    params.require(:address).permit(:address, :zipcode, :city, :phone, :country)
+  def billing_params
+    params.require(:billing_address).permit(:firstname, :lastname, :address, :zipcode, :city, :phone, :country)
   end
 
-  def set_address
-    @address = Address.where(:user_billing_id => current_user).first_or_initialize
+  def shipping_params
+    params.require(:shipping_address).permit(:firstname, :lastname, :address, :zipcode, :city, :phone, :country)
+  end
+  def set_billing_address
+    @billing = current_user.billing
   end
 
   def set_shipping_address
-    @shipping_address = Address.where(:user_shipping_id => current_user).first_or_initialize
+    @shipping = current_user.shipping
   end
 
   def set_order

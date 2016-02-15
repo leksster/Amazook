@@ -15,22 +15,28 @@
         Billing Address 
         = link_to '(edit)', edit_user_order_address_path(current_user, @order)
       %p
-        = current_user.billing.address
+        = current_user.addresses.find_by(type: 'BillingAddress').firstname
+        = current_user.addresses.find_by(type: 'BillingAddress').lastname
         %br
-        = current_user.billing.zipcode
+        = current_user.addresses.find_by(type: 'BillingAddress').address
         %br
-        = current_user.billing.zipcode
+        = current_user.addresses.find_by(type: 'BillingAddress').zipcode
         %br
-        = current_user.billing.city
+        = current_user.addresses.find_by(type: 'BillingAddress').zipcode
         %br
-        = current_user.billing.phone
+        = current_user.addresses.find_by(type: 'BillingAddress').city
         %br
-        = current_user.billing.country
+        = current_user.addresses.find_by(type: 'BillingAddress').phone
+        %br
+        = current_user.addresses.find_by(type: 'BillingAddress').country
     .col-md-3.col-sm-3
       %h4
         Shipping Address 
         = link_to '(edit)', editshipping_user_order_address_path(current_user, @order)
       %p
+        = @order.address.firstname
+        = @order.address.lastname
+        %br
         = @order.address.address
         %br
         = @order.address.zipcode

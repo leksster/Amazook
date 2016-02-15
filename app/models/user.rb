@@ -3,8 +3,8 @@ class User < ActiveRecord::Base
   has_many :ratings
   has_many :orders, dependent: :destroy
   has_many :credit_cards
-  has_one :billing, :class_name => 'Address', :foreign_key => 'user_billing_id'
-  has_one :shipping, :class_name => 'Address', :foreign_key => 'user_shipping_id'
+  has_many :addresses, dependent: :destroy
+  accepts_nested_attributes_for :addresses
 
   validates :email, uniqueness: true
   validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
@@ -26,6 +26,14 @@ class User < ActiveRecord::Base
     end
   end
 
+
+  def billing
+    self.addresses.where(type: 'BillingAddress').first_or_initialize
+  end
+
+  def shipping
+    self.addresses.where(type: 'ShippingAddress').first_or_initialize
+  end
   # Provided for Rails Admin to allow the password to be reset
   def new_password; nil; end
 

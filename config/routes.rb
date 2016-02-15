@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     patch 'update_billing', on: :member
     patch 'update_shipping', on: :member
     patch 'update_password', on: :member
+    patch 'update_email', on: :member
     resources :orders do
       resource :credit_card, only: [:edit, :update]
       resources :shippings, only: [:index, :update]

@@ -5,8 +5,8 @@ class OrdersController < ApplicationController
     if user_signed_in?
       @orders = current_user.orders.order(id: :desc).page(params[:page]).per(5)
       @in_progress = current_user.orders.where(aasm_state: 'in_progress').order(id: :desc)
-      @completed = current_user.orders.where(aasm_state: 'completed').order(id: :desc)
-      @shipped = current_user.orders.where(aasm_state: 'shipped').order(id: :desc)
+      @in_queue = current_user.orders.where(aasm_state: 'in_queue').order(id: :desc)
+      @delivered = current_user.orders.where(aasm_state: 'delivered').order(id: :desc)
     else
       redirect_to new_user_session_path, alert: 'You must sign in.'
     end
@@ -19,7 +19,7 @@ class OrdersController < ApplicationController
   end
 
   def completed
-    if @order.complete!
+    if @order.queued!
       @order.total_price += @order.shipping.costs
       @order.save
       redirect_to user_order_path, notice: "Your order is completed."
@@ -30,10 +30,8 @@ class OrdersController < ApplicationController
     respond_to do |format|
       if @order.update(order_params)
         format.html { redirect_to edit_user_order_credit_card_path(current_user, @order), notice: "Order was successfully updated" }
-        #format.json { render :show, status: :ok, location: @order }
       else
         format.html { render :address }
-        #format.json { render json: @order.errors, status: :unprocessable_entity }
       end
     end
   end

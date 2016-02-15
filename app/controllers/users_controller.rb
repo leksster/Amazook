@@ -8,19 +8,9 @@ class UsersController < ApplicationController
   def edit
   end
 
-  def update
-    respond_to do |format|
-      if @user.update(user_email_params)
-        format.html { redirect_to edit_user_path, notice: 'Email updated.' }
-      else
-        format.html { render :edit }
-      end
-    end
-  end
-
   def update_billing
     respond_to do |format|
-      if @billing.update(address_params)
+      if @billing.update(billing_params)
         format.html { redirect_to edit_user_path, notice: 'Billing address was successfully updated.' }
       else
         format.html { render :edit }
@@ -30,7 +20,7 @@ class UsersController < ApplicationController
 
   def update_shipping
     respond_to do |format|
-      if @shipping.update(address_params)
+      if @shipping.update(shipping_params)
         format.html { redirect_to edit_user_path, notice: 'Shipping address was successfully updated.' }
       else
         format.html { render :edit }
@@ -49,19 +39,33 @@ class UsersController < ApplicationController
     end
   end
 
+  def update_email
+    respond_to do |format|
+      if @user.update(user_email_params)
+        format.html { redirect_to edit_user_path, notice: 'Email updated.' }
+      else
+        format.html { render :edit }
+      end
+    end
+  end
+
   private
     def set_user
       @user = current_user
     end
 
     def set_addresses
-      @billing = Address.where(:user_billing_id => set_user).first_or_initialize
-      @shipping = Address.where(:user_shipping_id => set_user).first_or_initialize
+      @billing = @user.billing
+      @shipping = @user.shipping
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
-    def address_params
-      params.require(:address).permit(:address, :zipcode, :city, :phone, :country)
+    def billing_params
+      params.require(:billing_address).permit(:firstname, :lastname, :address, :zipcode, :city, :phone, :country)
+    end
+
+    def shipping_params
+      params.require(:shipping_address).permit(:firstname, :lastname, :address, :zipcode, :city, :phone, :country)
     end
 
     def user_email_params

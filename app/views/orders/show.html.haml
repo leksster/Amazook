@@ -4,25 +4,28 @@
     .col-md-3.col-sm-3
       %h4
         Billing Address
-      - unless current_user.billing.nil?
-
-        %p
-          = current_user.billing.address
-          %br
-          = current_user.billing.zipcode
-          %br
-          = current_user.billing.zipcode
-          %br
-          = current_user.billing.city
-          %br
-          = current_user.billing.phone
-          %br
-          = current_user.billing.country
+      = current_user.addresses.find_by(type: 'BillingAddress').firstname
+      = current_user.addresses.find_by(type: 'BillingAddress').lastname
+      %br
+      = current_user.addresses.find_by(type: 'BillingAddress').address
+      %br
+      = current_user.addresses.find_by(type: 'BillingAddress').zipcode
+      %br
+      = current_user.addresses.find_by(type: 'BillingAddress').zipcode
+      %br
+      = current_user.addresses.find_by(type: 'BillingAddress').city
+      %br
+      = current_user.addresses.find_by(type: 'BillingAddress').phone
+      %br
+      = current_user.addresses.find_by(type: 'BillingAddress').country
     .col-md-3.col-sm-3
       %h4
         Shipping Address 
       - unless @order.address.nil?
         %p
+          = @order.address.firstname
+          = @order.address.lastname
+          %br
           = @order.address.address
           %br
           = @order.address.zipcode

@@ -24,7 +24,7 @@
               Signed in as
               = link_to current_user.firstname, edit_user_path(current_user)
           %li
-            = link_to 'Orders', user_orders_path(current_user)
+            = link_to "Orders (#{ Order.all.where(aasm_state: 'in_progress').count })", user_orders_path(current_user)
           %li
             = link_to 'Log out', destroy_user_session_path, :method => :delete
         - else
