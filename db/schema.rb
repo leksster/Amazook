@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160215151157) do
+ActiveRecord::Schema.define(version: 20160215224939) do
 
   create_table "addresses", force: :cascade do |t|
     t.string   "address"
@@ -114,6 +114,7 @@ ActiveRecord::Schema.define(version: 20160215151157) do
     t.datetime "updated_at",  null: false
     t.integer  "book_id"
     t.integer  "user_id"
+    t.string   "aasm_state"
   end
 
   add_index "ratings", ["book_id"], name: "index_ratings_on_book_id"

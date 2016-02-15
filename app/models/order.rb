@@ -5,7 +5,6 @@ class Order < ActiveRecord::Base
   belongs_to :credit_card
   belongs_to :shipping
   has_one :address
-  belongs_to :shipping
   has_many :order_items, dependent: :destroy
 
   validates :total_price, :completed_date, :aasm_state, presence: true

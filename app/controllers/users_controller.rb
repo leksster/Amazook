@@ -55,8 +55,8 @@ class UsersController < ApplicationController
     end
 
     def set_addresses
-      @billing = @user.billing
-      @shipping = @user.shipping
+      @billing = Address.where(:user => current_user, :type => 'BillingAddress').first_or_initialize
+      @shipping = Address.where(:user => current_user, :type => 'ShippingAddress').first_or_initialize
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

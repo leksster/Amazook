@@ -1,4 +1,4 @@
-describe Category do
+RSpec.describe Category, type: :model do
   subject(:category) { Category.new(title: 'yo') }
   
   it 'should be a Category class' do

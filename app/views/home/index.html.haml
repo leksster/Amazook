@@ -23,14 +23,14 @@
                     = book.description
                 .ratings
                   %p.pull-right
-                    = book.ratings.count 
+                    = book.ratings.where(:aasm_state => 'approved').count 
                     reviews
                   %p
                     - 5.times do |n|
-                      - if book.ratings.average(:rating).nil?
+                      - if book.ratings.where(:aasm_state => 'approved').average(:rating).nil?
                         Not rated yet
                         - break
-                      - elsif book.ratings.average(:rating).ceil > n
+                      - elsif book.ratings.where(:aasm_state => 'approved').average(:rating).ceil > n
                         %span.glyphicon.glyphicon-star
                       - else
                         %span.glyphicon.glyphicon-star-empty
