@@ -8,7 +8,7 @@
     Shipping:
     %strong
       = number_to_currency(Order.find(params[:order_id]).shipping.costs)
-%p
-  Order Total:
-  %strong
-    = number_to_currency(Order.find(params[:order_id]).total_price)
+  %p
+    Order Total:
+    %strong
+      = number_to_currency(Order.find(params[:order_id]).total_price + Order.find(params[:order_id]).shipping.costs)
