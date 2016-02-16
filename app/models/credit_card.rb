@@ -3,6 +3,7 @@ class CreditCard < ActiveRecord::Base
   has_many :orders
 
   validates :number, :cvv, :expiration_year, :expiration_month, :firstname, :lastname, presence: true
+  validates :number, :cvv, :expiration_year, :expiration_month, numericality: true
 
   def name
     number
