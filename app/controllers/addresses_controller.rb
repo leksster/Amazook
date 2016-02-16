@@ -1,7 +1,9 @@
 class AddressesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_billing_address, only: [:edit, :update, :editshipping, :addshipping]
   before_action :set_order, only: [:edit, :editshipping, :addshipping, :update]
   before_action :set_shipping_address, only: [:addshipping, :editshipping, :update]
+
 
   def edit
   end

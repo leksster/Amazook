@@ -1,7 +1,7 @@
 %p
   Item Total:
   %strong
-    = number_to_currency(Order.find(params[:order_id]).order_items.sum(:price))
+    = number_to_currency(Order.find(params[:order_id]).total_price)
 
 - unless Order.find(params[:order_id]).shipping.nil?
   %p

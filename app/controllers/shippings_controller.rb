@@ -1,5 +1,6 @@
 class ShippingsController < ApplicationController
   before_action :set_services, only: [:index]
+  before_action :authenticate_user!
 
   def index
   end

@@ -1,5 +1,6 @@
 class CreditCardsController < ApplicationController
   before_action :set_card, only: [:edit, :update]
+  before_action :authenticate_user!
 
   def edit
     
