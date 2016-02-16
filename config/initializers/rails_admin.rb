@@ -27,6 +27,26 @@ RailsAdmin.config do |config|
     end
   end
 
+  config.model Rating do
+    edit do
+      field :aasm_state do
+        label 'State'
+      end
+      field :review_text
+      field :rating
+      field :created_at
+      field :updated_at
+    end
+    list do
+      field :id
+      field :aasm_state do
+        label 'State'
+      end
+      field :review_text
+      field :rating
+    end
+  end
+
   ### Popular gems integration
 
   ## == Devise ==
