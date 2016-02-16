@@ -8,11 +8,11 @@ class AddressesController < ApplicationController
 
   def update
     respond_to do |format|
-      if params[:shipping].nil?
+      if params[:shipping].nil? && @billing.update(billing_params)
         format.html { render :editshipping }
       elsif @billing.update(billing_params)
         @order.address = @billing
-        format.html { redirect_to user_order_shippings_path(current_user, @order), notice: "Order was successfully updated" }
+        format.html { redirect_to order_shippings_path(@order), notice: "Order was successfully updated" }
       else
         format.html { render :edit }
       end
@@ -23,7 +23,7 @@ class AddressesController < ApplicationController
     respond_to do |format|
       if @shipping.update(shipping_params)
         @order.address = @shipping
-        format.html { redirect_to user_order_shippings_path, notice: "Order was successfully updated" }
+        format.html { redirect_to order_shippings_path, notice: "Order was successfully updated" }
       else
         format.html { render :editshipping }
       end

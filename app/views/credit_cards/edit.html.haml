@@ -20,13 +20,11 @@
         %br
         = @order.address.zipcode
         %br
-        = @order.address.zipcode
-        %br
         = @order.address.city
         %br
         = @order.address.phone
         %br
-        = @order.address.country
+        = Country.find(@order.address.country).name
 
     .col-md-4.col-sm-4.text-center
       %h2

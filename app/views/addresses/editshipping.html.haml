@@ -74,7 +74,7 @@
             = ship.collection_select :country, Country.order(:name), :id, :name, {}, {class: 'form-control'}
           .actions
             .col-md-6
-              = link_to 'Back', edit_user_order_address_path, class: 'btn btn-default btn-block'
+              = link_to 'Back', edit_order_address_path, class: 'btn btn-default btn-block'
             .col-md-6
               = ship.submit 'Continue', class: 'btn btn-success btn-block'
       .col-md-4.col-sm-4.text-center

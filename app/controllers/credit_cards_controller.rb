@@ -8,7 +8,7 @@ class CreditCardsController < ApplicationController
   def update
     respond_to do |format|
       if @card.update(card_params)
-        format.html { redirect_to edit_user_order_path(current_user, @card.orders.find(params[:order_id])), notice: "Order was successfully updated" }
+        format.html { redirect_to edit_order_path(@card.orders.find(params[:order_id])), notice: "Order was successfully updated" }
       else
         format.html { render :edit }
       end

@@ -13,7 +13,7 @@
     .col-md-3.col-sm-3
       %h4
         Billing Address 
-        = link_to '(edit)', edit_user_order_address_path(current_user, @order)
+        = link_to '(edit)', edit_order_address_path(@order)
       %p
         = current_user.addresses.find_by(type: 'BillingAddress').firstname
         = current_user.addresses.find_by(type: 'BillingAddress').lastname
@@ -22,17 +22,15 @@
         %br
         = current_user.addresses.find_by(type: 'BillingAddress').zipcode
         %br
-        = current_user.addresses.find_by(type: 'BillingAddress').zipcode
-        %br
         = current_user.addresses.find_by(type: 'BillingAddress').city
         %br
         = current_user.addresses.find_by(type: 'BillingAddress').phone
         %br
-        = current_user.addresses.find_by(type: 'BillingAddress').country
+        = Country.find(current_user.addresses.find_by(type: 'BillingAddress').country).name
     .col-md-3.col-sm-3
       %h4
         Shipping Address 
-        = link_to '(edit)', editshipping_user_order_address_path(current_user, @order)
+        = link_to '(edit)', editshipping_order_address_path(@order)
       %p
         = @order.address.firstname
         = @order.address.lastname
@@ -41,17 +39,15 @@
         %br
         = @order.address.zipcode
         %br
-        = @order.address.zipcode
-        %br
         = @order.address.city
         %br
         = @order.address.phone
         %br
-        = @order.address.country
+        = Country.find(@order.address.country).name
     .col-md-3.col-sm-3
       %h4
         Shipments
-        = link_to '(edit)', user_order_shippings_path(current_user, @order)
+        = link_to '(edit)', order_shippings_path(@order)
       %p
         = @order.shipping.company
         %br
@@ -59,7 +55,7 @@
     .col-md-3.col-sm-3
       %h4
         Payment Information
-        = link_to '(edit)', edit_user_order_credit_card_path(current_user, @order)
+        = link_to '(edit)', edit_order_credit_card_path(@order)
       %p
         = @order.credit_card.number
         %br
@@ -126,5 +122,5 @@
   .row
     .col-md-4
     .col-md-4
-      = link_to 'Place order', completed_user_order_path, :class => "btn btn-success btn-lg btn-block"
+      = link_to 'Place order', completed_order_path, method: :post, :class => "btn btn-success btn-lg btn-block"
     .col-md-4

@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+
   get 'cart' => 'cart#index'
   post 'cart/destroy' => 'cart#destroy'
   post 'cart/clear' => 'cart#clear'
@@ -11,32 +13,30 @@ Rails.application.routes.draw do
 
   devise_for :users, :controllers => { registrations: 'registrations', omniauth_callbacks: 'omniauth_callbacks' }
 
-  resources :users do   
-    patch 'update_billing', on: :member
-    patch 'update_shipping', on: :member
-    patch 'update_password', on: :member
-    patch 'update_email', on: :member
-    resources :orders do
-      resource :credit_card, only: [:edit, :update]
-      resources :shippings, only: [:index, :update]
-      resource :address, only: [:shipping, :update, :edit] do
-        post 'addshipping', on: :member
-        get 'editshipping' => 'addresses#editshipping'
-      end
+  devise_scope :user do   
+    get 'user/edit', :to => 'registrations#edit'
+    patch 'user/update_billing', :to => 'registrations#update_billing'
+    patch 'user/update_shipping', :to => 'registrations#update_shipping'
+    patch 'user/update_password', :to => 'registrations#update_password'
+    patch 'user/update_email', :to => 'registrations#update_email'
+  end
 
-      get 'completed', on: :member
+  resources :orders do
+    resource :credit_card, only: [:edit, :update]
+    resources :shippings, only: [:index, :update]
+    resource :address, only: [:shipping, :update, :edit] do
+      post 'addshipping', on: :member
+      get 'editshipping' => 'addresses#editshipping'
     end
-  end  
+    post 'completed', on: :member
+  end
 
 
   resources :home, only: :index
-
-  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   resources :books, only: [:index, :show] do 
     get 'cart/add' => 'cart#add'
     resources :ratings, only: [:show, :new, :create, :edit]
   end
-  
   resources :categories, only: [:index, :show]
   resources :authors, only: [:index, :show]
 

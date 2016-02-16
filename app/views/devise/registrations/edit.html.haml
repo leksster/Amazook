@@ -1,6 +1,6 @@
 .container
   .row
-    = form_for @billing, as: :billing_address, url: {controller: "users", action: "update_billing"}, method: :patch  do |f|
+    = form_for @billing, as: :billing_address, url: user_update_billing_path, method: :patch  do |f|
       .col-md-6.col-sm-6
         %h2
           Billing Address  
@@ -36,7 +36,7 @@
     .col-md-6.col-sm-6
       %h2
         Shipping Address 
-      = form_for @shipping, as: :shipping_address, url: { controller: "users", action: "update_shipping" }, method: :patch do |f|
+      = form_for @shipping, as: :shipping_address, url: user_update_shipping_path, method: :patch do |f|
         - if @shipping.errors.any?
           #error_explanation.alert.alert-danger
             %h4= "#{pluralize(@shipping.errors.count, "error")} prohibited this order from being saved:"
@@ -75,7 +75,7 @@
           %ul
             - @user.errors.full_messages.each do |msg|
               %li= msg
-    = form_for @user, url: {controller: "users", action: "update_email"}, method: :patch  do |f|
+    = form_for @user, url: user_update_email_path, method: :patch  do |f|
       .col-md-6.col-sm-6
         %h2
           Email
@@ -84,7 +84,7 @@
           = f.text_field :email, class: 'form-control'
         .actions
           = f.submit 'Save', class: 'btn btn-success btn-block'
-    = form_for @user, url: {controller: "users", action: "update_password"}, method: :patch  do |f|
+    = form_for @user, url: user_update_password_path, method: :patch  do |f|
       .col-md-6.col-sm-6
         %h2
           Password

@@ -22,14 +22,14 @@ class OrdersController < ApplicationController
     if @order.queued!
       @order.total_price += @order.shipping.costs
       @order.save
-      redirect_to user_order_path, notice: "Your order is completed."
+      redirect_to order_path, notice: "Your order is completed."
     end
   end
 
   def update
     respond_to do |format|
       if @order.update(order_params)
-        format.html { redirect_to edit_user_order_credit_card_path(current_user, @order), notice: "Order was successfully updated" }
+        format.html { redirect_to edit_order_credit_card_path(@order), notice: "Order was successfully updated" }
       else
         format.html { render :address }
       end
@@ -38,7 +38,7 @@ class OrdersController < ApplicationController
 
   private
     def set_order
-      @order = current_user.orders.find(params[:id])
+      @order = Order.find(params[:id])
     end
     
     def order_params
@@ -47,7 +47,7 @@ class OrdersController < ApplicationController
 
     def order_validate
       if @order.nil? || !@order.in_progress?
-        redirect_to user_orders_path
+        redirect_to orders_path
       end
     end
 end

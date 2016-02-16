@@ -11,13 +11,11 @@
       %br
       = current_user.addresses.find_by(type: 'BillingAddress').zipcode
       %br
-      = current_user.addresses.find_by(type: 'BillingAddress').zipcode
-      %br
       = current_user.addresses.find_by(type: 'BillingAddress').city
       %br
       = current_user.addresses.find_by(type: 'BillingAddress').phone
       %br
-      = current_user.addresses.find_by(type: 'BillingAddress').country
+      = Country.find(current_user.addresses.find_by(type: 'BillingAddress').country).name
     .col-md-3.col-sm-3
       %h4
         Shipping Address 
@@ -30,13 +28,11 @@
           %br
           = @order.address.zipcode
           %br
-          = @order.address.zipcode
-          %br
           = @order.address.city
           %br
           = @order.address.phone
           %br
-          = @order.address.country
+          = Country.find(@order.address.country).name
     .col-md-3.col-sm-3
       %h4
         Shipments
@@ -114,9 +110,9 @@
                     = number_to_currency(@order.total_price)
   .row
     .col-md-4
-      = link_to 'Back to orders', user_orders_path, :class => "btn btn-default btn-block"
+      = link_to 'Back to orders', orders_path, :class => "btn btn-default btn-block"
     .col-md-4
 
     .col-md-4
       - if @order.in_progress?
-        = link_to 'Continue checkout', edit_user_order_address_path(current_user, @order), :class => "btn btn-success btn-block"
+        = link_to 'Continue checkout', edit_order_address_path(@order), :class => "btn btn-success btn-block"

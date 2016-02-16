@@ -19,12 +19,10 @@
             %span.glyphicon.glyphicon-shopping-cart
             = "Cart: (#{ session[:cart].nil? ? "EMPTY" : session[:cart].values.inject(0){|sum, x| sum + x} })"
         - if signed_in?
+          %li              
+            = link_to "Settings (#{current_user.firstname})", edit_user_registration_path
           %li
-            %p.navbar-text 
-              Signed in as
-              = link_to current_user.firstname, edit_user_path(current_user)
-          %li
-            = link_to "Orders (#{ Order.all.where(aasm_state: 'in_progress').count })", user_orders_path(current_user)
+            = link_to "Orders", orders_path
           %li
             = link_to 'Log out', destroy_user_session_path, :method => :delete
         - else
