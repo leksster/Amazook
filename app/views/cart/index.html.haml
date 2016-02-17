@@ -4,8 +4,8 @@
       .thumbnail
         .caption-full
           = form_tag url_for(:controller => 'cart', :action => 'update'), method: 'post' do
-            - if @books.nil?
-              = @empty          
+            - if @cart.books.empty?
+              empty
             - else
               %table.table.table-hover
                 %thead
@@ -21,7 +21,7 @@
                     Total
                   %th.col-md-1
                 %tbody                
-                  - @books.each do |book|
+                  - @cart.books.each_with_index do |book, index|
                     %tr
                       %td
                         %img{src: "#{asset_path(book.img)}"}
@@ -30,10 +30,9 @@
                       %td
                         = number_to_currency(book.price)
                       %td
-                        = hidden_field_tag :book_id, book.id
-                        = number_field_tag :qty, "#{session[:cart][book.id.to_s]}", class: 'form-control', min: '1', max: '99', :id => book.id.to_s
+                        = number_field_tag book.id, "#{@cart.session[book.id.to_s]}", class: 'form-control', min: '1', max: '99', :id => book.id.to_s
                       %td
-                        = number_to_currency(book.price * session[:cart][book.id.to_s])
+                        = number_to_currency(book.price * @cart.session[book.id.to_s])
                       %td
                         = link_to 'X', {:controller => 'cart', :action => 'destroy', :id => book.id.to_s}, class: 'btn btn-danger btn-xs', method: :post
                   %tr
@@ -43,7 +42,7 @@
                         %strong
                           Subtotal
                     %td
-                      = number_to_currency(@subtotal)
+                      = number_to_currency(@cart.subtotal)
                     %td
               .row
                 .col-xs-6

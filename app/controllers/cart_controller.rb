@@ -1,9 +1,8 @@
 class CartController < ApplicationController
-  before_action :cart_data, only: [:index, :checkout]
+  before_action :cart_data
   before_action :create_order, only: :checkout
 
   def index
-    # cart_data
   end
 
   def checkout
@@ -12,57 +11,40 @@ class CartController < ApplicationController
         format.html { redirect_to edit_order_address_path(@order), notice: 'In order to proceed, please provide additional details.' }
         session.delete(:cart)
       else
-        format.html { render :index }
-        @errors = @order.errors
+        format.html { redirect_to cart_path, alert: "Something went wrong" }
       end
     end
   end
 
   def add
-    @book = Book.find(params[:book_id])
-    session[:cart] ||= {}
-    session[:cart][@book.id.to_s].nil? ? session[:cart][@book.id.to_s] = params[:qty].to_i : session[:cart][@book.id.to_s] += params[:qty].to_i
+    @cart.add(params[:book_id].to_s, params[:qty].to_i)
     redirect_to cart_url
   end
 
   def update
-    session[:cart][params[:book_id]] = params[:qty].to_i
-    redirect_to cart_url
+    @cart.update(params)
+    render :index
   end
 
   def destroy
     session[:cart].delete(params[:id])
-    if session[:cart].empty?
-      session.delete(:cart)
-    end
     redirect_to cart_url
   end
 
   def clear
-    session.destroy
+    session.delete(:cart)
     redirect_to cart_url
   end
 
   private 
   def cart_data
-    @subtotal = 0
-    @empty = t('empty_cart')
-    if !session[:cart].nil?
-      @books = Book.find(session[:cart].keys)
-      session[:cart].each do |k, v|
-        @subtotal += Book.find(k).price * v
-      end
-    end
+    @cart = Cart.new(session[:cart] ||= {})
   end
 
   def create_order
     if user_signed_in?
-      @order = current_user.orders.new(total_price: @subtotal, completed_date: Time.now) #???
-      @books.each do |book|
-        item = OrderItem.new(price: book.price, qty: session[:cart][book.id.to_s])
-        item.book = book
-        @order.order_items << item
-      end
+      @order = current_user.orders.new(total_price: @cart.subtotal, completed_date: Time.now) #???
+      @order.order_items << @cart.order_items
     else
       redirect_to new_user_session_path, alert: 'You must sign in.'
     end
