@@ -11,7 +11,6 @@ class User < ActiveRecord::Base
   accepts_nested_attributes_for :shipping_address
   accepts_nested_attributes_for :billing_address
 
-  validates :email, uniqueness: true
   validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
 
 

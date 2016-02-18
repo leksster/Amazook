@@ -1,0 +1,16 @@
+language: ruby
+rvm:
+  - 2.2.2
+before_install: 
+  - gem install bundler -v 1.11.2
+  - bundle update
+
+services:
+  - postgresql
+
+before_script:
+  - psql -c 'create database travis_ci_test;' -U postgres
+  - "rake db:drop RAILS_ENV=test"
+  - "rake db:create RAILS_ENV=test"
+  - "rake db:schema:load"
+  - "rake db:seed"

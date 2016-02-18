@@ -6,9 +6,4 @@ class BooksController < ApplicationController
   def show
     @book = Book.find(params[:id])
   end
-
-  def buy
-    @book = Book.find(params[:id])
-    session[:cart] = @book.id
-  end
 end

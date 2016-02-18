@@ -13,6 +13,8 @@ gem 'coffee-rails', '~> 4.1.0'
 # gem 'therubyracer', platforms: :ruby
 gem 'devise', '~> 3.5.5'
 
+gem 'cancancan', '~> 1.10'
+
 gem 'pg'
 
 gem 'aasm'
@@ -56,6 +58,7 @@ group :development, :test do
   gem 'shoulda-matchers', '~> 3.0'
   gem 'capybara'
   gem 'database_cleaner', '~> 1.5', '>= 1.5.1'
+  gem 'factory_girl_rails'
   
   gem 'rspec-rails', '~> 3.0'
   gem 'hirb'

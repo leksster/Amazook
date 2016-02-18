@@ -1,6 +1,6 @@
 class RegistrationsController < Devise::RegistrationsController
   before_action :set_user
-  before_action :set_addresses, only: [:edit, :update_billing, :update_shipping]
+  before_action :set_addresses, :except => [:show]
 
   def show
   end
