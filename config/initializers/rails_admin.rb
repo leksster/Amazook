@@ -36,6 +36,7 @@ RailsAdmin.config do |config|
       field :review_text
       field :rating
       field :user
+      field :book
       field :created_at
       field :updated_at
     end

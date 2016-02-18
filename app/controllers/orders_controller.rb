@@ -14,9 +14,9 @@ class OrdersController < ApplicationController
   end
 
   def show
-  end
-
-  def edit
+    if @order.user != current_user
+      redirect_to orders_path
+    end
   end
 
   def completed

@@ -14,7 +14,7 @@ class RatingsController < ApplicationController
     @rating.user = current_user
 
     if not_reviewed? && @rating.save
-      redirect_to @book, notice: 'Saved.'
+      redirect_to @book, notice: 'Pending.'
     else
       redirect_to new_book_rating_url, alert: 'Not saved'
     end
