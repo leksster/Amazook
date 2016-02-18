@@ -13,7 +13,7 @@ class RatingsController < ApplicationController
     @rating = @book.ratings.new(rating_params)
     @rating.user = current_user
 
-    if @rating.save
+    if not_reviewed? && @rating.save
       redirect_to @book, notice: 'Saved.'
     else
       redirect_to new_book_rating_url, alert: 'Not saved'
@@ -21,6 +21,11 @@ class RatingsController < ApplicationController
   end
 
   private
+
+  def not_reviewed?
+    @book.ratings.where(:user => current_user).empty?
+  end
+
   def set_book
     @book = Book.find(params[:book_id])
   end
