@@ -1,5 +1,5 @@
 RSpec.describe User, type: :model do
-  subject(:user) { build(:user) }
+  subject(:user) { create(:user) }
 
   it { should have_db_column(:email).of_type(:string) }
   it { should have_db_column(:encrypted_password).of_type(:string) }
@@ -23,7 +23,6 @@ RSpec.describe User, type: :model do
 
   it { should allow_value("email@me.com").for(:email) }
   it { should_not allow_value("WSvd@asfgW").for(:email) }
-  
 
   it { should validate_uniqueness_of(:email).case_insensitive }
 end
