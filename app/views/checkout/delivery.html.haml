@@ -1,0 +1,52 @@
+.container
+  .row.text-center
+    %h2.text-center
+      Checkout
+    = render 'progress'
+  .row
+    .col-md-4.col-sm-4
+      %h2
+        Shipping Address 
+      %p
+        = @order.address.firstname
+        = @order.address.lastname
+        %br
+        = @order.address.address
+        %br
+        = @order.address.zipcode
+        %br
+        = @order.address.city
+        %br
+        = @order.address.phone
+        %br
+        = Country.find(@order.address.country).name
+
+    .col-md-4.col-sm-4.text-center
+      %h2
+        Delivery services
+      = form_for @order, url: wizard_path do |f|
+        - if @order.errors.any?
+          #error_explanation
+            %h2= "#{pluralize(@order.errors.count, "error")} prohibited this order from being saved:"
+            %ul
+              - @order.errors.full_messages.each do |msg|
+                %li= msg
+        
+        .form-group
+          - Shipping.all.each do |company|
+            .radio
+              %label 
+                = f.radio_button :shipping_id, company.id, :checked => true
+                = "#{company.company}, $#{company.costs}"
+
+        .actions
+          .col-md-6
+            = link_to 'Back', previous_wizard_path, class: 'btn btn-default btn-block'
+          .col-md-6
+            = f.submit 'Continue', class: 'btn btn-success btn-block'
+
+    .col-md-4.col-sm-4.text-center
+      %h2
+        Order Summary
+      = render 'summary'
+

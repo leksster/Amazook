@@ -1,0 +1,69 @@
+.container
+  .row.text-center
+    %h2.text-center
+      Checkout
+    = render 'progress'
+  .row
+    = render 'overview'
+  
+  .row
+    .col-md-12
+      .thumbnail
+        .caption-full
+          %h2
+            = "Order##{@order.id}"
+            %small
+              %i
+                = @order.aasm.human_state
+          - if @order.order_items.empty?
+            %h2
+              No items.
+          - else
+            %table.table.table-hover                  
+              %thead        
+                %th.col-md-1
+                  Cover
+                %th.col-md-4
+                  Book
+                %th.col-md-4
+                  Price
+                %th.col-md-1
+                  Qty
+                %th.col-md-2
+                  Total
+              %tbody
+                - @order.order_items.each do |item|
+                  %tr
+                    %td
+                      = image_tag(item.book.img)
+                    %td
+                      = item.book.title
+                    %td
+                      $#{item.book.price}
+                    %td
+                      = item.qty
+                    %td
+                      $#{item.price * item.qty}
+                %tr.line
+                  %td{colspan: 2}
+                  %td.text-right{colspan: 2}
+                    %strong
+                      Subtotal:
+                      %br
+                      Shipping:
+                  %td
+                    = number_to_currency(@order.subtotal)
+                    %br
+                    = number_to_currency(@order.shipping.costs)
+                %tr
+                  %td{colspan: 2}
+                  %td.text-right{colspan: 2}
+                    %strong
+                      Order total:
+                  %td
+                    = number_to_currency(@order.total_price + @order.shipping.costs)
+  .row
+    .col-md-4
+    .col-md-4
+      = link_to 'Place order', completed_order_path(@order), method: :post, :class => "btn btn-success btn-lg btn-block"
+    .col-md-4

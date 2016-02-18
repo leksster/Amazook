@@ -21,6 +21,8 @@ gem 'kaminari'
 
 gem 'rails_12factor', group: :production
 
+gem 'reform'
+
 gem 'rails_admin'
 # Use jquery as the JavaScript library
 gem 'rails_admin_aasm'
@@ -40,6 +42,8 @@ gem 'faker'
 gem 'haml-rails'
 
 gem 'omniauth-facebook'
+
+gem 'wicked'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

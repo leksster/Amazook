@@ -1,0 +1,69 @@
+.container
+  .row.text-center
+    %h2.text-center
+      Checkout
+    = render 'progress'
+  .row
+    .col-md-4.col-sm-4
+      %h2
+        Shipping Address 
+      %p
+        = @order.address.firstname
+        = @order.address.lastname
+        %br
+        = @order.address.address
+        %br
+        = @order.address.zipcode
+        %br
+        = @order.address.city
+        %br
+        = @order.address.phone
+        %br
+        = Country.find(@order.address.country).name
+
+    .col-md-4.col-sm-4.text-center
+      %h2
+        Credentials
+      = form_for @user, url: wizard_path do |f|
+        - if @user.errors.any?
+          #error_explanation.alert.alert-danger
+            %h4= "#{pluralize(@user.errors.count, "error")} prohibited this order from being saved:"
+            %ul
+              - @user.errors.full_messages.each do |msg|
+                %li= msg
+        = f.fields_for :credit_card do |ff|
+          .form-group
+            = ff.label :number
+            = ff.text_field :number, class: 'form-control'
+          .form-group
+            .row    
+              .col-xs-6
+                = ff.label :expiration_month
+                = ff.collection_select :expiration_month, CreditCard.months, :to_s, :to_s, {:selected => @user.card.expiration_month || '01'}, :class => 'form-control'
+              .col-xs-6
+                = ff.label :expiration_year
+                = ff.collection_select :expiration_year, CreditCard.years, :to_s, :to_s, {:selected => @user.card.expiration_year || Time.now.year.to_s}, :class => 'form-control'
+          .form-group
+            = ff.label :cvv
+            .form-inline
+              = ff.text_field :cvv, class: 'form-control form-inline one-line'
+              = link_to 'What is this?', '#'
+                
+          .form-group
+            = ff.label :firstname
+            = ff.text_field :firstname, class: 'form-control', :value => current_user.firstname
+          .form-group
+            = ff.label :lastname
+            = ff.text_field :lastname, class: 'form-control', :value => current_user.lastname
+
+          .actions
+            .col-md-6
+              = link_to 'Back', previous_wizard_path, class: 'btn btn-default btn-block'
+            .col-md-6
+              = f.submit 'Continue', class: 'btn btn-success btn-block'
+    .col-md-4.col-sm-4.text-center
+      %h2
+        Order Summary
+      = render 'summary'
+
+

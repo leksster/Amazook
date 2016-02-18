@@ -4,6 +4,9 @@ class CreditCard < ActiveRecord::Base
 
   validates :number, :cvv, :expiration_year, :expiration_month, :firstname, :lastname, presence: true
   validates :number, :cvv, :expiration_year, :expiration_month, numericality: true
+  validates :number, :length => { :is => 16 }
+  validates :cvv, :length => { :is => 3 }
+
 
   def name
     number
@@ -14,6 +17,6 @@ class CreditCard < ActiveRecord::Base
   end
 
   def self.years
-    (Time.now.year..Time.now.year+20).to_a
+    (Time.now.year+1..Time.now.year+50).to_a
   end
 end

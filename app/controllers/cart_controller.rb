@@ -8,7 +8,7 @@ class CartController < ApplicationController
   def checkout
     respond_to do |format|
       if @order.save
-        format.html { redirect_to edit_order_address_path(@order), notice: 'In order to proceed, please provide additional details.' }
+        format.html { redirect_to order_checkout_index_path(@order), notice: 'In order to proceed, please provide additional details.' }
         session.delete(:cart)
       else
         format.html { redirect_to cart_path, alert: "Something went wrong" }

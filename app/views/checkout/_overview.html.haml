@@ -1,0 +1,53 @@
+%br
+.col-md-3.col-sm-3
+  %h4
+    Billing Address 
+    = link_to '(edit)', wizard_path(:billing)
+  %p
+    = current_user.billing.firstname
+    = current_user.billing.lastname
+    %br
+    = current_user.billing.address
+    %br
+    = current_user.billing.zipcode
+    %br
+    = current_user.billing.city
+    %br
+    = current_user.billing.phone
+    %br
+    = Country.find(current_user.billing.country).name
+.col-md-3.col-sm-3
+  %h4
+    Shipping Address 
+    = link_to '(edit)', wizard_path(:shipping)
+  %p
+    = @order.address.firstname
+    = @order.address.lastname
+    %br
+    = @order.address.address
+    %br
+    = @order.address.zipcode
+    %br
+    = @order.address.city
+    %br
+    = @order.address.phone
+    %br
+    = Country.find(@order.address.country).name
+.col-md-3.col-sm-3
+  %h4
+    Shipments
+    = link_to '(edit)', wizard_path(:delivery)
+  %p
+    = @order.shipping.company
+    %br
+    = @order.shipping.costs
+.col-md-3.col-sm-3
+  %h4
+    Payment Information
+    = link_to '(edit)', wizard_path(:payment)
+  %p
+    = @order.credit_card.number
+    %br
+    = @order.credit_card.expiration_month
+    #{"/"}
+    = @order.credit_card.expiration_year

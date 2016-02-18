@@ -7,7 +7,6 @@ Rails.application.routes.draw do
   post 'cart/checkout' => 'cart#checkout'
   post 'cart/update' => 'cart#update'  
 
-
   resource :address, only: [:edit, :update]
 
 
@@ -22,6 +21,7 @@ Rails.application.routes.draw do
   end
 
   resources :orders do
+    resources :checkout
     resource :credit_card, only: [:edit, :update]
     resources :shippings, only: [:index, :update]
     resource :address, only: [:shipping, :update, :edit] do

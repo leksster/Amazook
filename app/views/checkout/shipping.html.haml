@@ -1,0 +1,34 @@
+.container
+  .row.text-center
+    %h2.text-center
+      Checkout
+    = render 'progress'
+  = form_for @user, url: wizard_path do |f|
+    .row
+      .col-md-4.col-sm-4
+        %h2
+          Billing Address  
+        = f.fields_for :billing_address do |ff|
+          = render 'address', ff: ff
+      .col-md-4.col-sm-4.text-center
+        %h2
+          Shipping Address 
+        - if @user.errors.any?
+          #error_explanation.alert.alert-danger
+            %h4= "#{pluralize(@user.errors.count, "error")} prohibited this order from being saved:"
+            %ul
+              - @user.errors.full_messages.each do |msg|
+                %li= msg
+        = f.fields_for :shipping_address do |ss|
+          = render 'address', ff: ss
+          .actions
+            .col-md-6
+              = link_to 'Back', previous_wizard_path, class: 'btn btn-default btn-block'
+            .col-md-6
+              = f.submit 'Continue', class: 'btn btn-success btn-block'
+      .col-md-4.col-sm-4.text-center
+        %h2
+          Order Summary
+        = render 'summary'
+
+

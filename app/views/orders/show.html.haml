@@ -4,18 +4,18 @@
     .col-md-3.col-sm-3
       %h4
         Billing Address
-      = current_user.addresses.find_by(type: 'BillingAddress').firstname
-      = current_user.addresses.find_by(type: 'BillingAddress').lastname
+      = current_user.billing.firstname
+      = current_user.billing.lastname
       %br
-      = current_user.addresses.find_by(type: 'BillingAddress').address
+      = current_user.billing.address
       %br
-      = current_user.addresses.find_by(type: 'BillingAddress').zipcode
+      = current_user.billing.zipcode
       %br
-      = current_user.addresses.find_by(type: 'BillingAddress').city
+      = current_user.billing.city
       %br
-      = current_user.addresses.find_by(type: 'BillingAddress').phone
+      = current_user.billing.phone
       %br
-      = Country.find(current_user.addresses.find_by(type: 'BillingAddress').country).name
+      = Country.find(current_user.billing.country).name
     .col-md-3.col-sm-3
       %h4
         Shipping Address 

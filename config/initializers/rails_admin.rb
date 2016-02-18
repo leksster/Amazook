@@ -9,6 +9,7 @@ RailsAdmin.config do |config|
       field :completed_date
       field :credit_card
       field :shipping
+      field :address
       field :user
       field :created_at
       field :updated_at
