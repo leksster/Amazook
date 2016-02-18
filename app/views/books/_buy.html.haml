@@ -1,12 +1,6 @@
 = form_for @book, :url => book_cart_add_path(@book), :html => {:class => 'form-inline one-line text-center'}, method: :get do |f|
-  - if @book.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@book.errors.count, "error")} prohibited this order from being saved:"
-      %ul
-        - @book.errors.full_messages.each do |msg|
-          %li= msg
   %h2
     = number_to_currency(@book.price)
   .form-group.integer.required.one-line
-    = number_field_tag :qty, '1', class: 'form-control one-line', min: '1', max: '99'
+    = number_field_tag :qty, '1', class: 'form-control one-line', value: '1', min: '1', max: '99'
     = f.submit 'Add to cart', class: 'btn btn-default btn btn-primary'

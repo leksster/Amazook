@@ -3,6 +3,7 @@ class CheckoutController < ApplicationController
 
   before_action :set_user
   before_action :set_order
+  before_action :valid_order
 
   steps :billing, :shipping, :delivery, :payment, :confirm
 
@@ -51,6 +52,10 @@ class CheckoutController < ApplicationController
       @order.credit_card = @user.credit_card
       @order.save
     end
+  end
+
+  def valid_order
+    redirect_to order_path(@order) unless @order.in_progress?
   end
 
   def set_user

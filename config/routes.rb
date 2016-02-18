@@ -20,24 +20,19 @@ Rails.application.routes.draw do
     patch 'user/update_email', :to => 'registrations#update_email'
   end
 
-  resources :orders do
-    resources :checkout
-    resource :credit_card, only: [:edit, :update]
-    resources :shippings, only: [:index, :update]
-    resource :address, only: [:shipping, :update, :edit] do
-      post 'addshipping', on: :member
-      get 'editshipping' => 'addresses#editshipping'
-    end
+  resources :orders, only: [:index, :show] do
     post 'completed', on: :member
+    resources :checkout
   end
 
 
   resources :home, only: :index
-  resources :books, only: [:index, :show] do 
+  resources :categories, only: [:index, :show]
+  resources :books, only: [:show, :index] do 
     get 'cart/add' => 'cart#add'
     resources :ratings, only: [:show, :new, :create, :edit]
   end
-  resources :categories, only: [:index, :show]
+  
   resources :authors, only: [:index, :show]
 
   root to: 'home#index'

@@ -21,8 +21,6 @@ gem 'kaminari'
 
 gem 'rails_12factor', group: :production
 
-gem 'reform'
-
 gem 'rails_admin'
 # Use jquery as the JavaScript library
 gem 'rails_admin_aasm'
