@@ -11,7 +11,7 @@ class RegistrationsController < Devise::RegistrationsController
   def update_billing
     respond_to do |format|
       if @billing.update(billing_params)
-        format.html { redirect_to :back, notice: 'Billing address was successfully updated.' }
+        format.html { redirect_to user_edit_path, notice: 'Billing address was successfully updated.' }
       else
         format.html { render :edit }
       end
@@ -21,7 +21,7 @@ class RegistrationsController < Devise::RegistrationsController
   def update_shipping
     respond_to do |format|
       if @shipping.update(shipping_params)
-        format.html { redirect_to :back, notice: 'Shipping address was successfully updated.' }
+        format.html { redirect_to user_edit_path, notice: 'Shipping address was successfully updated.' }
       else
         format.html { render :edit }
       end
@@ -42,7 +42,7 @@ class RegistrationsController < Devise::RegistrationsController
   def update_email
     respond_to do |format|
       if @user.update(user_email_params)
-        format.html { redirect_to :back, notice: 'Email updated.' }
+        format.html { redirect_to user_edit_path, notice: 'Email updated.' }
       else
         format.html { render :edit }
       end
@@ -55,8 +55,8 @@ class RegistrationsController < Devise::RegistrationsController
     end
 
     def set_addresses
-      @billing = Address.where(:user => current_user, :type => 'BillingAddress').first_or_initialize
-      @shipping = Address.where(:user => current_user, :type => 'ShippingAddress').first_or_initialize
+      @billing = current_user.billing
+      @shipping = current_user.shipping
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

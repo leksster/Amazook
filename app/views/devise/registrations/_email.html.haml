@@ -1,0 +1,8 @@
+%h2
+  Email
+= form_for @user, url: user_update_email_path, method: :patch  do |f|
+  .form-group
+    = f.label :email
+    = f.text_field :email, class: 'form-control'
+  .actions
+    = f.submit 'Save', class: 'btn btn-success btn-block'
