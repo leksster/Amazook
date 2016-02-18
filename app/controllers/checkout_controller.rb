@@ -14,30 +14,45 @@ class CheckoutController < ApplicationController
   end
 
   def update
-    case step
-    when :billing
-      @user.update(user_params)
-      if !params[:shipping].nil?
-        jump_to(:delivery)
-        @order.address = @user.billing
-        @order.save
-      end
-    when :shipping
-      if @user.update(user_params)
-        @order.address = @user.shipping
-      end
-    when :delivery
-      @order.shipping = Shipping.find(params[:order][:shipping_id])
-      @order.save
-    when :payment
-      @user.update(card_params)
-      @order.credit_card = @user.credit_card
-      @order.save
-    end
+    billing_step
+    shipping_step
+    delivery_step
+    payment_step
     render_wizard @user
   end
 
   private
+
+  def billing_step
+    if step == :billing
+      if @user.update(user_params) && !params[:shipping].nil?
+        @order.address = @user.billing
+        jump_to(:delivery)
+      end
+    end
+  end
+
+  def shipping_step
+    if step == :shipping
+      if @user.update(user_params)
+        @order.address = @user.shipping
+      end
+    end
+  end
+  def delivery_step
+    if step == :delivery
+      @order.shipping = Shipping.find(params[:order][:shipping_id])
+      @order.save
+    end
+  end
+  def payment_step
+    if step == :payment
+      @user.update(card_params)
+      @order.credit_card = @user.credit_card
+      @order.save
+    end
+  end
+
   def set_user
     @user = current_user
   end

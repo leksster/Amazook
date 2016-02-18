@@ -44,7 +44,7 @@
                             $#{item.price * item.qty}
                       %tr.line
                         %td{colspan: 3}
-                          = link_to 'Continue checkout', edit_order_address_path(order), :class => "btn btn-success"
+                          = link_to 'Continue checkout', order_checkout_index_path(order), :class => "btn btn-success"
                         %td.text-right
                           %strong
                             Subtotal
