@@ -1,5 +1,5 @@
 feature "Home page" do
-  scenario "Visitor should see navbar, sidebar, slider, thumbnails, pagination on home page" do
+  scenario "Visitor should see navigation, sidebar, slider, book's thumbnails, pagination on home page" do
     60.times { create(:book) }
     5.times { create(:category) }
     visit root_path

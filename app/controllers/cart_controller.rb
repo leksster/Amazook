@@ -1,12 +1,12 @@
 class CartController < ApplicationController
   before_action :cart_data
-  before_action :create_order, only: :checkout
-
+  before_action :authenticate_user!, only: [:checkout]
   def index
   end
 
   def checkout
     respond_to do |format|
+      create_order
       if @order.save
         format.html { redirect_to order_checkout_index_path(@order), notice: 'In order to proceed, please provide additional details.' }
         session.delete(:cart)
@@ -42,12 +42,8 @@ class CartController < ApplicationController
   end
 
   def create_order
-    if user_signed_in?
-      @order = current_user.orders.new(total_price: @cart.subtotal, completed_date: Time.now) #???
-      @order.order_items << @cart.order_items
-    else
-      redirect_to new_user_session_path, alert: 'You must sign in.'
-    end
+    @order = current_user.orders.new(total_price: @cart.subtotal, completed_date: Time.now) #???
+    @order.order_items << @cart.order_items
   end
 
 end

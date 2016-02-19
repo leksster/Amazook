@@ -28,7 +28,7 @@
                   %p
                     - 5.times do |n|
                       - if book.ratings.where(:aasm_state => 'approved').average(:rating).nil?
-                        Not rated yet
+                        %br
                         - break
                       - elsif book.ratings.where(:aasm_state => 'approved').average(:rating).ceil > n
                         %span.glyphicon.glyphicon-star
