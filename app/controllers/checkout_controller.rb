@@ -74,6 +74,6 @@ class CheckoutController < ApplicationController
                                  :shipping_address_attributes => [:firstname, :lastname, :address, :zipcode, :city, :phone, :country])
   end
   def card_params
-    params.require(:user).permit(:credit_card_attributes => [:id, :number, :expiration_month, :expiration_year, :cvv, :firstname, :lastname])
+    params.require(:user).permit(:credit_card_attributes => [:number, :expiration_month, :expiration_year, :cvv, :firstname, :lastname])
   end
 end

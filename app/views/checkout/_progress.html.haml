@@ -1,6 +1,12 @@
 .btn-group.btn-group-lg{role: "group"}
-  = link_to 'Address', '#', :class => "btn btn-primary"
-  = link_to 'Delivery', '#', :class => "btn btn-#{step != :billing && step != :shipping ? 'primary' : 'default'}"
-  = link_to 'Payment', '#', :class => "btn btn-#{step == :payment || step == :confirm ? 'primary' : 'default'}"
-  = link_to 'Confirm', '#', :class => "btn btn-#{step == :confirm ? 'primary' : 'default'}"
+  = link_to 'Address', wizard_path(:billing), :class => "btn btn-primary"
+
+  = link_to_unless @order.address.nil?, 'Delivery', wizard_path(:delivery), { :class => "btn btn-#{step != :billing && step != :shipping ? 'primary' : 'default'}" } do 
+    = link_to('Address', '#', {:class => "btn btn-#{step != :billing && step != :shipping ? 'primary' : 'default'}"})
+
+  = link_to_unless @order.shipping.nil?, 'Payment', wizard_path(:payment), { :class => "btn btn-#{step == :payment || step == :confirm ? 'primary' : 'default'}" } do 
+    = link_to('Payment', '#', {:class => "btn btn-#{step == :payment || step == :confirm ? 'primary' : 'default'}"})
+
+  = link_to_unless @order.credit_card.nil?, 'Confirm', wizard_path(:confirm), { :class => "btn btn-#{step == :confirm ? 'primary' : 'default'}" } do 
+    = link_to('Confirm', '#', {:class => "btn btn-#{step == :confirm ? 'primary' : 'default'}"})
   = link_to 'Complete', '#', :class => "btn btn-default"
