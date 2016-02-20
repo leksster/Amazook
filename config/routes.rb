@@ -1,14 +1,10 @@
 Rails.application.routes.draw do
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 
-  get 'cart' => 'cart#index'
-  post 'cart/destroy' => 'cart#destroy'
-  post 'cart/clear' => 'cart#clear'
-  post 'cart/checkout' => 'cart#checkout'
-  post 'cart/update' => 'cart#update'  
-
-  resource :address, only: [:edit, :update]
-
+  resource :cart, only: [:show, :destroy, :update] do
+    post 'clear' => 'carts#clear'
+    post 'checkout' => 'carts#checkout'
+  end
 
   devise_for :users, :controllers => { registrations: 'registrations', omniauth_callbacks: 'omniauth_callbacks' }
 
@@ -22,14 +18,13 @@ Rails.application.routes.draw do
 
   resources :orders, only: [:index, :show] do
     post 'completed', on: :member
-    resources :checkout
+    resources :checkout, only: [:index, :show, :update]
   end
-
 
   resources :home, only: :index
   resources :categories, only: [:index, :show]
   resources :books, only: [:show, :index] do 
-    get 'cart/add' => 'cart#add'
+    post 'cart/add' => 'carts#add'
     resources :ratings, only: [:show, :new, :create, :edit]
   end
   

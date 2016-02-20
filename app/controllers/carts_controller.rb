@@ -1,7 +1,7 @@
-class CartController < ApplicationController
+class CartsController < ApplicationController
   before_action :cart_data
   before_action :authenticate_user!, only: [:checkout]
-  def index
+  def show
   end
 
   def checkout
@@ -23,7 +23,7 @@ class CartController < ApplicationController
 
   def update
     @cart.update(params)
-    render :index
+    render :show
   end
 
   def destroy

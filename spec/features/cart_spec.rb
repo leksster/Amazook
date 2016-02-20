@@ -40,7 +40,7 @@ feature "Cart" do
     find(:button, 'Add to cart').click
     visit book_path(2)
     find(:button, 'Add to cart').click
-    find(:link, 'X', href: '/cart/destroy?id=1').click
+    find(:link, 'X', href: '/cart?id=1').click
     expect(page).not_to have_content('Blah')
   end
   

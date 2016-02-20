@@ -1,4 +1,4 @@
-= form_for @book, :url => book_cart_add_path(@book), :html => {:class => 'form-inline one-line text-center'}, method: :get do |f|
+= form_for @book, :url => book_cart_add_path(@book), :html => {:class => 'form-inline one-line text-center'}, method: :post do |f|
   %h2
     = number_to_currency(@book.price)
   .form-group.integer.required.one-line

@@ -3,7 +3,7 @@
     .col-md-12
       .thumbnail
         .caption-full
-          = form_tag url_for(:controller => 'cart', :action => 'update'), method: 'post' do
+          = form_tag url_for(:controller => 'carts', :action => 'update'), method: :put do
             - if @cart.books.empty?
               empty
             - else
@@ -34,7 +34,7 @@
                       %td
                         = number_to_currency(book.price * @cart.session[book.id.to_s])
                       %td
-                        = link_to 'X', {:controller => 'cart', :action => 'destroy', :id => book.id.to_s}, class: 'btn btn-danger btn-xs', method: :post
+                        = link_to 'X', {:controller => 'carts', :action => 'destroy', :id => book.id.to_s}, class: 'btn btn-danger btn-xs', method: :delete
                   %tr
                     %td{colspan: 3}
                     %td
@@ -46,8 +46,8 @@
                     %td
               .row
                 .col-xs-6
-                  = link_to 'Empty cart', {:controller => 'cart', :action => 'clear'}, class: 'btn btn-primary', method: :post
+                  = link_to 'Empty cart', {:controller => 'carts', :action => 'clear'}, class: 'btn btn-primary', method: :post
                   = link_to 'Continue shopping', home_index_path, class: 'btn btn-primary'
                 .col-xs-6.text-right
                   = submit_tag 'Update', class: 'btn btn-primary'
-                  = link_to 'Checkout', cart_checkout_path, method: :post, class: 'btn btn-primary'
+                  = link_to 'Checkout', checkout_cart_path, method: :post, class: 'btn btn-primary'
