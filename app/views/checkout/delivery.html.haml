@@ -36,8 +36,8 @@
           - Shipping.all.each do |company|
             .radio
               %label 
-                = f.radio_button :shipping_id, company.id, :checked => true
-                = "#{company.company}, $#{company.costs}"
+                = f.radio_button :shipping_id, company.id, :checked => company == Shipping.first || @order.shipping == company
+                = "#{company.company}, #{number_to_currency(company.costs)}"
 
         .actions
           .col-md-6

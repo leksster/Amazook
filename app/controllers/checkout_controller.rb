@@ -42,13 +42,15 @@ class CheckoutController < ApplicationController
   end
   def delivery_step
     if step == :delivery
-      @order.shipping = Shipping.find(params[:order][:shipping_id])
-      @order.save
+      unless params[:order].nil?
+        @order.shipping = Shipping.find(params[:order][:shipping_id])
+        @order.save
+      end
     end
   end
   def payment_step
     if step == :payment
-      @user.update(card_params)
+      @user.update(user_params)
       @order.credit_card = @user.credit_card
       @order.save
     end
@@ -66,14 +68,13 @@ class CheckoutController < ApplicationController
     @order = set_user.orders.find(params[:order_id])
   end
 
-  def delivery_params
+  def order_params
     params.require(:order).permit(:order => [:shipping_id])
   end
+
   def user_params
     params.require(:user).permit(:billing_address_attributes => [:firstname, :lastname, :address, :zipcode, :city, :phone, :country],
-                                 :shipping_address_attributes => [:firstname, :lastname, :address, :zipcode, :city, :phone, :country])
-  end
-  def card_params
-    params.require(:user).permit(:credit_card_attributes => [:number, :expiration_month, :expiration_year, :cvv, :firstname, :lastname])
+                                 :shipping_address_attributes => [:firstname, :lastname, :address, :zipcode, :city, :phone, :country],
+                                 :credit_card_attributes => [:number, :expiration_month, :expiration_year, :cvv, :firstname, :lastname])
   end
 end
