@@ -25,17 +25,26 @@ class Cart
   def order_items
     items = []
     books.each do |book|
-      item = OrderItem.new(price: book.price, qty: @session[book.id.to_s], book: book)
-      items << item
+      items << OrderItem.new(price: book.price, qty: @session[book.id.to_s], book: book)
     end
     items
   end
 
-  def add(book_id, qty)
+  def build_order_for(user)
+    order = user.orders.new(total_price: self.subtotal, completed_date: Time.now)
+    order.order_items << self.order_items
+    order
+  end
+
+  def add_book(book_id, qty)
     @session[book_id].nil? ? @session[book_id] = qty : @session[book_id] += qty
   end
 
-  def update(params)
+  def remove_book(book_id)
+    @session.delete(book_id)
+  end
+
+  def update_books(params)
     @session.each do |k, v|
       @session[k] = params[k].to_i
     end

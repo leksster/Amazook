@@ -25,4 +25,9 @@ FactoryGirl.define do
   factory :category do |n|
     n.sequence (:title) { |n| "Lorem_#{n}" }
   end
+
+  factory :author do |n|
+    firstname Faker::Name.first_name
+    lastname Faker::Name.last_name
+  end
 end
