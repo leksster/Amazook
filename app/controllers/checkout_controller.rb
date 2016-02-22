@@ -8,53 +8,30 @@ class CheckoutController < ApplicationController
   steps :billing, :shipping, :delivery, :payment, :confirm
 
   def show
-    @user.billing
-    @user.shipping
-    @user.card
+    @order.build_or_find_billing_address(@user)
+    @order.build_or_find_shipping_address(@user)
+    @order.build_or_find_credit_card(@user)
     render_wizard      
   end
 
   def update
-    billing_step
-    shipping_step
-    delivery_step
-    payment_step
-    render_wizard @user
+    case step
+    when :billing
+      if @order.update(order_params) && !params[:shipping].nil?
+        @order.build_shipping_address.attributes = @order.billing_address.attributes.except("id", "type")
+        jump_to(:delivery)
+      end
+    when :shipping
+      @order.update(order_params)
+    when :delivery
+      @order.shipping = Shipping.find(params[:order][:shipping_id])
+    when :payment
+      @order.update(order_params)
+    end
+    render_wizard @order
   end
 
   private
-
-  def billing_step
-    if step == :billing
-      if @user.update(user_params) && !params[:shipping].nil?
-        @order.address = @user.billing
-        jump_to(:delivery)
-      end
-    end
-  end
-
-  def shipping_step
-    if step == :shipping
-      if @user.update(user_params)
-        @order.address = @user.shipping
-      end
-    end
-  end
-  def delivery_step
-    if step == :delivery
-      unless params[:order].nil?
-        @order.shipping = Shipping.find(params[:order][:shipping_id])
-        @order.save
-      end
-    end
-  end
-  def payment_step
-    if step == :payment
-      @user.update(user_params)
-      @order.credit_card = @user.credit_card
-      @order.save
-    end
-  end
 
   def valid_order
     redirect_to order_path(@order) unless @order.in_progress?
@@ -69,12 +46,9 @@ class CheckoutController < ApplicationController
   end
 
   def order_params
-    params.require(:order).permit(:order => [:shipping_id])
-  end
-
-  def user_params
-    params.require(:user).permit(:billing_address_attributes => [:firstname, :lastname, :address, :zipcode, :city, :phone, :country],
-                                 :shipping_address_attributes => [:firstname, :lastname, :address, :zipcode, :city, :phone, :country],
-                                 :credit_card_attributes => [:number, :expiration_month, :expiration_year, :cvv, :firstname, :lastname])
+    params.require(:order).permit(:billing_address_attributes  => [:firstname, :lastname, :address, :zipcode, :city, :phone, :country],
+                                  :shipping_address_attributes => [:firstname, :lastname, :address, :zipcode, :city, :phone, :country],
+                                  :credit_card_attributes      => [:number, :expiration_month, :expiration_year, :cvv, :firstname, :lastname],
+                                  :order                       => [:shipping_id])
   end
 end

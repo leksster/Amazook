@@ -16,8 +16,7 @@ Rails.application.routes.draw do
     patch 'user/update_email', :to => 'registrations#update_email'
   end
 
-  resources :orders, only: [:index, :show] do
-    post 'completed', on: :member
+  resources :orders, only: [:index, :show, :update] do
     resources :checkout, only: [:index, :show, :update]
   end
 

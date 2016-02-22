@@ -5,7 +5,6 @@
     = render 'progress'
   .row
     = render 'overview'
-  
   .row
     .col-md-12
       .thumbnail
@@ -65,5 +64,5 @@
   .row
     .col-md-4
     .col-md-4
-      = link_to 'Place order', completed_order_path(@order), method: :post, :class => "btn btn-success btn-lg btn-block"
+      = link_to 'Place order', order_path(@order), method: :patch, :class => "btn btn-success btn-lg btn-block"
     .col-md-4

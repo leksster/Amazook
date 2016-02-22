@@ -4,35 +4,34 @@
     .col-md-3.col-sm-3
       %h4
         Billing Address
-      = current_user.billing.firstname
-      = current_user.billing.lastname
+      = @order.billing_address.firstname
+      = @order.billing_address.lastname
       %br
-      = current_user.billing.address
+      = @order.billing_address.address
       %br
-      = current_user.billing.zipcode
+      = @order.billing_address.zipcode
       %br
-      = current_user.billing.city
+      = @order.billing_address.city
       %br
-      = current_user.billing.phone
+      = @order.billing_address.phone
       %br
-      = Country.find(current_user.billing.country).name
+      = Country.find(@order.billing_address.country).name
     .col-md-3.col-sm-3
       %h4
         Shipping Address 
-      - unless @order.address.nil?
-        %p
-          = @order.address.firstname
-          = @order.address.lastname
-          %br
-          = @order.address.address
-          %br
-          = @order.address.zipcode
-          %br
-          = @order.address.city
-          %br
-          = @order.address.phone
-          %br
-          = Country.find(@order.address.country).name
+      %p
+        = @order.shipping_address.firstname
+        = @order.shipping_address.lastname
+        %br
+        = @order.shipping_address.address
+        %br
+        = @order.shipping_address.zipcode
+        %br
+        = @order.shipping_address.city
+        %br
+        = @order.shipping_address.phone
+        %br
+        = Country.find(@order.shipping_address.country).name
     .col-md-3.col-sm-3
       %h4
         Shipments

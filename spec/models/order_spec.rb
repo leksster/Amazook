@@ -18,9 +18,10 @@ RSpec.describe Order, type: :model do
   it { should have_db_column(:aasm_state).of_type(:string) }
 
   it { should belong_to(:user) }
-  it { should belong_to(:credit_card) }
+  it { should have_one(:credit_card) }
   it { should belong_to(:shipping) }
-  it { should have_one(:address) }
+  it { should have_one(:billing_address) }
+  it { should have_one(:shipping_address) }
   it { should have_many(:order_items).dependent(:destroy) }
 
   it { should validate_presence_of(:total_price) }

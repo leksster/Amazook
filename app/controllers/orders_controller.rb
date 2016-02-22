@@ -16,31 +16,19 @@ class OrdersController < ApplicationController
   def show
   end
 
-  def completed
+  def update
     if @order.queued!
       @order.total_price += @order.shipping.costs
+      current_user.billing_address ||= @order.billing_address.dup
+      current_user.shipping_address ||= @order.shipping_address.dup
       @order.save
       redirect_to order_path, notice: "Your order is completed."
-    end
-  end
-
-  def update
-    respond_to do |format|
-      if @order.update(order_params)
-        format.html { redirect_to edit_order_credit_card_path(@order), notice: "Order was successfully updated" }
-      else
-        format.html { render :address }
-      end
     end
   end
 
   private
     def set_order
       @order = Order.find(params[:id])
-    end
-    
-    def order_params
-      params.require(:order).permit(:shipping_id)
     end
 
     def order_validate

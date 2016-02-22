@@ -4,16 +4,16 @@
       Checkout
     = render 'progress'
 
-  = form_for @user, url: wizard_path do |f|
+  = form_for @order, url: wizard_path do |f|
     .row
       .col-md-4.col-sm-4
         %h2
           Billing Address  
-        - if @user.errors.any?
+        - if @order.errors.any?
           #error_explanation.alert.alert-danger
-            %h4= "#{pluralize(@user.errors.count, "error")} prohibited this order from being saved:"
+            %h4= "#{pluralize(@order.errors.count, "error")} prohibited this order from being saved:"
             %ul
-              - @user.errors.full_messages.each do |msg|
+              - @order.errors.full_messages.each do |msg|
                 %li= msg
         = f.fields_for :billing_address do |ff|
           = render 'address', ff: ff

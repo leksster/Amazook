@@ -8,18 +8,18 @@
       %h2
         Shipping Address 
       %p
-        = @order.address.firstname
-        = @order.address.lastname
+        = @order.shipping_address.firstname
+        = @order.shipping_address.lastname
         %br
-        = @order.address.address
+        = @order.shipping_address.address
         %br
-        = @order.address.zipcode
+        = @order.shipping_address.zipcode
         %br
-        = @order.address.city
+        = @order.shipping_address.city
         %br
-        = @order.address.phone
+        = @order.shipping_address.phone
         %br
-        = Country.find(@order.address.country).name
+        = Country.find(@order.shipping_address.country).name
 
     .col-md-4.col-sm-4.text-center
       %h2

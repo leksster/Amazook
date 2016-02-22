@@ -22,7 +22,7 @@ RSpec.describe CreditCard, type: :model do
   it { should have_db_column(:lastname).of_type(:string) }
 
   it { should belong_to(:user) }
-  it { should have_many(:orders) }
+  it { should belong_to(:order) }
 
   it { should validate_presence_of(:number) }
   it { should validate_presence_of(:cvv) }
