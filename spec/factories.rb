@@ -30,4 +30,9 @@ FactoryGirl.define do
     firstname Faker::Name.first_name
     lastname Faker::Name.last_name
   end
+
+  factory :order do |n|
+    total_price 10
+    completed_date '05.01.2016'
+  end
 end

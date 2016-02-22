@@ -25,7 +25,7 @@ feature "Cart" do
   scenario "Visitors can Empty the cart" do
     find(:button, 'Add to cart').click
     find(:link, 'Empty cart').click
-    expect(page).to have_content('empty')
+    expect(page.current_path).to eq(root_path)
   end
 
   scenario "Visitors can update quantity of the book in the cart" do

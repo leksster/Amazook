@@ -1,8 +1,11 @@
 RSpec.describe CartsController, type: :controller do
   include Devise::TestHelpers
 
-  let(:cart) { Cart.new() }
+  let(:cart) { Cart.new(:session) }
   let(:book) { create(:book) }
+  let(:order) { create(:order) }
+  let(:user) { create(:user) }
+
   before do 
     allow(controller).to receive(:params).and_return(:qty => '5', :book_id => book.id) 
   end
@@ -19,27 +22,35 @@ RSpec.describe CartsController, type: :controller do
   end
 
   describe "POST #add" do
+    before do
+      allow(Cart).to receive(:new).and_return(cart)
+      allow(cart).to receive(:add_book).and_return(true)
+    end    
     it "assignes @cart" do
       post :add, :book_id => book.id
-      expect(assigns(:cart)).not_to be_nil
+      expect(cart).not_to be_nil
     end
     it "should redirect_to cart when book was added" do
       post :add, :book_id => book.id
       expect(response).to redirect_to(cart_path)
     end
     it "calls #add_book on @cart" do    
-      expect_any_instance_of(Cart).to receive(:add_book).with(book.id.to_s, controller.params[:qty].to_i)
-      delete :add, :book_id => book.id
+      expect(cart).to receive(:add_book).with(book.id.to_s, controller.params[:qty].to_i)
+      post :add, :book_id => book.id
     end
   end
 
   describe "POST #update" do
+    before do
+      allow(Cart).to receive(:new).and_return(cart)
+      allow(cart).to receive(:update_books).and_return(order)
+    end   
     it "assignes @cart" do
       patch :update
       expect(assigns(:cart)).not_to be_nil
     end
     it "calls #update_books on @cart" do    
-      expect_any_instance_of(Cart).to receive(:update_books)
+      expect(cart).to receive(:update_books)
       patch :update
     end
     it "renders :show" do
@@ -49,12 +60,16 @@ RSpec.describe CartsController, type: :controller do
   end
 
   describe "DELETE #destroy" do
+    before do
+      allow(Cart).to receive(:new).and_return(cart)
+      allow(cart).to receive(:remove_book).and_return(true)
+    end   
     it "assignes @cart" do
       delete :destroy
       expect(assigns(:cart)).not_to be_nil
     end
     it "calls #remove_book on @cart" do    
-      expect_any_instance_of(Cart).to receive(:remove_book)
+      expect(cart).to receive(:remove_book)
       delete :destroy
     end
     it "renders :show" do
@@ -75,19 +90,48 @@ RSpec.describe CartsController, type: :controller do
   end
 
   describe "POST #checkout" do
+    before do
+      allow(Cart).to receive(:new).and_return(cart)
+      allow(cart).to receive(:build_order_for).and_return(order)
+    end
+
     it "assignes @cart" do
       post :checkout
       expect(assigns(:cart)).not_to be_nil
     end
 
+    it "calls #build_order_for on cart" do
+      sign_in user
+      expect(cart).to receive(:build_order_for)
+      post :checkout
+    end
+
+    it "calls #save on order" do
+      sign_in user
+      expect(order).to receive(:save)
+      post :checkout
+    end
+
+    it "clears the cart session" do
+      sign_in user
+      expect(controller.session).to receive(:delete).with(:cart)
+      post :checkout
+    end
+
+    it 'redirects to checkout controller' do
+      sign_in user
+      post :checkout
+      expect(response).to redirect_to(order_checkout_index_path(order))
+    end
+
     it "assignes @order" do
-      sign_in create(:user)
+      sign_in user
       post :checkout
       expect(assigns(:order)).not_to be_nil
     end
 
     it "allows to checkout registered user " do
-      sign_in create(:user)
+      sign_in user
       post :checkout
       expect(flash[:notice]).to eq 'In order to proceed, please provide additional details.'
     end
