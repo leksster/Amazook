@@ -1,6 +1,6 @@
 %h2
   Email
-= form_for @user, url: user_update_email_path, method: :patch  do |f|
+= form_for @user, url: {controller: 'registrations', action: 'update_info'}, method: :put  do |f|
   .form-group
     = f.label :email
     = f.text_field :email, class: 'form-control'

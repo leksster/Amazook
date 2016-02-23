@@ -1,32 +1,27 @@
 %h2
   Billing Address  
-= form_for @billing, as: :billing_address, url: user_update_billing_path, method: :patch  do |f|
-  - if @billing.errors.any?
-    #error_explanation.alert.alert-danger
-      %h4= "#{pluralize(@billing.errors.count, "error")} prohibited this order from being saved:"
-      %ul
-        - @billing.errors.full_messages.each do |msg|
-          %li= msg
-  .form-group
-    = f.label :firstname
-    = f.text_field :firstname, class: 'form-control'
-  .form-group
-    = f.label :lastname
-    = f.text_field :lastname, class: 'form-control'
-  .form-group
-    = f.label :address
-    = f.text_field :address, class: 'form-control'
-  .form-group
-    = f.label :zipcode
-    = f.text_field :zipcode, class: 'form-control'
-  .form-group
-    = f.label :city
-    = f.text_field :city, class: 'form-control'
-  .form-group
-    = f.label :phone
-    = f.text_field :phone, class: 'form-control'
-  .form-group
-    = f.label :country
-    = f.collection_select :country, Country.order(:name), :id, :name, {}, {class: 'form-control'}
-  .actions
-    = f.submit 'Save', class: 'btn btn-success btn-block'
+= form_for @user, :url => {controller: 'registrations', action: 'update_info'}, method: :put do |f|
+  = f.fields_for :billing_address do |ff|
+    .form-group
+      = ff.label :firstname
+      = ff.text_field :firstname, class: 'form-control'
+    .form-group
+      = ff.label :lastname
+      = ff.text_field :lastname, class: 'form-control'
+    .form-group
+      = ff.label :address
+      = ff.text_field :address, class: 'form-control'
+    .form-group
+      = ff.label :zipcode
+      = ff.text_field :zipcode, class: 'form-control'
+    .form-group
+      = ff.label :city
+      = ff.text_field :city, class: 'form-control'
+    .form-group
+      = ff.label :phone
+      = ff.text_field :phone, class: 'form-control'
+    .form-group
+      = ff.label :country
+      = ff.collection_select :country, Country.order(:name), :id, :name, {}, {class: 'form-control'}
+    .actions
+      = ff.submit 'Save', class: 'btn btn-success btn-block'

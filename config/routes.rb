@@ -9,11 +9,8 @@ Rails.application.routes.draw do
   devise_for :users, :controllers => { registrations: 'registrations', omniauth_callbacks: 'omniauth_callbacks' }
 
   devise_scope :user do   
-    get 'user/edit', :to => 'registrations#edit'
-    patch 'user/update_billing', :to => 'registrations#update_billing'
-    patch 'user/update_shipping', :to => 'registrations#update_shipping'
-    patch 'user/update_password', :to => 'registrations#update_password'
-    patch 'user/update_email', :to => 'registrations#update_email'
+    put 'user' => 'registrations#update_info'
+    put 'user/update_password', :to => 'registrations#update_password'
   end
 
   resources :orders, only: [:index, :show, :update] do

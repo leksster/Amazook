@@ -1,10 +1,5 @@
 .container
   .row
-    .col-md-6.col-sm-6
-      = render 'billing_address'
-    .col-md-6.col-sm-6
-      = render 'shipping_address'
-  .row
     .col-md-12
       %br
       - if @user.errors.any?
@@ -13,6 +8,11 @@
           %ul
             - @user.errors.full_messages.each do |msg|
               %li= msg
+  .row
+    .col-md-6.col-sm-6
+      = render 'billing_address'
+    .col-md-6.col-sm-6
+      = render 'shipping_address'
   .row
     .col-md-6.col-sm-6
       = render 'email'
