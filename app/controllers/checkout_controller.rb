@@ -18,7 +18,7 @@ class CheckoutController < ApplicationController
     case step
     when :billing
       if @order.update(order_params) && !params[:shipping].nil?
-        @order.build_shipping_address.attributes = @order.billing_address.attributes.except("id", "type")
+        @order.build_shipping_address.attributes = @order.billing_address.attributes.except("id", "type", "user_id")
         jump_to(:delivery)
       end
     when :shipping
