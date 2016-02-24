@@ -1,14 +1,16 @@
 Rails.application.routes.draw do
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
-
+  
   resource :cart, only: [:show, :destroy, :update] do
-    post 'clear' => 'carts#clear'
-    post 'checkout' => 'carts#checkout'
+    member do
+      post :clear
+      post :checkout
+    end
   end
 
   devise_for :users, :controllers => { registrations: 'registrations', omniauth_callbacks: 'omniauth_callbacks' }
 
-  devise_scope :user do   
+  devise_scope :user do
     put 'user' => 'registrations#update_info'
     put 'user/update_password', :to => 'registrations#update_password'
   end

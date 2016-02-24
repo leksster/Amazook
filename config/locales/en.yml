@@ -41,3 +41,10 @@ en:
   qty: "Qty"
   total: "Total"
   subtotal: "Subtotal"
+
+  admin:
+    actions:
+      overview:
+        menu: 'Notifications'
+        title: 'Orders and ratings'
+        breadcrumb: 'Notifications'

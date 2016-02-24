@@ -1,5 +1,8 @@
-RailsAdmin.config do |config|
+require Rails.root.join('lib', 'rails_admin', 'overview.rb')
+RailsAdmin::Config::Actions.register(RailsAdmin::Config::Actions::Overview)
 
+
+RailsAdmin.config do |config|
   config.model Order do
     edit do
       field :aasm_state do
@@ -75,7 +78,13 @@ RailsAdmin.config do |config|
   end
 
   config.actions do
-    dashboard                     # mandatory
+    overview do
+      route_fragment ''
+      root true
+    end
+    dashboard do                  # mandatory
+      route_fragment 'dashboard'
+    end              
     index                         # mandatory
     new
     export
