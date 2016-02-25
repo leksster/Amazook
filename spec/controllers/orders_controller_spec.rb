@@ -1,16 +1,15 @@
 RSpec.describe OrdersController, type: :controller do
   include Devise::TestHelpers
   let(:user)  { create(:user) }
-  let(:order) 
-  { 
-    create( :order, 
-      order_items: [create(:order_item), create(:order_item)], 
-      billing_address: create(:billing_address), 
-      shipping_address: create(:shipping_address), 
-      shipping: create(:shipping, :costs => 6), 
-      credit_card: create(:credit_card), 
-      user: user ) 
-  }
+  let(:order) { 
+                create( :order, 
+                  order_items: [create(:order_item), create(:order_item)], 
+                  billing_address: create(:billing_address), 
+                  shipping_address: create(:shipping_address), 
+                  shipping: create(:shipping, :costs => 6), 
+                  credit_card: create(:credit_card), 
+                  user: user ) 
+              }
 
   shared_examples "unathenticated user" do
     it "redirects to sign_in page" do

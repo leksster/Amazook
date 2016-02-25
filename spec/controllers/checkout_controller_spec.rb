@@ -2,16 +2,15 @@ RSpec.describe CheckoutController, type: :controller do
   include Devise::TestHelpers
 
   let(:user) { create(:user) }
-  let(:order) 
-  { 
-    create( :order, 
-      order_items: [create(:order_item)], 
-      billing_address: billing_address, 
-      shipping_address: shipping_address, 
-      shipping: create(:shipping), 
-      credit_card: create(:credit_card), 
-      user: user ) 
-  }
+  let(:order) { 
+                create( :order, 
+                  order_items: [create(:order_item)], 
+                  billing_address: billing_address, 
+                  shipping_address: shipping_address, 
+                  shipping: create(:shipping), 
+                  credit_card: create(:credit_card), 
+                  user: user ) 
+              }
   let(:shipping_address) { create(:shipping_address) }
   let(:billing_address) { create(:billing_address) }
   let(:credit_card) { create(:credit_card) }
@@ -190,27 +189,26 @@ RSpec.describe CheckoutController, type: :controller do
         allow(order).to receive(:update).and_return(true)
       end
 
-      let(:step_params) 
-      { 
-        {
-          :order_id => order.id, 
-          :id       => :billing, 
-          :order    => 
-                    { 
-                      :billing_address_attributes => 
-                        [
-                          :firstname => billing_address.firstname,
-                          :lastname => billing_address.firstname,
-                          :address => billing_address.address,
-                          :zipcode => billing_address.zipcode,
-                          :city => billing_address.city,
-                          :phone => billing_address.phone,
-                          :country=> billing_address.country
-                        ] 
-                    },
-          :shipping  => checked 
-        } 
-      }
+      let(:step_params) { 
+                          {
+                            :order_id => order.id, 
+                            :id       => :billing, 
+                            :order    => 
+                                      { 
+                                        :billing_address_attributes => 
+                                          [
+                                            :firstname => billing_address.firstname,
+                                            :lastname => billing_address.firstname,
+                                            :address => billing_address.address,
+                                            :zipcode => billing_address.zipcode,
+                                            :city => billing_address.city,
+                                            :phone => billing_address.phone,
+                                            :country=> billing_address.country
+                                          ] 
+                                      },
+                            :shipping  => checked 
+                          } 
+                        }
       context "without billing address checkbox checked" do
         let(:checked) { nil }
 
@@ -245,26 +243,25 @@ RSpec.describe CheckoutController, type: :controller do
     end
 
     context ":shipping step" do
-      let(:step_params) 
-      { 
-        {
-          :order_id => order.id, 
-          :id       => :shipping, 
-          :order    => 
-          { 
-            :shipping_address_attributes => 
-            [
-              :firstname => shipping_address.firstname,
-              :lastname => shipping_address.lastname,
-              :address => shipping_address.address,
-              :zipcode => shipping_address.zipcode,
-              :city => shipping_address.city,
-              :phone => shipping_address.phone,
-              :country=> shipping_address.country
-            ] 
-          }
-        } 
-      }
+      let(:step_params) { 
+                          {
+                            :order_id => order.id, 
+                            :id       => :shipping, 
+                            :order    => 
+                            { 
+                              :shipping_address_attributes => 
+                              [
+                                :firstname => shipping_address.firstname,
+                                :lastname => shipping_address.lastname,
+                                :address => shipping_address.address,
+                                :zipcode => shipping_address.zipcode,
+                                :city => shipping_address.city,
+                                :phone => shipping_address.phone,
+                                :country=> shipping_address.country
+                              ] 
+                            }
+                          } 
+                        }
       it "#update order" do
         expect(order).to receive(:update).with(step_params[:order])
         put :update, step_params
@@ -277,17 +274,16 @@ RSpec.describe CheckoutController, type: :controller do
     end
 
     context ":delivery step" do
-      let(:step_params)
-      { 
-        {
-          :order_id => order.id, 
-          :id       => :delivery, 
-          :order    => 
-          {
-            :shipping_id => create(:shipping).id
-          }
-        } 
-      }
+      let(:step_params) { 
+                          {
+                            :order_id => order.id, 
+                            :id       => :delivery, 
+                            :order    => 
+                            {
+                              :shipping_id => create(:shipping).id
+                            }
+                          } 
+                        }
       it "sets delivery for order" do
         put :update, step_params
         expect(order.shipping).not_to be_nil
@@ -300,25 +296,24 @@ RSpec.describe CheckoutController, type: :controller do
     end
 
     context ":payment step" do
-      let(:step_params) 
-      { 
-        {
-          :order_id => order.id, 
-          :id       => :payment, 
-          :order    => 
-          { 
-            :credit_card_attributes => 
-            [
-              :number => credit_card.number,
-              :cvv => credit_card.cvv,
-              :expiration_year => credit_card.expiration_year,
-              :expiration_month => credit_card.expiration_month,
-              :firstname => credit_card.firstname,
-              :lastname => credit_card.lastname,
-            ] 
-          }
-        } 
-      }
+      let(:step_params) { 
+                          {
+                            :order_id => order.id, 
+                            :id       => :payment, 
+                            :order    => 
+                            { 
+                              :credit_card_attributes => 
+                              [
+                                :number => credit_card.number,
+                                :cvv => credit_card.cvv,
+                                :expiration_year => credit_card.expiration_year,
+                                :expiration_month => credit_card.expiration_month,
+                                :firstname => credit_card.firstname,
+                                :lastname => credit_card.lastname,
+                              ] 
+                            }
+                          } 
+                        }
       it "#update order" do
         expect(order).to receive(:update).with(step_params[:order])
         put :update, step_params
