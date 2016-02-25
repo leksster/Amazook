@@ -47,7 +47,7 @@
               .row
                 .col-xs-6
                   = link_to 'Empty cart', {:controller => 'carts', :action => 'clear'}, class: 'btn btn-primary', method: :post
-                  = link_to 'Continue shopping', home_index_path, class: 'btn btn-primary'
+                  = link_to 'Continue shopping', root_path, class: 'btn btn-primary'
                 .col-xs-6.text-right
                   = submit_tag 'Update', class: 'btn btn-primary'
                   = link_to 'Checkout', checkout_cart_path, method: :post, class: 'btn btn-primary'

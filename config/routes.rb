@@ -19,7 +19,7 @@ Rails.application.routes.draw do
     resources :checkout, only: [:index, :show, :update]
   end
 
-  resources :home, only: :index
+  resource :home, only: :index
   resources :categories, only: [:index, :show]
   resources :books, only: [:show, :index] do 
     post 'cart/add' => 'carts#add'

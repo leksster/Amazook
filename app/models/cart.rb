@@ -37,6 +37,7 @@ class Cart
   end
 
   def add_book(book_id, qty)
+    qty = 1 unless qty > 0
     @session[book_id].nil? ? @session[book_id] = qty : @session[book_id] += qty
   end
 
@@ -46,6 +47,7 @@ class Cart
 
   def update_books(params)
     @session.each do |k, v|
+      params[k] = 1 unless params[k].to_i > 0
       @session[k] = params[k].to_i
     end
   end

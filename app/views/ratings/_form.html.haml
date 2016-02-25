@@ -1,19 +1,19 @@
 .row
   .col-md-4
     = form_for([@book, @rating]) do |f|
-      - if @book.errors.any?
+      - if @rating.errors.any?
         .error_explanation
-          %h2
-            = pluralize(@book.errors.count, "error") 
+          %h4
+            = pluralize(@rating.errors.count, "error") 
             prohibited this review from being saved
           %ul
-            - @book.errors.full_messages.each do |message|
+            - @rating.errors.full_messages.each do |message|
               %li
                 = message
       .form-group
         = f.label :rating
         %br
-        = f.select :rating, (1..5), {}, :class => 'form-control'
+        = f.select :rating, (1..5), {:selected => 5}, :class => 'form-control'
       .form-group
         = f.label :review_text
         %br

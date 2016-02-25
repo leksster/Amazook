@@ -18,7 +18,7 @@ class CartsController < ApplicationController
   end
 
   def add
-    @cart.add_book(params[:book_id].to_s, params[:qty].to_i) unless params[:qty].empty?
+    @cart.add_book(params[:book_id].to_s, params[:qty].to_i)
     redirect_to cart_url
   end
 

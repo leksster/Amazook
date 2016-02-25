@@ -19,21 +19,18 @@ class OrdersController < ApplicationController
   def update
     if @order.queued!
       @order.total_price += @order.shipping.costs
+      @order.completed_date = Time.now
       current_user.billing_address ||= @order.billing_address.dup
       current_user.shipping_address ||= @order.shipping_address.dup
       @order.save
       redirect_to order_path, notice: "Your order is completed."
+    else 
+      redirect_to order_checkout_path, alert: "Order state is invalid."
     end
   end
 
   private
-    def set_order
-      @order = Order.find(params[:id])
-    end
-
-    def order_validate
-      if @order.nil? || !@order.in_progress?
-        redirect_to orders_path
-      end
-    end
+  def set_order
+    @order = Order.find(params[:id])
+  end
 end

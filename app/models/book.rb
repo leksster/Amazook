@@ -7,4 +7,7 @@ class Book < ActiveRecord::Base
   validates :title, :price, :qty, presence: true
   validates :price, :qty, numericality: true
 
+  def not_reviewed_by?(user)
+    self.ratings.where(:user => user).empty?
+  end
 end

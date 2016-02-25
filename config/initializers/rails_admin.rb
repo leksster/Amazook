@@ -78,10 +78,7 @@ RailsAdmin.config do |config|
   end
 
   config.actions do
-    overview do
-      route_fragment ''
-      root true
-    end
+    overview
     dashboard do                  # mandatory
       route_fragment 'dashboard'
     end              

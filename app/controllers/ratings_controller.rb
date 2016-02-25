@@ -1,30 +1,26 @@
 class RatingsController < ApplicationController
   before_action :set_book
+  before_action :authenticate_user!
 
   def new
-    if user_signed_in?
-      @rating = @book.ratings.new
-    else
-      redirect_to new_user_session_path, alert: 'You must sign in.'
-    end
+    @rating = @book.ratings.new
   end
 
   def create
     @rating = @book.ratings.new(rating_params)
     @rating.user = current_user
-
-    if not_reviewed? && @rating.save
-      redirect_to @book, notice: 'Pending.'
+    if @book.not_reviewed_by?(current_user) 
+      if @rating.save(rating_params)
+        redirect_to @book, notice: 'Thank you.'
+      else
+        render :new
+      end
     else
-      redirect_to new_book_rating_url, alert: 'Not saved'
+      redirect_to new_book_rating_url, alert: 'Already reviewed.'
     end
   end
 
   private
-
-  def not_reviewed?
-    @book.ratings.where(:user => current_user).empty?
-  end
 
   def set_book
     @book = Book.find(params[:book_id])

@@ -1,11 +1,10 @@
 class Order < ActiveRecord::Base
   include AASM
-
-  has_many :order_items, dependent: :destroy
   belongs_to :user
 
   belongs_to :shipping
-
+  
+  has_many :order_items, dependent: :destroy
   has_one :credit_card, dependent: :destroy
   has_one :billing_address, dependent: :destroy
   has_one :shipping_address, dependent: :destroy
@@ -45,5 +44,4 @@ class Order < ActiveRecord::Base
   def aasm_state_enum
     self.class.aasm.states_for_select
   end
-
 end
