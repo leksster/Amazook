@@ -1,7 +1,8 @@
 class OrdersController < ApplicationController
   before_action :set_order, only: [:show, :edit, :update, :completed]
   before_action :authenticate_user!
-
+  load_and_authorize_resource
+  
   def index
     if user_signed_in?
       @orders = current_user.orders.order(id: :desc).page(params[:page]).per(5)

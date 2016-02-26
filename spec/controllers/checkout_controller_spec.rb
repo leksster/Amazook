@@ -61,6 +61,13 @@ RSpec.describe CheckoutController, type: :controller do
       end
     end
 
+    it "not allows user to checkout someone else's order" do
+      order = create(:order)
+      allow(Order).to receive(:find).and_return(order)
+      get :show, { :order_id => order.id, :id => :billing }
+      expect(controller).to set_flash[:alert].to("You are not authorized to access this page.")
+    end
+
     context ":billing step" do
       let(:step_params) { {:order_id => order.id, :id => :billing} }
 
@@ -115,7 +122,7 @@ RSpec.describe CheckoutController, type: :controller do
       end
 
       it "redirects to :billing when no billing_address" do
-        order = create(:order)
+        order = create(:order, :user => user)
         allow(Order).to receive(:find).and_return(order)
         get :show, { :order_id => order.id, :id => :delivery }
         expect(response).to redirect_to order_checkout_path(:order_id => order.id, :id => :billing)
@@ -140,7 +147,7 @@ RSpec.describe CheckoutController, type: :controller do
       end
 
       it "redirects to :delivery when no shipping.company" do
-        order = create(:order)
+        order = create(:order, :user => user)
         allow(Order).to receive(:find).and_return(order)
         get :show, { :order_id => order.id, :id => :payment }
         expect(response).to redirect_to order_checkout_path(:order_id => order.id, :id => :delivery)
@@ -165,7 +172,7 @@ RSpec.describe CheckoutController, type: :controller do
       end
 
       it "redirects to :payment when no credit_card" do
-        order = create(:order)
+        order = create(:order, :user => user)
         allow(Order).to receive(:find).and_return(order)
         get :show, { :order_id => order.id, :id => :confirm }
         expect(response).to redirect_to order_checkout_path(:order_id => order.id, :id => :payment)

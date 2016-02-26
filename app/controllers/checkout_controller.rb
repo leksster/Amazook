@@ -1,4 +1,5 @@
 class CheckoutController < ApplicationController
+
   include Wicked::Wizard
   before_action :authenticate_user!
   before_action :set_user
@@ -8,6 +9,7 @@ class CheckoutController < ApplicationController
   steps :billing, :shipping, :delivery, :payment, :confirm
 
   def show
+    authorize! :show, @order
     case step
     when :delivery
       jump_to(:billing) if @order.shipping_address.nil?
@@ -20,7 +22,6 @@ class CheckoutController < ApplicationController
     @order.build_or_find_shipping_address(@user)
     @order.build_or_find_credit_card(@user)
     render_wizard 
-  
   end
 
   def update

@@ -20,8 +20,9 @@ RSpec.describe OrdersController, type: :controller do
   end
 
   before(:each) do 
-    allow(Order).to receive(:find).and_return(order)
     allow(controller).to receive(:current_user).and_return(user)
+    allow(Order).to receive(:find).and_return(order)
+    
     sign_in user
   end
 
@@ -70,6 +71,12 @@ RSpec.describe OrdersController, type: :controller do
         get action, :id => order.id
         expect(assigns(:order)).to be(order)
       end
+      it "not allows user to show someone else's order" do
+        order = create(:order)
+        allow(Order).to receive(:find).and_return(order)
+        get action, :id => order.id
+        expect(controller).to set_flash[:alert].to("You are not authorized to access this page.")
+      end
     end
   end
 
@@ -85,6 +92,7 @@ RSpec.describe OrdersController, type: :controller do
         expect(assigns(:order)).to be(order)
       end
       it "changes @order#total_price according to shipments cost" do
+        sign_in user
         expect{ put action, params }.to change(order, :total_price).by(order.shipping.costs)
       end
       it "changes current_user#billing_address if there's none" do
