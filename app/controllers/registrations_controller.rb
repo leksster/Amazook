@@ -32,8 +32,19 @@ class RegistrationsController < Devise::RegistrationsController
   end
 
   protected
+    def configure_permitted_parameters
+      devise_parameter_sanitizer.permit(:sign_up) do |user_params|
+        user_params.permit(:email, :password, :firstname, :lastname)
+      end
+    end
 
   private
+
+
+    def sign_up_params
+      params.require(:user).permit(:firstname, :lastname, :email, :password, :password_confirmation)
+    end
+
     def user_params
       params.require(:user).permit({ :billing_address_attributes => [:firstname, :lastname, :address, :zipcode, :city, :phone, :country]},
                                    { :shipping_address_attributes => [:firstname, :lastname, :address, :zipcode, :city, :phone, :country]}, 
@@ -41,7 +52,9 @@ class RegistrationsController < Devise::RegistrationsController
                                      :password,
                                      :current_password,
                                      :password_confirmation,
-                                     :password_confirmation)
+                                     :password_confirmation,
+                                     :firstname,
+                                     :lastname)
     end
 
     def set_user
