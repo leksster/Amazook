@@ -24,5 +24,7 @@ RSpec.describe User, type: :model do
   it { should allow_value("email@me.com").for(:email) }
   it { should_not allow_value("WSvd@asfgW").for(:email) }
 
+  it { should validate_presence_of(:firstname) }
+  it { should validate_presence_of(:lastname) }
   it { should validate_uniqueness_of(:email).case_insensitive }
 end
