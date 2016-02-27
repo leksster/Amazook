@@ -1,6 +1,7 @@
 .container
   .row
-    = render 'layouts/sidebar'
+    .col-md-3
+      = render 'categories/category'
     .col-md-9
       .thumbnail
         = image_tag @book.cover.url, :class => 'img-responsive'

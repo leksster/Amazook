@@ -1,6 +1,0 @@
-.col-md-3
-  %p.lead
-    = t('categories')
-    .list-group
-      - Category.all.each do |category|
-        = link_to category.title, category, class: "list-group-item"

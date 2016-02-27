@@ -1,0 +1,29 @@
+
+.col-sm-4.col-lg-4.col-md-4
+  .thumbnail
+    = image_tag book.cover.url, :class => 'home'
+    .caption
+      %h4.pull-right
+        $#{book.price}
+
+      %h4.short
+        = link_to book.title, book 
+
+      - if !book.author.nil?
+        %span.label.label-primary
+          = link_to %Q(#{book.author.firstname} #{book.author.lastname}), author_path(book.author), class: 'author'
+      %p
+        = book.description
+    .ratings
+      %p.pull-right
+        = book.ratings.where(:aasm_state => 'approved').count 
+        reviews
+      %p
+        - 5.times do |n|
+          - if book.ratings.where(:aasm_state => 'approved').average(:rating).nil?
+            %br
+            - break
+          - elsif book.ratings.where(:aasm_state => 'approved').average(:rating).ceil > n
+            %span.glyphicon.glyphicon-star
+          - else
+            %span.glyphicon.glyphicon-star-empty
