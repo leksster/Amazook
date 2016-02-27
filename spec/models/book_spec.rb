@@ -8,7 +8,7 @@ RSpec.describe Book, type: :model do
   it { should have_db_column(:description).of_type(:text) }
   it { should have_db_column(:price).of_type(:decimal) }
   it { should have_db_column(:qty).of_type(:integer) }
-  it { should have_db_column(:img).of_type(:string) }
+  it { should have_db_column(:cover).of_type(:string) }
 
   context 'Validators:' do
     it { should validate_presence_of(:title) }

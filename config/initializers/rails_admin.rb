@@ -31,6 +31,14 @@ RailsAdmin.config do |config|
       field :updated_at
     end
   end
+  config.model Book do
+    edit do
+      field :title
+      field :price
+      field :qty
+      field :cover, :carrierwave
+    end
+  end
 
   config.model Rating do
     edit do

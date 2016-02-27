@@ -78,3 +78,4 @@ generate_books(30)
 generate_authors(10)
 generate_categories(4)
 generate_ratings(20)
+generate_deliveries

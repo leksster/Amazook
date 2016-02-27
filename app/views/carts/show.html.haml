@@ -24,7 +24,7 @@
                   - @cart.books.each_with_index do |book, index|
                     %tr
                       %td
-                        %img{src: "#{asset_path(book.img)}"}
+                        = image_tag(book.cover.url)
                       %td
                         = book.title
                       %td

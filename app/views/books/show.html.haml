@@ -3,7 +3,7 @@
     = render 'layouts/sidebar'
     .col-md-9
       .thumbnail
-        %img.img-responsive{src:"#{asset_path(@book.img)}", alt:"Book's cover"}
+        = image_tag @book.cover.url, :class => 'img-responsive'
         .caption-full    
           %div
             = render 'buy'

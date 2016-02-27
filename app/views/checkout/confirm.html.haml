@@ -34,7 +34,7 @@
                 - @order.order_items.each do |item|
                   %tr
                     %td
-                      = image_tag(item.book.img)
+                      = image_tag(item.book.cover.url)
                     %td
                       = item.book.title
                     %td

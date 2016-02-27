@@ -10,15 +10,15 @@
         - @books.limit(4).each_with_index do |book, index|             
           - if index == 0
             .item.active
-              .row
-                %img.img-responsive.center-block{:src => "#{asset_path("cover.jpg")}", :width => 300}
+              .row.bestsellers
+                %img.img-responsive.center-block{:src => "#{book.cover.url}", :width => 300}
                 .carousel-caption
                   = link_to 'Show', book_path(book), class: 'btn btn-success btn-lg'
                   %h3
                     = book.title
           .item
-            .row
-              %img.img-responsive.center-block{:src => "#{asset_path("cover.jpg")}", :width => 300}
+            .row.bestsellers
+              %img.img-responsive.center-block{:src => "#{book.cover.url}", :width => 300}
               .carousel-caption
                 = link_to 'Show', book_path(book), class: 'btn btn-success btn-lg'
                 %h3

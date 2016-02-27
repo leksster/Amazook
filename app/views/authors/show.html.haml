@@ -6,7 +6,7 @@
         - @author.books.each do |book|
           .col-sm-4.col-lg-4.col-md-4
             .thumbnail
-              %img{src: "#{asset_path(book.img)}"}
+              = image_tag book.cover.url
               .caption
                 %h4.pull-right
                   $#{book.price}
