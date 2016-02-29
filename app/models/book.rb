@@ -11,4 +11,6 @@ class Book < ActiveRecord::Base
   def not_reviewed_by?(user)
     self.ratings.where(:user => user).empty?
   end
+
+  scope :bestsellers, -> { Book.joins(:order_items).group(:id).order('SUM(order_items.qty) DESC') }
 end

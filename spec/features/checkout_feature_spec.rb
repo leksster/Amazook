@@ -35,7 +35,7 @@ feature "Registered user can checkout" do
     end
 
     scenario 'it is on Step 1: Billing Address' do
-      expect(URI.parse(current_url).to_s).to include('billing')
+      expect(current_path).to include('billing')
       expect(page).to have_content('Billing Address')
       expect(page).to have_content('Firstname')
       expect(page).to have_content('Lastname')
@@ -50,6 +50,12 @@ feature "Registered user can checkout" do
       expect(page).to have_selector("input[value=#{user.firstname}]")
       expect(page).to have_selector("input[value=#{user.firstname}]")
     end
+    scenario 'user can\'t jump to next steps without filled data' do
+      click_link('Delivery')
+      click_link('Payment')
+      click_link('Confirm')
+      expect(current_path).to include('billing')
+    end
 
     feature 'Step 1.5 Shipping address. It unchecks Use billing address checkbox, continues' do
       background do
@@ -57,13 +63,12 @@ feature "Registered user can checkout" do
         click_button('Save and continue')
       end
       scenario 'it reaches Step 1.5 Shipping address.' do
-        expect(URI.parse(current_url).to_s).to include('shipping')
+        expect(current_path).to include('shipping')
         expect(page).not_to have_content('Use billing address')
-        expect(page).to have_content('Shipping Address')
       end
       scenario 'user can return to previous :billing step' do
         click_link('Back')
-        expect(expect(URI.parse(current_url).to_s).to include('billing'))
+        expect(current_path).to include('billing')
       end
 
       feature 'Step 2 Delivery. It fills shipping address, continues' do
@@ -78,13 +83,13 @@ feature "Registered user can checkout" do
           click_button 'Continue'
         end
         scenario 'it reaches Step 2 Delivery' do
-          expect(URI.parse(current_url).to_s).to include('delivery')
+          expect(current_path).to include('delivery')
           expect(page).not_to have_content('Use billing address')
           expect(page).to have_content('Delivery services')
         end
         scenario 'user can return to previous :shipping step' do
           click_link('Back')
-          expect(expect(URI.parse(current_url).to_s).to include('shipping'))
+          expect(current_path).to include('shipping')
         end
       end
     end
@@ -94,13 +99,13 @@ feature "Registered user can checkout" do
         click_button('Save and continue')
       end
       scenario 'it reaches Step 2 Delivery' do
-        expect(URI.parse(current_url).to_s).to include('delivery')
+        expect(current_path).to include('delivery')
         expect(page).not_to have_content('Use billing address')
         expect(page).to have_content('Delivery services')
       end
       scenario 'user can return to previous :shipping step' do
         click_link('Back')
-        expect(expect(URI.parse(current_url).to_s).to include('shipping'))
+        expect(current_path).to include('shipping')
       end
       feature 'Step 3 Payment. It chooses delivery service, continues' do
         background do
@@ -108,11 +113,11 @@ feature "Registered user can checkout" do
           click_button('Continue')
         end
         scenario 'it reaches Step 3 Payment' do
-          expect(URI.parse(current_url).to_s).to include('payment')
+          expect(current_path).to include('payment')
         end
         scenario 'user can return to previous :delivery step' do
           click_link('Back')
-          expect(expect(URI.parse(current_url).to_s).to include('delivery'))
+          expect(current_path).to include('delivery')
         end
         feature 'Step 4 Confirm. It fills credit_card info, continues' do
           background do
@@ -129,13 +134,13 @@ feature "Registered user can checkout" do
           end
           scenario 'user can go back and forth to any step now' do
             click_link('Address')
-            expect(expect(URI.parse(current_url).to_s).to include('billing'))
+            expect(current_path).to include('billing')
             click_link('Delivery')
-            expect(expect(URI.parse(current_url).to_s).to include('delivery'))
+            expect(current_path).to include('delivery')
             click_link('Payment')
-            expect(expect(URI.parse(current_url).to_s).to include('payment'))
+            expect(current_path).to include('payment')
             click_link('Confirm')
-            expect(expect(URI.parse(current_url).to_s).to include('confirm'))
+            expect(current_path).to include('confirm')
           end
           feature 'it clicks Place Order, redirects to user\'s order' do
             background do
