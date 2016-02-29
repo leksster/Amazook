@@ -6,6 +6,10 @@ FactoryGirl.define do
     email { "#{firstname}@example.com" }
   end  
 
+  factory :country do
+    name Faker::Address.country
+  end
+
   factory :admin, class: User do
     firstname "Admin"
     lastname "Smith"
@@ -55,21 +59,21 @@ FactoryGirl.define do
   factory :billing_address do |n|
     firstname Faker::Name.first_name
     lastname Faker::Name.last_name
-    address 'sss'
-    zipcode '5215'
-    city 'dp'
-    phone '25'
-    country '1'
+    address Faker::Address.street_address
+    zipcode Faker::Address.zip_code
+    city Faker::Address.city
+    phone Faker::PhoneNumber.cell_phone
+    country Faker::Number.between(1, 50)
   end
 
   factory :shipping_address do |n|
     firstname Faker::Name.first_name
     lastname Faker::Name.last_name
-    address 'sss'
-    zipcode '5215'
-    city 'dp'
-    phone '25'
-    country '1'
+    address Faker::Address.street_address
+    zipcode Faker::Address.zip_code
+    city Faker::Address.city
+    phone Faker::PhoneNumber.cell_phone
+    country Faker::Number.between(1, 50)
   end
 
   factory :credit_card do |n|
