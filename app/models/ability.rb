@@ -9,6 +9,7 @@ class Ability
     else
       can :manage, Order, user_id: user.id
       can :create, Rating
+      can :manage, User, user_id: user.id
     end
     # Define abilities for the passed in user here. For example:
     #

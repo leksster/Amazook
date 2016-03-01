@@ -12,7 +12,7 @@ Rails.application.routes.draw do
 
   devise_scope :user do
     put 'user' => 'registrations#update_info'
-    put 'user/update_password', :to => 'registrations#update_password'
+    put 'user/update_password' => 'registrations#update_password'
   end
 
   resources :orders, only: [:index, :show, :update] do
@@ -23,7 +23,7 @@ Rails.application.routes.draw do
   resources :categories, only: [:index, :show]
   resources :books, only: [:show, :index] do 
     post 'cart/add' => 'carts#add'
-    resources :ratings, only: [:show, :new, :create, :edit]
+    resources :ratings, only: [:new, :create]
   end
   
   resources :authors, only: [:index, :show]

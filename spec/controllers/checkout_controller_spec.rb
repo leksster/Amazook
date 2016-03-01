@@ -326,7 +326,7 @@ RSpec.describe CheckoutController, type: :controller do
         put :update, step_params
       end
 
-      it "redirects to :delivery" do
+      it "redirects to :confirm" do
         put :update, step_params
         expect(response).to redirect_to order_checkout_path(:order_id => order.id, :id => :confirm)
       end
