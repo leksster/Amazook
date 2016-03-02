@@ -1,9 +1,8 @@
 feature "Cart" do
-
+  let(:book1) { create(:book) }
+  
   before :each do
-    create(:book, :id => 1, :title => 'Blah')
-    create(:book, :id => 2, :title => 'Book')
-    visit book_path(1)
+    visit book_path(book1.id)
   end
 
   scenario "Visitors can see Add to cart button" do
@@ -13,7 +12,7 @@ feature "Cart" do
   scenario "Visitors can Add one book to cart" do
     find(:button, 'Add to cart').click
     expect(page.current_path).to eq(cart_path)
-    expect(page).to have_content('Blah')
+    expect(page).to have_content(book1.title)
   end
 
   scenario "Visitors can Add numerous books to cart" do
@@ -38,9 +37,9 @@ feature "Cart" do
 
   scenario "Visitor can delete specific book from the cart" do
     find(:button, 'Add to cart').click
-    visit book_path(2)
+    visit book_path(book1)
     find(:button, 'Add to cart').click
-    find(:link, 'X', href: '/cart?id=1').click
+    find(:link, 'X', href: "/cart?id=#{book1.id}").click
     expect(page).not_to have_content('Blah')
   end
   

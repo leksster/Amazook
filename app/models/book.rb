@@ -12,5 +12,5 @@ class Book < ActiveRecord::Base
     self.ratings.where(:user => user).empty?
   end
 
-  scope :bestsellers, -> { Book.joins(:order_items).group(:id).order('SUM(order_items.qty) DESC') }
+  scope :bestsellers, -> (count) { Book.joins(:order_items).group(:id).order('SUM(order_items.qty) DESC') }
 end
