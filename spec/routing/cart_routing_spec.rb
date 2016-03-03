@@ -21,6 +21,6 @@ RSpec.describe 'routes for Carts', type: :routing do
   end
 
   it "routes to #add" do
-    expect(post('books/1/cart/add')).to route_to("carts#add", :book_id => '1')
+    expect(post('cart/1')).to route_to("carts#add", :book_id => '1')
   end
 end
