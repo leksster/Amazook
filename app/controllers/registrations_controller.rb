@@ -2,12 +2,6 @@ class RegistrationsController < Devise::RegistrationsController
   before_action :set_user
   before_action :set_addresses, only: [:edit]
 
-  def show
-  end
-
-  def edit
-  end
-
   def update_info
     respond_to do |format|
       if @user.update(user_params)
@@ -51,10 +45,7 @@ class RegistrationsController < Devise::RegistrationsController
                                      :email,
                                      :password,
                                      :current_password,
-                                     :password_confirmation,
-                                     :password_confirmation,
-                                     :firstname,
-                                     :lastname)
+                                     :password_confirmation)
     end
 
     def set_user

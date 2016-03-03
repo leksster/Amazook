@@ -1,7 +1,6 @@
 class RatingsController < ApplicationController
   before_action :set_book
   before_action :authenticate_user!
-  load_and_authorize_resource
 
   def new
     @rating = @book.ratings.new

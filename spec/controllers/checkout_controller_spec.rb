@@ -57,7 +57,8 @@ RSpec.describe CheckoutController, type: :controller do
       it "redirects to order when not .in_progress?" do
         allow(Order).to receive(:find).and_return(order_in_queue)
         get(:show, { :order_id => order_in_queue.id, :id => :billing })
-        expect(response).to redirect_to(order_path(order_in_queue))
+        expect(response).to redirect_to(root_path)
+        expect(controller).to set_flash[:alert].to("You are not authorized to access this page.")
       end
     end
 
@@ -65,6 +66,7 @@ RSpec.describe CheckoutController, type: :controller do
       order = create(:order)
       allow(Order).to receive(:find).and_return(order)
       get :show, { :order_id => order.id, :id => :billing }
+      expect(response).to redirect_to(root_path)
       expect(controller).to set_flash[:alert].to("You are not authorized to access this page.")
     end
 

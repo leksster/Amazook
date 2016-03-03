@@ -1,4 +1,6 @@
 RSpec.describe BooksController, type: :controller do
+  include Devise::TestHelpers
+  
   let(:book) { create(:book) }
 
   describe "GET #index" do

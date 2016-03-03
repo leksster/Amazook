@@ -2,14 +2,12 @@ class CheckoutController < ApplicationController
 
   include Wicked::Wizard
   before_action :authenticate_user!
-  before_action :set_user
   before_action :set_order
-  before_action :valid_order_state
 
   steps :billing, :shipping, :delivery, :payment, :confirm
 
   def show
-    authorize! :show, @order
+    authorize! :edit, @order
     case step
     when :delivery
       jump_to(:billing) if @order.shipping_address.nil?
@@ -18,9 +16,9 @@ class CheckoutController < ApplicationController
     when :confirm
       jump_to(:payment) if @order.credit_card.nil?
     end
-    @order.build_or_find_billing_address(@user)
-    @order.build_or_find_shipping_address(@user)
-    @order.build_or_find_credit_card(@user)
+    @order.build_or_find_billing_address(current_user)
+    @order.build_or_find_shipping_address(current_user)
+    @order.build_or_find_credit_card(current_user)
     render_wizard 
   end
 
@@ -42,14 +40,6 @@ class CheckoutController < ApplicationController
   end
 
   private
-
-  def valid_order_state
-    redirect_to order_path(@order) unless @order.in_progress?
-  end
-
-  def set_user
-    @user = current_user
-  end
 
   def set_order
     @order = Order.find(params[:order_id])

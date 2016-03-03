@@ -1,7 +1,6 @@
 class OrdersController < ApplicationController
   before_action :set_order, only: [:show, :edit, :update, :completed]
   before_action :authenticate_user!
-  load_and_authorize_resource
   
   def index
     if user_signed_in?
@@ -15,9 +14,11 @@ class OrdersController < ApplicationController
   end
 
   def show
+    authorize! :show, @order
   end
 
   def update
+    authorize! :update, @order
     if @order.queued!
       @order.total_price += @order.shipping.costs
       @order.completed_date = Time.now
