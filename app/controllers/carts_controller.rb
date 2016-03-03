@@ -8,6 +8,7 @@ class CartsController < ApplicationController
   def checkout
     respond_to do |format|
       @order = @cart.build_order_for(current_user)
+      @order.total_price -= @cart.discount(params[:coupon]) unless @cart.discount(params[:coupon]).nil?
       if @order.save && !@cart.session.empty?
         format.html { redirect_to order_checkout_index_path(@order), notice: 'In order to proceed, please provide additional details.' }
         session.delete(:cart)

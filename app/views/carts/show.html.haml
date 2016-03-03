@@ -45,9 +45,14 @@
                       = number_to_currency(@cart.subtotal)
                     %td
               .row
-                .col-xs-6
-                  = link_to 'Empty cart', {:controller => 'carts', :action => 'clear'}, class: 'btn btn-primary', method: :post
-                  = link_to 'Continue shopping', root_path, class: 'btn btn-primary'
-                .col-xs-6.text-right
-                  = submit_tag 'Update', class: 'btn btn-primary'
-                  = link_to 'Checkout', checkout_cart_path, method: :post, class: 'btn btn-primary'
+                .col-xs-12.col-sm-2.col-md-2.col-lg-2
+                  = link_to 'Empty cart', {:controller => 'carts', :action => 'clear'}, class: 'btn btn-primary btn-block', method: :post
+                .col-xs-12.col-sm-3.col-md-3.col-lg-2
+                  = link_to 'Continue shopping', root_path, class: 'btn btn-primary btn-block'
+                .col-sm-1.col-sm-1.col-lg-2
+                .col-xs-12.col-sm-2.col-md-2.col-lg-2
+                  = text_field_tag 'coupon', nil, {class: 'form-control', placeholder: "#{Coupon.first.code} - 30%"}
+                .col-xs-12.col-sm-2.col-md-2.col-lg-2
+                  = submit_tag 'Update', class: 'btn btn-primary btn-block'
+                .col-xs-12.col-sm-2.col-md-2.col-lg-2
+                  = link_to 'Checkout', checkout_cart_path(:coupon => params[:coupon]), method: :post, class: 'btn btn-primary btn-block'

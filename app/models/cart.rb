@@ -1,6 +1,6 @@
 class Cart
 
-  attr_accessor :session
+  attr_accessor :session, :subtotal
 
   def initialize(cart_session)
     @session = cart_session
@@ -12,6 +12,7 @@ class Cart
       @session.each do |k, v|
         subtotal += Book.find(k).price * v
       end
+      subtotal -= @discount unless @discount.nil?
       subtotal
     end
   end
@@ -50,5 +51,11 @@ class Cart
       params[k] = 1 unless params[k].to_i > 0
       @session[k] = params[k].to_i
     end
+    @discount = discount(params[:coupon])
+  end
+
+  def discount(code=nil)
+    coupon = Coupon.find_by(code: code)
+    self.subtotal * (coupon.discount / 100.0) unless coupon.nil?
   end
 end

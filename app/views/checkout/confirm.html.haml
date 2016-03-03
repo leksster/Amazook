@@ -51,7 +51,7 @@
                       %br
                       Shipping:
                   %td
-                    = number_to_currency(@order.subtotal)
+                    = number_to_currency(@order.total_price)
                     %br
                     = number_to_currency(@order.shipping.costs)
                 %tr
