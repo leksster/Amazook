@@ -15,6 +15,7 @@ RSpec.describe CheckoutController, type: :controller do
   let(:billing_address) { create(:billing_address) }
   let(:credit_card) { create(:credit_card) }
   let(:order_in_queue) { create(:order, :aasm_state => 'in_queue') }
+  let(:steps) { [:billing, :shipping, :delivery, :payment, :confirm] }
 
   describe "GET #show" do
 
@@ -45,23 +46,6 @@ RSpec.describe CheckoutController, type: :controller do
       end
     end
 
-    shared_examples "unathenticated users can't checkout" do
-      it "redirects to log_in" do
-        sign_out user
-        get(:show, step_params)
-        expect(response).to redirect_to(user_session_path)
-      end
-    end
-
-    shared_examples "orders not .in_progress can't be edited" do
-      it "redirects to order when not .in_progress?" do
-        allow(Order).to receive(:find).and_return(order_in_queue)
-        get(:show, { :order_id => order_in_queue.id, :id => :billing })
-        expect(response).to redirect_to(root_path)
-        expect(controller).to set_flash[:alert].to("You are not authorized to access this page.")
-      end
-    end
-
     it "not allows user to checkout someone else's order" do
       order = create(:order)
       allow(Order).to receive(:find).and_return(order)
@@ -70,114 +54,42 @@ RSpec.describe CheckoutController, type: :controller do
       expect(controller).to set_flash[:alert].to("You are not authorized to access this page.")
     end
 
-    context ":billing step" do
-      let(:step_params) { {:order_id => order.id, :id => :billing} }
-
-      it_behaves_like "receives build_or_find methods"
-      it_behaves_like "unathenticated users can't checkout"
-      it_behaves_like "orders not .in_progress can't be edited"
-
-      it "returns http success" do
-        get :show, step_params
-        expect(response).to have_http_status(:success)
+    context "Steps" do
+      
+      it_behaves_like "receives build_or_find methods" do
+        [:billing, :shipping, :delivery, :payment, :confirm].each do |step|
+          let(:step_params) {{ :order_id => order.id, :id => step }}
+        end
       end
 
-      it "renders 'billing' page" do
-        get :show, step_params
-        expect(response).to render_template :billing
-      end
-    end
-
-    context ":shipping step" do
-      let(:step_params) { {:order_id => order.id, :id => :shipping} }
-
-      it_behaves_like "receives build_or_find methods"
-      it_behaves_like "unathenticated users can't checkout"
-      it_behaves_like "orders not .in_progress can't be edited"
-
-      it "returns http success" do
-        get :show, step_params
-        expect(response).to have_http_status(:success)
+      context "http success" do
+        it "returns http success on every step" do
+          steps.each do |step|
+            get :show, { :order_id => order.id, :id => step }
+            expect(response).to have_http_status(:success)
+          end
+        end
       end
 
-      it "renders 'shipping' page" do
-        get :show, step_params
-        expect(response).to render_template :shipping
-      end
-    end
-
-    context ":delivey step" do
-      let(:step_params) { {:order_id => order.id, :id => :delivery} }
-
-      it_behaves_like "receives build_or_find methods"
-      it_behaves_like "unathenticated users can't checkout"
-      it_behaves_like "orders not .in_progress can't be edited"
-
-      it "returns http success" do
-        get :show, step_params
-        expect(response).to have_http_status(:success)
+      context "render the page" do
+        it "renders specific view for the current step" do
+          steps.each do |step|
+            get :show, { :order_id => order.id, :id => step }
+            expect(response).to render_template step
+          end
+        end
       end
 
-      it "renders 'delivery' page" do
-        get :show, step_params
-        expect(response).to render_template :delivery
-      end
-
-      it "redirects to :billing when no billing_address" do
-        order = create(:order, :user => user)
-        allow(Order).to receive(:find).and_return(order)
-        get :show, { :order_id => order.id, :id => :delivery }
-        expect(response).to redirect_to order_checkout_path(:order_id => order.id, :id => :billing)
-      end
-    end
-
-    context ":payment step" do
-      let(:step_params) { {:order_id => order.id, :id => :payment} }
-
-      it_behaves_like "receives build_or_find methods"
-      it_behaves_like "unathenticated users can't checkout"
-      it_behaves_like "orders not .in_progress can't be edited"
-
-      it "returns http success" do
-        get :show, step_params
-        expect(response).to have_http_status(:success)
-      end
-
-      it "renders 'payment' page" do
-        get :show, step_params
-        expect(response).to render_template :payment
-      end
-
-      it "redirects to :delivery when no shipping.company" do
-        order = create(:order, :user => user)
-        allow(Order).to receive(:find).and_return(order)
-        get :show, { :order_id => order.id, :id => :payment }
-        expect(response).to redirect_to order_checkout_path(:order_id => order.id, :id => :delivery)
-      end
-    end
-
-    context ":confirm step" do
-      let(:step_params) { {:order_id => order.id, :id => :confirm} }
-
-      it_behaves_like "receives build_or_find methods"
-      it_behaves_like "unathenticated users can't checkout"
-      it_behaves_like "orders not .in_progress can't be edited"
-
-      it "returns http success" do
-        get :show, step_params
-        expect(response).to have_http_status(:success)
-      end
-
-      it "renders 'confirm' page" do
-        get :show, step_params
-        expect(response).to render_template :confirm
-      end
-
-      it "redirects to :payment when no credit_card" do
-        order = create(:order, :user => user)
-        allow(Order).to receive(:find).and_return(order)
-        get :show, { :order_id => order.id, :id => :confirm }
-        expect(response).to redirect_to order_checkout_path(:order_id => order.id, :id => :payment)
+      context "redirects" do
+        it "redirects to previous step if not valid" do
+          steps = [:delivery, :payment, :confirm]
+          steps.each_with_index do |step, index|
+            order = create(:order, :user => user)
+            allow(Order).to receive(:find).and_return(order)
+            get :show, { :order_id => order.id, :id => step }
+            expect(response).to redirect_to order_checkout_path(:order_id => order.id, :id => [:billing, :delivery, :payment][index])
+          end
+        end
       end
     end
   end
@@ -204,16 +116,7 @@ RSpec.describe CheckoutController, type: :controller do
                             :id       => :billing, 
                             :order    => 
                                       { 
-                                        :billing_address_attributes => 
-                                          [
-                                            :firstname => billing_address.firstname,
-                                            :lastname => billing_address.firstname,
-                                            :address => billing_address.address,
-                                            :zipcode => billing_address.zipcode,
-                                            :city => billing_address.city,
-                                            :phone => billing_address.phone,
-                                            :country=> billing_address.country
-                                          ] 
+                                        :billing_address_attributes => attributes_for(:billing_address)
                                       },
                             :shipping  => checked 
                           } 
@@ -222,7 +125,7 @@ RSpec.describe CheckoutController, type: :controller do
         let(:checked) { nil }
 
         it "#update order" do
-          expect(order).to receive(:update).with(step_params[:order])
+          expect(order).to receive(:update).with(step_params[:order].with_indifferent_access)
           put :update, step_params
         end
 
@@ -253,26 +156,12 @@ RSpec.describe CheckoutController, type: :controller do
 
     context ":shipping step" do
       let(:step_params) { 
-                          {
-                            :order_id => order.id, 
-                            :id       => :shipping, 
-                            :order    => 
-                            { 
-                              :shipping_address_attributes => 
-                              [
-                                :firstname => shipping_address.firstname,
-                                :lastname => shipping_address.lastname,
-                                :address => shipping_address.address,
-                                :zipcode => shipping_address.zipcode,
-                                :city => shipping_address.city,
-                                :phone => shipping_address.phone,
-                                :country=> shipping_address.country
-                              ] 
-                            }
-                          } 
+                          { :order_id => order.id, :id => :shipping, 
+                            :order => { :shipping_address_attributes => attributes_for(:shipping_address) } 
+                           } 
                         }
       it "#update order" do
-        expect(order).to receive(:update).with(step_params[:order])
+        expect(order).to receive(:update).with(step_params[:order].with_indifferent_access)
         put :update, step_params
       end
 

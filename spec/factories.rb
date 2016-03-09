@@ -64,7 +64,7 @@ FactoryGirl.define do
     zipcode Faker::Address.zip_code
     city Faker::Address.city
     phone Faker::PhoneNumber.cell_phone
-    country Faker::Number.between(1, 50)
+    country Faker::Number.between(1, 50).to_s
   end
 
   factory :shipping_address do |n|
@@ -74,7 +74,7 @@ FactoryGirl.define do
     zipcode Faker::Address.zip_code
     city Faker::Address.city
     phone Faker::PhoneNumber.cell_phone
-    country Faker::Number.between(1, 50)
+    country Faker::Number.between(1, 50).to_s
   end
 
   factory :credit_card do |n|
