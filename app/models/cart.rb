@@ -1,6 +1,6 @@
 class Cart
 
-  attr_accessor :session, :subtotal
+  attr_accessor :session,
 
   def initialize(cart_session)
     @session = cart_session
