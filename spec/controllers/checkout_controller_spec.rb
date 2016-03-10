@@ -2,15 +2,17 @@ RSpec.describe CheckoutController, type: :controller do
   include Devise::TestHelpers
 
   let(:user) { create(:user) }
-  let(:order) { 
-                create( :order, 
-                  order_items: [create(:order_item)], 
-                  billing_address: billing_address, 
-                  shipping_address: shipping_address, 
-                  shipping: create(:shipping), 
-                  credit_card: create(:credit_card), 
-                  user: user ) 
-              }
+
+  let(:order) do
+    create( :order, 
+    order_items: [create(:order_item)], 
+    billing_address: billing_address, 
+    shipping_address: shipping_address, 
+    shipping: create(:shipping), 
+    credit_card: create(:credit_card), 
+    user: user ) 
+  end
+  
   let(:shipping_address) { create(:shipping_address) }
   let(:billing_address) { create(:billing_address) }
   let(:credit_card) { create(:credit_card) }
@@ -81,7 +83,7 @@ RSpec.describe CheckoutController, type: :controller do
       end
 
       context "redirects" do
-        it "redirects to previous step if not valid" do
+        it "redirects to previous step if current is not valid" do
           steps = [:delivery, :payment, :confirm]
           steps.each_with_index do |step, index|
             order = create(:order, :user => user)
@@ -98,122 +100,109 @@ RSpec.describe CheckoutController, type: :controller do
 
     before(:each) do 
       allow(Order).to receive(:find).and_return(order)
-      allow(order).to receive(:update).and_return(false)
+      allow(order).to receive(:update).and_return(true)
       allow(order).to receive(:build_shipping_address).and_return(shipping_address)
       allow(order).to receive(:billing_address).and_return(billing_address)
       sign_in user
     end
 
     context ":billing step" do
+      let(:step_params) do 
+        {
+          :order_id => order.id, 
+          :id       => :billing, 
+          :order    => { :billing_address_attributes => attributes_for(:billing_address) },
+          :shipping  => checked 
+        } 
+      end
 
       before do
         allow(order).to receive(:update).and_return(true)
+        put :update, step_params
       end
 
-      let(:step_params) { 
-                          {
-                            :order_id => order.id, 
-                            :id       => :billing, 
-                            :order    => 
-                                      { 
-                                        :billing_address_attributes => attributes_for(:billing_address)
-                                      },
-                            :shipping  => checked 
-                          } 
-                        }
+      after { put :update, step_params }
+                          
       context "without billing address checkbox checked" do
         let(:checked) { nil }
 
         it "#update order" do
           expect(order).to receive(:update).with(step_params[:order].with_indifferent_access)
-          put :update, step_params
         end
 
         it "redirects to :shipping" do
-          put :update, step_params
           expect(response).to redirect_to order_checkout_path(:order_id => order.id, :id => :shipping)
         end
       end
+
       context "with billing address checkbox checked" do
         let(:checked) { true }
 
         it "#update order" do
           expect(order).to receive(:update).with(step_params[:order])
-          put :update, step_params
         end
 
         it "#build_shipping_address" do
           expect(order).to receive(:build_shipping_address)
-          put :update, step_params
         end
 
         it "redirects to :delivery" do
-          put :update, step_params
           expect(response).to redirect_to order_checkout_path(:order_id => order.id, :id => :delivery)
         end
       end
     end
 
     context ":shipping step" do
-      let(:step_params) { 
-                          { :order_id => order.id, :id => :shipping, 
-                            :order => { :shipping_address_attributes => attributes_for(:shipping_address) } 
-                           } 
-                        }
+      let(:step_params) do
+        { 
+          :order_id => order.id, :id => :shipping, 
+          :order => { :shipping_address_attributes => attributes_for(:shipping_address) } 
+         } 
+      end
+
+      before { put :update, step_params }
+
       it "#update order" do
         expect(order).to receive(:update).with(step_params[:order].with_indifferent_access)
         put :update, step_params
       end
 
       it "redirects to :delivery" do
-        put :update, step_params
         expect(response).to redirect_to order_checkout_path(:order_id => order.id, :id => :delivery)
       end    
     end
 
     context ":delivery step" do
-      let(:step_params) { 
-                          {
-                            :order_id => order.id, 
-                            :id       => :delivery, 
-                            :order    => 
-                            {
-                              :shipping_id => create(:shipping).id
-                            }
-                          } 
-                        }
+      let(:step_params) do
+        {
+          :order_id => order.id, 
+          :id       => :delivery, 
+          :order    => { :shipping_id => create(:shipping).id }
+        } 
+      end 
+
+      before { put :update, step_params }
+
       it "sets delivery for order" do
-        put :update, step_params
         expect(order.shipping).not_to be_nil
       end
 
       it "redirects to :payment" do
-        put :update, step_params
         expect(response).to redirect_to order_checkout_path(:order_id => order.id, :id => :payment)
       end
     end
 
     context ":payment step" do
-      let(:step_params) { 
-                          {
-                            :order_id => order.id, 
-                            :id       => :payment, 
-                            :order    => 
-                            { 
-                              :credit_card_attributes => 
-                              [
-                                :number => credit_card.number,
-                                :cvv => credit_card.cvv,
-                                :expiration_year => credit_card.expiration_year,
-                                :expiration_month => credit_card.expiration_month,
-                                :firstname => credit_card.firstname,
-                                :lastname => credit_card.lastname,
-                              ] 
-                            }
-                          } 
-                        }
+      let(:step_params) do
+        {
+          :order_id => order.id, 
+          :id       => :payment, 
+          :order    => { :credit_card_attributes => attributes_for(:credit_card) }
+        } 
+      end
+
       it "#update order" do
-        expect(order).to receive(:update).with(step_params[:order])
+        expect(order).to receive(:update).with(step_params[:order].with_indifferent_access)
         put :update, step_params
       end
 
