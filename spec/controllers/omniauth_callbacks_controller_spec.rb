@@ -13,13 +13,16 @@ RSpec.describe OmniauthCallbacksController, type: :controller do
 
   let(:user) { build(:user) }
 
-  before do
-    request.env["devise.mapping"] = Devise.mappings[:user]
-    request.env["omniauth.auth"] = OmniAuth.config.mock_auth[:facebook]
-    get :facebook
-  end
+ 
 
   describe "GET #facebook" do
+
+    before do
+      request.env["devise.mapping"] = Devise.mappings[:user]
+      request.env["omniauth.auth"] = OmniAuth.config.mock_auth[:facebook]
+      get :facebook
+    end   
+
     it 'assigns @user' do
       expect(assigns(:user)).not_to be_nil
     end
