@@ -19,6 +19,10 @@ Shipping.delete_all
   Country.create!(name: country)
 end
 
+def random_book
+  Book.find(rand(Book.ids.sort.first..Book.ids.sort.last))
+end
+
 def generate_deliveries
   Shipping.create!(company: 'UPS #1', costs: 5)
   Shipping.create!(company: 'UPS #2', costs: 6)
@@ -41,11 +45,13 @@ def generate_books(n)
   end
 end
 
+
+
 def generate_authors(n)
   n.times do
     author = Author.new(firstname: Faker::Name.first_name, lastname: Faker::Name.last_name, biography: Faker::Lorem.paragraph(2))
     rand(1..5).times do
-      author.books << Book.find(rand(Book.ids.sort.first..Book.ids.sort.last))
+      author.books << random_book
     end
     author.save!
   end
@@ -55,7 +61,7 @@ def generate_categories(n)
   n.times do
     category = Category.new(title: Faker::Hipster.word)
     rand(1..10).times do
-      category.books << Book.find(rand(Book.ids.sort.first..Book.ids.sort.last))
+      category.books << random_book
     end
     category.save!
   end

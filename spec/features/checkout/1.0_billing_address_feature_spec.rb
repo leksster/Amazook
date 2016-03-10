@@ -50,14 +50,12 @@ feature 'Checkout Step 1: Billing address' do
       uncheck 'shipping_use_billing_address'
       click_button('Save and continue')
       expect(current_path).to include('shipping')
-      expect(page).not_to have_content('Use billing address')
     end
 
     scenario 'user can procceed to the :delivery step with checked param' do
       check 'shipping_use_billing_address'
       click_button('Save and continue')
       expect(current_path).to include('delivery')
-      expect(page).not_to have_content('Use billing address')
     end
   end
 end

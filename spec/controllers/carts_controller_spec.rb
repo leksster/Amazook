@@ -11,12 +11,12 @@ RSpec.describe CartsController, type: :controller do
   end
 
   describe "GET #show" do
+    before { get :show }
+
     it "returns http success" do
-      get :show
       expect(response).to have_http_status(:success)
     end
     it "assignes @cart" do
-      get :show
       expect(assigns(:cart)).not_to be_nil
     end    
   end
@@ -25,13 +25,12 @@ RSpec.describe CartsController, type: :controller do
     before do
       allow(Cart).to receive(:new).and_return(cart)
       allow(cart).to receive(:add_book).and_return(true)
+      post :add, :book_id => book.id
     end    
     it "assignes @cart" do
-      post :add, :book_id => book.id
       expect(cart).not_to be_nil
     end
     it "should redirect_to cart when book was added" do
-      post :add, :book_id => book.id
       expect(response).to redirect_to(cart_path)
     end
     it "calls #add_book on @cart" do    
@@ -44,9 +43,9 @@ RSpec.describe CartsController, type: :controller do
     before do
       allow(Cart).to receive(:new).and_return(cart)
       allow(cart).to receive(:update_books).and_return(order)
+      patch :update
     end   
     it "assignes @cart" do
-      patch :update
       expect(assigns(:cart)).not_to be_nil
     end
     it "calls #update_books on @cart" do    
@@ -54,7 +53,6 @@ RSpec.describe CartsController, type: :controller do
       patch :update
     end
     it "renders :show" do
-      patch :update
       expect(response).to render_template :show
     end
   end
@@ -63,9 +61,9 @@ RSpec.describe CartsController, type: :controller do
     before do
       allow(Cart).to receive(:new).and_return(cart)
       allow(cart).to receive(:remove_book).and_return(true)
+      delete :destroy
     end   
     it "assignes @cart" do
-      delete :destroy
       expect(assigns(:cart)).not_to be_nil
     end
     it "calls #remove_book on @cart" do    
@@ -73,7 +71,6 @@ RSpec.describe CartsController, type: :controller do
       delete :destroy
     end
     it "renders :show" do
-      delete :destroy
       expect(response).to render_template :show
     end
   end
@@ -93,50 +90,43 @@ RSpec.describe CartsController, type: :controller do
     before do
       allow(Cart).to receive(:new).and_return(cart)
       allow(cart).to receive(:build_order_for).and_return(order)
+      sign_in user
+      post :checkout
     end
 
     it "assignes @cart" do
-      post :checkout
       expect(assigns(:cart)).not_to be_nil
     end
 
     it "calls #build_order_for on cart" do
-      sign_in user
       expect(cart).to receive(:build_order_for)
       post :checkout
     end
 
     it "calls #save on order" do
-      sign_in user
       expect(order).to receive(:save)
       post :checkout
     end
 
     it "clears the cart session" do
-      sign_in user
       expect(controller.session).to receive(:delete).with(:cart)
       post :checkout
     end
 
     it 'redirects to checkout controller' do
-      sign_in user
-      post :checkout
       expect(response).to redirect_to(order_checkout_index_path(order))
     end
 
     it "assignes @order" do
-      sign_in user
-      post :checkout
       expect(assigns(:order)).not_to be_nil
     end
 
     it "allows to checkout registered user " do
-      sign_in user
-      post :checkout
       expect(flash[:notice]).to eq 'In order to proceed, please provide additional details.'
     end
 
     it "not allows to checkout unregistered user" do
+      sign_out user
       post :checkout
       expect(response).to redirect_to(new_user_session_path)
     end
