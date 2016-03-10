@@ -29,10 +29,20 @@ RSpec.describe RatingsController, type: :controller do
       before do
         allow(controller).to receive(:current_user).and_return(user)
         sign_in user
-        post :create, :book_id => book.id, :rating => rating.attributes
       end
       it "redirects to book when created" do
+        post :create, :book_id => book.id, :rating => rating.attributes
         expect(response).to redirect_to(book)
+      end
+      it "renders :new if not valid" do
+        post :create, :book_id => create(:book).id, :rating => attributes_for(:rating, review_text: nil)
+        # byebug
+        expect(response).to render_template :new
+      end
+      it "not allows to review > 1 time" do
+        2.times { post :create, :book_id => book.id, :rating => rating.attributes }
+        expect(response).to redirect_to(new_book_rating_url)
+        expect(controller).to set_flash[:alert].to("Already reviewed.")
       end
     end
   end
