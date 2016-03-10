@@ -11,4 +11,8 @@ RSpec.describe Shipping, type: :model do
   it { should validate_presence_of(:company) }
 
   it { is_expected.to respond_to(:name) }
+
+  it '#name' do
+    expect(shipping.name).to eq(shipping.company)
+  end
 end

@@ -3,64 +3,6 @@ RailsAdmin::Config::Actions.register(RailsAdmin::Config::Actions::Overview)
 
 
 RailsAdmin.config do |config|
-  config.model Order do
-    edit do
-      field :aasm_state do
-        label 'State'
-      end
-      field :total_price
-      field :completed_date
-      field :credit_card
-      field :shipping
-      field :billing_address
-      field :shipping_address
-      field :user
-      field :created_at
-      field :updated_at
-    end
-    list do
-      field :aasm_state do
-        label 'State'
-      end
-      field :total_price
-      field :completed_date
-      field :credit_card
-      field :shipping
-      field :user
-      field :created_at
-      field :updated_at
-    end
-  end
-  config.model Book do
-    edit do
-      field :title
-      field :price
-      field :qty
-      field :cover, :carrierwave
-    end
-  end
-
-  config.model Rating do
-    edit do
-      field :aasm_state do
-        label 'State'
-      end
-      field :review_text
-      field :rating
-      field :user
-      field :book
-      field :created_at
-      field :updated_at
-    end
-    list do
-      field :id
-      field :aasm_state do
-        label 'State'
-      end
-      field :review_text
-      field :rating
-    end
-  end
 
   ### Popular gems integration
 

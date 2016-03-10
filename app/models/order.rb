@@ -37,6 +37,18 @@ class Order < ActiveRecord::Base
     end
   end
 
+  rails_admin do
+    edit do
+      include_all_fields
+    end
+    list do
+      field :id
+      field :aasm_state
+      field :total_price
+      include_all_fields
+    end
+  end
+
   def subtotal
     order_items.inject(0) { |n, order_item| n += order_item.price * order_item.qty }
   end
