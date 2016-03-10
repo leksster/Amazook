@@ -45,9 +45,9 @@ gem 'omniauth-facebook'
 
 gem 'wicked'
 
-gem 'carrierwave', :github => 'satoruk/carrierwave' , :ref => '43179f94d6a4e62f69e812f5082d6447c9138480'
+gem 'carrierwave'
 
-gem 'rmagick', require: false
+# gem 'rmagick', require: false
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
