@@ -1,14 +1,15 @@
 include Warden::Test::Helpers
 
 feature 'Checkout Step 2: Delivery' do
-  let(:order) { 
-                create(:order, 
-                       :user => user, 
-                       :order_items => [create(:order_item)], 
-                       :billing_address => create(:billing_address),
-                       :shipping_address => create(:shipping_address),
-                       :shipping => create(:shipping))
-              }
+  let(:order) do
+    create(:order, 
+           :user             => user, 
+           :order_items      => [create(:order_item)], 
+           :billing_address  => create(:billing_address),
+           :shipping_address => create(:shipping_address),
+           :shipping         => create(:shipping))    
+  end
+
   let(:country) { create(:country) }
   let(:user) { create(:user) }
   let(:credit_card) { create(:credit_card) }

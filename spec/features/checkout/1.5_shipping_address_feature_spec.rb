@@ -1,12 +1,13 @@
 include Warden::Test::Helpers
 
 feature 'Checkout Step 1.5: Shipping address' do
-  let(:order) { 
-                create(:order, 
-                       :user => user, 
-                       :order_items => [create(:order_item)], 
-                       :billing_address => create(:billing_address)) 
-              }
+  let(:order) do
+    create(:order, 
+           :user            => user, 
+           :order_items     => [create(:order_item)], 
+           :billing_address => create(:billing_address)) 
+  end 
+
   let(:country) { create(:country) }
   let(:shipping_address) { create(:shipping_address) }
   let(:user) { create(:user) }
