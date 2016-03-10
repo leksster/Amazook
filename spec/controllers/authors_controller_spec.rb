@@ -2,25 +2,27 @@ RSpec.describe AuthorsController, type: :controller do
 
   let(:author) { create(:author) }
 
+
   describe "GET #index" do
-    it "returns http success" do
-      get :index
-      expect(response).to have_http_status(:success)
+    before { get :index }
+
+    it "renders index template" do
+      expect(response).to render_template(:index)
     end
 
     it "assignes @authors" do
-      get :index
       expect(assigns(:authors)).not_to be_nil
     end
   end
 
   describe "GET #show" do
-    it "returns http success" do
-      get :show, id: author.id
-      expect(response).to have_http_status(:success)
+    before { get :show, id: author.id }
+
+    it "renders show template" do
+      expect(response).to render_template(:show)
     end
+
     it "assignes @author" do
-      get :show, id: author.id
       expect(assigns(:author)).not_to be_nil
     end
   end
