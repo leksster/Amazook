@@ -22,19 +22,5 @@ feature "RailsAdmin" do
     expect(page.find('.aasm_state_field')).to have_content 'Aasm state'
     expect(page.find('.rating_field')).to have_content 'Rating'  
   end
-
-  # scenario "Should be an errors when data is incorrect" do
-  #   visit new_user_registration_path
-  #   within '#new_user' do
-  #     fill_in 'Email', with: 'sgsa@sag'
-  #     fill_in 'Password', with: '12'
-  #     fill_in 'Password confirmation', with: '12345'
-  #     fill_in 'Firstname', with: ''
-  #     fill_in 'Lastname', with: ''
-  #     click_button('Sign up')
-  #   end
-  #   expect(page).to have_content 'Sign up'
-  #   expect(page).to have_content 'errors'
-  # end
 end
 
